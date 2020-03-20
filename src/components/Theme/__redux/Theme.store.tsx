@@ -1,8 +1,8 @@
 import { createReducer } from "deox";
 
-import { darkTheme } from "../../../themes";
+import { lightTheme } from "../../../themes";
 import * as actions from "./Theme.actions";
 
-export const theme = createReducer(darkTheme, handleAction => [
+export const theme = createReducer(lightTheme, handleAction => [
     handleAction(actions.setTheme, (state, { payload }) => payload),
 ]);

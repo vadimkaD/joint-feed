@@ -2,12 +2,11 @@ import { connect } from "react-redux";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
-import { Theme as ThemeType } from "@material-ui/core/styles/createMuiTheme";
 
 import * as selectors from "./__redux/Theme.selectors";
-import { ThemeState } from "./Theme.types";
+import { ThemeProps, ThemeState } from "./Theme.types";
 
-function Theme(props: { children: React.ReactNode; theme: ThemeType }) {
+function Theme(props: ThemeProps) {
     const { theme } = props;
 
     return (
