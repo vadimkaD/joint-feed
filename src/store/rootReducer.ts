@@ -1,16 +1,13 @@
 import { combineReducers } from "redux";
 import { set, merge } from "lodash";
-import { StoreFilenameConventionError } from "./StoreFilenameConventionError";
+import { FilenameConventionError } from "./FilenameConventionError";
+import { Exported } from "./types";
 
 const allStores = require.context("../components", true, /__redux\/.*\.store\.tsx?$/);
 
-interface IExported {
-    [key: string]: IExported | any;
-}
+const reducers: Exported = {};
 
-const reducers: IExported = {};
-
-function combineNested(reducer: IExported): any {
+function combineNested(reducer: Exported): any {
     const keys = Object.keys(reducer);
 
     if (keys.every(key => typeof reducer[key] === "function")) {
@@ -18,7 +15,7 @@ function combineNested(reducer: IExported): any {
     }
 
     for (let i = 0; i < keys.length; i++) {
-        let key = keys[i];
+        const key = keys[i];
         if (typeof reducer[key] === "object") {
             reducer[key] = combineNested(reducer[key]);
         }
@@ -36,12 +33,12 @@ allStores.keys().forEach(function(key) {
         .slice(0, -1)
         .filter(key => key !== "__redux")
         .join(".");
-    const extended: IExported = {};
+    const extended: Exported = {};
     const prepared = filename.split(".");
     const fNamespace = prepared[0];
     const dNamespace = path.split(".").pop();
     if (fNamespace !== dNamespace) {
-        throw new StoreFilenameConventionError(filename, path);
+        throw new FilenameConventionError(filename, path, "store");
     }
     set(extended, path, { ...mod });
     merge(reducers, extended);

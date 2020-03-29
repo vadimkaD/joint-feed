@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { SignInWrap } from "./SignIn.styled";
 import SignSource from "../SignSource/SignSource";
 import Divider from "@material-ui/core/Divider";
+import GoogleSource from "./sources/GoogleSource/GoogleSource";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,10 +27,7 @@ function SignIn(props: any) {
                     <SignInWrap>
                         <Grid container spacing={3} direction="row" alignItems="center" justify="center">
                             <Grid item xs={4}>
-                                <SignSource
-                                    x128="/images/icons/128x128/social/google+.png"
-                                    x64="/images/icons/64x64/social/google+.png"
-                                ></SignSource>
+                                <GoogleSource />
                             </Grid>
                             <Grid item xs={4}>
                                 <SignSource
