@@ -1,38 +1,47 @@
 import React from "react";
-import { BattleProps } from "./Battle.types";
-import { Hex, LineContainer } from "./Battle.styled";
+import { connect } from "react-redux";
+import BattleView from "./Battle.view";
+import * as selectors from "./__redux/Battle.selectors";
+import { BattleProps, BattleState, Unit as StateUnit } from "./Battle.types";
+import { Dispatch } from "redux";
+import { addUnit } from "./__redux/Battle.actions";
 
 class Battle extends React.Component<BattleProps> {
-    widthArray: number[];
-    heightArray: number[];
-
-    constructor(props: BattleProps) {
-        super(props);
-        const { width, height } = props;
-        this.widthArray = new Array(width).fill(1).map((v, i) => i);
-        this.heightArray = new Array(height).fill(1).map((v, i) => i);
+    componentDidMount(): void {
+        const { init } = this.props;
+        init();
     }
 
-    renderLine(lineNumber: number): React.ReactElement {
-        const { width } = this.props;
-
-        return (
-            <LineContainer width={width} notFirst={lineNumber !== 0} key={lineNumber}>
-                {this.widthArray.map(i => {
-                    return (
-                        <Hex key={i}>
-                            {lineNumber}:{i}
-                        </Hex>
-                    );
-                })}
-            </LineContainer>
-        );
-    }
+    onHexClick = (x: number, y: number) => {
+        const { units } = this.props;
+        console.log("x", x, "y", y);
+        try {
+            const unit = units.find(unit => unit.y === y && unit.x === x) as StateUnit;
+            console.log("unit found:", unit);
+        } catch (e) {}
+    };
 
     render() {
-        return <>{this.heightArray.map(i => this.renderLine(i))}</>;
+        const { units } = this.props;
+
+        return <BattleView width={9} height={6} units={units} onHexClick={this.onHexClick} />;
     }
 }
 
-export default Battle;
-export { Battle };
+const mapStateToProps = (state: BattleState) => ({ units: selectors.units(state) });
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+        init: () =>
+            dispatch(
+                addUnit({
+                    x: 1,
+                    y: 2,
+                    currentHp: 25,
+                    id: 1,
+                }),
+            ),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Battle);

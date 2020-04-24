@@ -18,7 +18,7 @@ export function App() {
                     </Paper>
                 </Route>
                 <Route exact path={"/battle"}>
-                    <Battle width={12} height={8} />
+                    <Battle />
                 </Route>
             </Switch>
         </Router>
