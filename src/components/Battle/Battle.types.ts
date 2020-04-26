@@ -1,34 +1,65 @@
-export interface BattleViewProps {
-    width: number;
-    height: number;
-    units: Unit[];
-    onHexClick(x: number, y: number): void;
+import { Unit } from "../Player/Units/Units.types";
+
+export enum Owner {
+    PLAYER,
+    ENEMY,
 }
 
-export interface Hex {
+export interface BattleUnit {
     x: number;
     y: number;
+    id: number;
+    owner: Owner;
+    currentActionPoints: number;
+    maxActionPoints: number;
 }
 
-export interface BattleProps {
-    units: Unit[];
-    init(): void;
+export interface BattleUnitsProps {
+    preparedUnits: PreparedUnit[];
+}
+
+export interface BattleProps extends BattleUnitsProps {
+    selectUnit(unit: PreparedUnit | null): void;
+    addUnit(unit: BattleUnit): void;
+    onHexClick(hex: Hex): void;
+    hexes: Hexes;
+}
+
+export interface BattleViewProps extends BattleUnitsProps {
+    width: number;
+    height: number;
+    onHexClick(hex: Hex): void;
+    hexes: Hexes;
 }
 
 export interface LineContainerProps {
-    notFirst?: boolean;
+    lineNumber: number;
     width: number;
-}
-
-export interface Unit {
-    x: number;
-    y: number;
-    currentHp: number;
-    id: number;
 }
 
 export type BattleState = {
     Battle: {
-        units: Unit[];
+        battleUnits: BattleUnit[];
+        hexes: Hexes;
     };
 };
+
+export interface PreparedUnit extends BattleUnit, Unit {}
+
+export interface Hex {
+    x: number;
+    y: number;
+    isWithUnit: boolean;
+    isHighlighted: boolean;
+    isPassable: boolean;
+    isEmpty?: boolean;
+}
+
+export interface Hexes {
+    [coordinates: string]: Hex;
+}
+
+export interface Coord {
+    x: number;
+    y: number;
+}

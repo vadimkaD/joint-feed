@@ -1,8 +1,8 @@
 import React from "react";
-import { BattleViewProps, Unit as StateUnit } from "./Battle.types";
-import { BattleViewWrapper, CenterWrapper, Hex, LineContainer } from "./Battle.styled";
+import { BattleViewProps, PreparedUnit, Hex as HexType } from "./Battle.types";
+import { BattleViewWrapper, CenterWrapper, Hex, LabelWrap, LineContainer, EmptyHex } from "./Battle.styled";
 import Unit from "../Unit";
-import Units from "../../core/units";
+import InfoPanel from "../Unit/InfoPanel/InfoPanel";
 
 class BattleView extends React.Component<BattleViewProps> {
     widthArray: number[];
@@ -15,26 +15,33 @@ class BattleView extends React.Component<BattleViewProps> {
         this.heightArray = new Array(height).fill(1).map((v, i) => i);
     }
 
-    onHexClick = (x: number, y: number) => (e: React.SyntheticEvent) => {
+    onHexClick = (hex: HexType) => (e: React.SyntheticEvent) => {
         const { onHexClick } = this.props;
-        onHexClick(x, y);
+        onHexClick(hex);
     };
 
     renderLine(lineNumber: number): React.ReactElement {
-        const { width, units } = this.props;
+        const { width, preparedUnits, hexes } = this.props;
 
         return (
-            <LineContainer width={width} notFirst={lineNumber !== 0} key={lineNumber}>
+            <LineContainer width={width} lineNumber={lineNumber} key={lineNumber}>
                 {this.widthArray.map(i => {
+                    const hex: HexType = hexes[`${i}:${lineNumber}`];
+
                     let renderUnit;
                     try {
-                        const unit = units.find(unit => unit.y === lineNumber && unit.x === i) as StateUnit;
-                        const currentUnit = Units[unit.id];
-                        renderUnit = <Unit currentHp={unit.currentHp} hp={currentUnit.hp} image={currentUnit.image} />;
+                        const unit = preparedUnits.find(unit => unit.y === lineNumber && unit.x === i) as PreparedUnit;
+                        if (!unit) throw new Error("unit not found in this hex");
+                        renderUnit = <Unit unit={unit} />;
                     } catch (e) {}
 
+                    if (hex.isEmpty) return <EmptyHex key={i}>&nbsp;</EmptyHex>;
+
                     return (
-                        <Hex onClick={this.onHexClick(i, lineNumber)} key={i}>
+                        <Hex onClick={this.onHexClick(hex)} isHighlighted={hex.isHighlighted} key={i}>
+                            <LabelWrap>
+                                {i}:{lineNumber}
+                            </LabelWrap>
                             &nbsp;{renderUnit}
                         </Hex>
                     );
@@ -49,6 +56,7 @@ class BattleView extends React.Component<BattleViewProps> {
                 <BattleViewWrapper width={this.props.width}>
                     {this.heightArray.map(i => this.renderLine(i))}
                 </BattleViewWrapper>
+                <InfoPanel />
             </CenterWrapper>
         );
     }

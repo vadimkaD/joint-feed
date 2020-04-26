@@ -1,46 +1,61 @@
 import React from "react";
 import { connect } from "react-redux";
 import BattleView from "./Battle.view";
-import * as selectors from "./__redux/Battle.selectors";
-import { BattleProps, BattleState, Unit as StateUnit } from "./Battle.types";
+import { BattleProps, BattleState, BattleUnit, Hex, Owner, PreparedUnit } from "./Battle.types";
 import { Dispatch } from "redux";
-import { addUnit } from "./__redux/Battle.actions";
+import { selectUnit } from "../Unit/InfoPanel/__redux/InfoPanel.actions";
+import { InfoPanelState } from "../Unit/InfoPanel/InfoPanel.types";
+import { hexes, preparedUnits } from "./__redux/Battle.selectors";
+import { UnitsState } from "../Player/Units/Units.types";
+import { addUnit, clickHex } from "./__redux/Battle.actions";
+import { ACTION_POINTS, HEIGHT, WIDTH } from "./Battle.constants";
 
 class Battle extends React.Component<BattleProps> {
     componentDidMount(): void {
-        const { init } = this.props;
-        init();
+        const { addUnit } = this.props;
+        addUnit({
+            id: 1,
+            x: 0,
+            y: 1,
+            owner: Owner.PLAYER,
+            currentActionPoints: ACTION_POINTS,
+            maxActionPoints: ACTION_POINTS,
+        });
     }
 
-    onHexClick = (x: number, y: number) => {
-        const { units } = this.props;
-        console.log("x", x, "y", y);
+    onHexClick = (hex: Hex) => {
+        const { preparedUnits, selectUnit } = this.props;
         try {
-            const unit = units.find(unit => unit.y === y && unit.x === x) as StateUnit;
-            console.log("unit found:", unit);
+            const unit = preparedUnits.find(unit => unit.y === hex.y && unit.x === hex.x) as PreparedUnit | null;
+            selectUnit(unit ? unit : null);
         } catch (e) {}
     };
 
     render() {
-        const { units } = this.props;
+        const { preparedUnits, hexes, onHexClick } = this.props;
 
-        return <BattleView width={9} height={6} units={units} onHexClick={this.onHexClick} />;
+        return (
+            <BattleView
+                width={WIDTH}
+                height={HEIGHT}
+                hexes={hexes}
+                preparedUnits={preparedUnits}
+                onHexClick={onHexClick}
+            />
+        );
     }
 }
 
-const mapStateToProps = (state: BattleState) => ({ units: selectors.units(state) });
+const mapStateToProps = (state: UnitsState & BattleState & InfoPanelState) => ({
+    preparedUnits: preparedUnits(state),
+    hexes: hexes(state),
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        init: () =>
-            dispatch(
-                addUnit({
-                    x: 1,
-                    y: 2,
-                    currentHp: 25,
-                    id: 1,
-                }),
-            ),
+        selectUnit: (unit: PreparedUnit | null) => dispatch(selectUnit(unit)),
+        addUnit: (unit: BattleUnit) => dispatch(addUnit(unit)),
+        onHexClick: (hex: Hex) => dispatch(clickHex(hex)),
     };
 };
 

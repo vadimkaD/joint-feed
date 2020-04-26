@@ -39,7 +39,7 @@ export const HpBar = styled.div`
 `;
 
 export interface HpValueProps {
-    hp: number;
+    maxHp: number;
     currentHp: number;
 }
 
@@ -48,8 +48,8 @@ export const HpValue = styled.div<HpValueProps>`
     position: absolute;
     right: 0;
     top: 0;
-    width: ${({ hp, currentHp }) => {
-        const width = 100 - (currentHp / hp) * 100;
+    width: ${({ maxHp, currentHp }) => {
+        const width = 100 - (currentHp / maxHp) * 100;
         return `${width}%`;
     }};
     height: 100%;

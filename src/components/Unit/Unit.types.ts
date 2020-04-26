@@ -1,5 +1,10 @@
+import { Unit } from "../Player/Units/Units.types";
+import { BattleUnit } from "../Battle/Battle.types";
+
 export interface UnitProps {
-    hp: number;
-    currentHp: number;
-    image: string;
+    unit: BattleUnit & Unit;
+}
+
+export interface SelectedUnitProps {
+    selectedUnit: Unit | null;
 }
