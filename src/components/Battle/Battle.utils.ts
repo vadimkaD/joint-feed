@@ -10,24 +10,31 @@ export function getStringFromCoord(coord: Coord): string {
     return `${coord.x}:${coord.y}`;
 }
 
+function getLeftTop(coord: Coord): Coord | null {
+    if (coord.y > 0 && !(coord.x === 0 && coord.y % 2)) {
+        return { x: coord.y % 2 ? coord.x - 1 : coord.x, y: coord.y - 1 };
+    }
+    return null;
+}
+
+function getRightTop(coord: Coord): Coord | null {
+    if (coord.y > 0 && !(coord.x === WIDTH - 1)) {
+        return { x: coord.y % 2 ? coord.x : coord.x + 1, y: coord.y - 1 };
+    }
+    return null;
+}
+
 export function getAllNearCoords(coord: Coord): Coord[] {
     const result: Coord[] = [];
-    let leftTop: Coord;
-    let rightTop: Coord;
+    const leftTop = getLeftTop(coord);
+    const rightTop = getRightTop(coord);
     let right: Coord;
     let rightBottom: Coord;
     let leftBottom: Coord;
     let left: Coord;
 
-    if (coord.y > 0 && !(coord.x === 0 && coord.y % 2)) {
-        leftTop = { x: coord.y % 2 ? coord.x - 1 : coord.x, y: coord.y - 1 };
-        result.push(leftTop);
-    }
-
-    if (coord.y > 0 && !(coord.x === WIDTH - 1)) {
-        rightTop = { x: coord.y % 2 ? coord.x : coord.x + 1, y: coord.y - 1 };
-        result.push(rightTop);
-    }
+    leftTop && result.push(leftTop);
+    rightTop && result.push(rightTop);
 
     if (coord.x > 0) {
         left = { x: coord.x - 1, y: coord.y };

@@ -1,10 +1,30 @@
 import styled from "styled-components";
-import { LineContainerProps } from "./Battle.types";
-import { HEX_WIDTH, LEFT, HEX_HEIGHT } from "./Battle.constants";
+import { LineContainerProps, WayThrough } from "./Battle.types";
+import { HEX_HEIGHT, HEX_WIDTH, LEFT } from "./Battle.constants";
 
 interface HexProps {
     isHighlighted?: boolean;
+    way?: WayThrough;
 }
+
+const wayBackground = {
+    [WayThrough.LEFT_TO_RIGHT]: "url('/images/hexes/way/left-to-right.png')",
+    [WayThrough.LEFT_TOP_TO_RIGHT_BOTTOM]: "url('/images/hexes/way/left-top-to-right-bottom.png')",
+    [WayThrough.RIGHT_TOP_TO_LEFT_BOTTOM]:
+        "linear-gradient(120deg, rgba(254,191,0,1) 45%, rgba(255,255,255,1) 50%, rgba(254,191,0,1) 55%)",
+    [WayThrough.LEFT_TOP_TO_RIGHT]: "url('/images/hexes/way/left-top-to-right.png')",
+    [WayThrough.LEFT_TOP_TO_RIGHT_TOP]: "url('/images/hexes/way/left-top-to-right-top.png')",
+    [WayThrough.LEFT_TOP_TO_LEFT_BOTTOM]: "url('/images/hexes/way/left-top-to-left-bottom.png')",
+    [WayThrough.LEFT_TOP_TO_LEFT]: "url('/images/hexes/way/left-top-to-left.png')",
+    [WayThrough.LEFT_TO_RIGHT_TOP]: "url('/images/hexes/way/left-to-right-top.png')",
+    [WayThrough.LEFT_TO_RIGHT_BOTTOM]: "url('/images/hexes/way/left-to-right-bottom.png')",
+    [WayThrough.LEFT_TO_LEFT_BOTTOM]: "url('/images/hexes/way/left-to-left-bottom.png')",
+    [WayThrough.RIGHT_TOP_TO_RIGHT]: "url('/images/hexes/way/right-top-to-right.png')",
+    [WayThrough.RIGHT_TOP_TO_RIGHT_BOTTOM]: "url('/images/hexes/way/right-top-to-right-bottom.png')",
+    [WayThrough.RIGHT_TO_RIGHT_BOTTOM]: "url('/images/hexes/way/right-to-right-bottom.png')",
+    [WayThrough.RIGHT_TO_LEFT_BOTTOM]: "url('/images/hexes/way/right-to-left-bottom.png')",
+    [WayThrough.LEFT_BOTTOM_TO_RIGHT_BOTTOM]: "url('/images/hexes/way/left-bottom-to-right-bottom.png')",
+};
 
 export const Hex = styled.div<HexProps>`
     display: inline-flex;
@@ -25,6 +45,7 @@ export const Hex = styled.div<HexProps>`
         width: ${HEX_WIDTH}px;
         background: ${props =>
             props.isHighlighted ? "radial-gradient(circle, #febf00 35%, rgba(255,255,255,1) 100%)" : "#febf00"};
+        background: ${wayBackground[WayThrough.LEFT_BOTTOM_TO_RIGHT_BOTTOM]};
         transform: rotate(30deg);
     }
     :hover {

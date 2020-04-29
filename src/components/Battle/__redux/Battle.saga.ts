@@ -1,17 +1,20 @@
-import { all, takeEvery, select, call, put } from "redux-saga/effects";
-import { getType, ActionType } from "deox";
+import { all, call, put, select, takeEvery } from "redux-saga/effects";
+import { ActionType, getType } from "deox";
 import * as actions from "./Battle.actions";
 import { preparedUnits } from "./Battle.selectors";
 import { selectUnit } from "../../Unit/InfoPanel/__redux/InfoPanel.actions";
 import { PreparedUnit } from "../Battle.types";
 import { unit as selectedUnit } from "../../Unit/InfoPanel/__redux/InfoPanel.selectors";
 import { getUnitInHexOrNull } from "../Battle.utils";
+import { addAction } from "../../ActionQueue/__redux/ActionQueue.actions";
+import { ActionType as QueueActionType } from "../../ActionQueue/ActionQueue.types";
 
 function* hexClickSaga(action: ActionType<typeof actions.clickHex>) {
     const { payload: hex } = action;
     const prepared: PreparedUnit[] = yield select(preparedUnits);
     const selected = yield select(selectedUnit);
     if (selected && hex.isHighlighted) {
+        yield put(addAction({ unitId: selected.id, actionType: QueueActionType.MOVE, target: hex }));
     } else {
         const unitInHex = yield call(getUnitInHexOrNull, hex, prepared);
         yield put(selectUnit(unitInHex));
