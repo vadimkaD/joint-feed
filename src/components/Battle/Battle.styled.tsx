@@ -24,6 +24,12 @@ const wayBackground = {
     [WayThrough.RIGHT_TO_RIGHT_BOTTOM]: "url('/images/hexes/way/right-to-right-bottom.png')",
     [WayThrough.RIGHT_TO_LEFT_BOTTOM]: "url('/images/hexes/way/right-to-left-bottom.png')",
     [WayThrough.LEFT_BOTTOM_TO_RIGHT_BOTTOM]: "url('/images/hexes/way/left-bottom-to-right-bottom.png')",
+    [WayThrough.CENTER_TO_LEFT_BOTTOM]: "url('/images/hexes/way/center-to-left-bottom.png')",
+    [WayThrough.CENTER_TO_RIGHT_BOTTOM]: "url('/images/hexes/way/center-to-right-bottom.png')",
+    [WayThrough.CENTER_TO_RIGHT]: "url('/images/hexes/way/center-to-right.png')",
+    [WayThrough.CENTER_TO_RIGHT_TOP]: "url('/images/hexes/way/center-to-right-top.png')",
+    [WayThrough.CENTER_TO_LEFT_TOP]: "url('/images/hexes/way/center-to-left-top.png')",
+    [WayThrough.CENTER_TO_LEFT]: "url('/images/hexes/way/center-to-left.png')",
 };
 
 export const Hex = styled.div<HexProps>`
@@ -45,8 +51,8 @@ export const Hex = styled.div<HexProps>`
         width: ${HEX_WIDTH}px;
         background: ${props =>
             props.isHighlighted ? "radial-gradient(circle, #febf00 35%, rgba(255,255,255,1) 100%)" : "#febf00"};
-        background: ${wayBackground[WayThrough.LEFT_BOTTOM_TO_RIGHT_BOTTOM]};
         transform: rotate(30deg);
+        background: ${wayBackground[WayThrough.CENTER_TO_LEFT]};
     }
     :hover {
         :after {

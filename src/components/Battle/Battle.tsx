@@ -7,7 +7,7 @@ import { selectUnit } from "../Unit/InfoPanel/__redux/InfoPanel.actions";
 import { InfoPanelState } from "../Unit/InfoPanel/InfoPanel.types";
 import { hexes, preparedUnits } from "./__redux/Battle.selectors";
 import { UnitsState } from "../Player/Units/Units.types";
-import { addUnit, clickHex } from "./__redux/Battle.actions";
+import { addUnit, clickHex, mouseEnterHex } from "./__redux/Battle.actions";
 import { ACTION_POINTS, HEIGHT, WIDTH } from "./Battle.constants";
 
 class Battle extends React.Component<BattleProps> {
@@ -32,10 +32,11 @@ class Battle extends React.Component<BattleProps> {
     };
 
     render() {
-        const { preparedUnits, hexes, onHexClick } = this.props;
+        const { preparedUnits, hexes, onHexClick, onMouseEnterHex } = this.props;
 
         return (
             <BattleView
+                onMouseEnterHex={onMouseEnterHex}
                 width={WIDTH}
                 height={HEIGHT}
                 hexes={hexes}
@@ -56,6 +57,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         selectUnit: (unit: PreparedUnit | null) => dispatch(selectUnit(unit)),
         addUnit: (unit: BattleUnit) => dispatch(addUnit(unit)),
         onHexClick: (hex: Hex) => dispatch(clickHex(hex)),
+        onMouseEnterHex: (hex: Hex) => dispatch(mouseEnterHex(hex)),
     };
 };
 

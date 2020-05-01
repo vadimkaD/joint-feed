@@ -20,6 +20,11 @@ class BattleView extends React.Component<BattleViewProps> {
         onHexClick(hex);
     };
 
+    onMouseEnterHex = (hex: HexType) => (e: React.SyntheticEvent) => {
+        const { onMouseEnterHex } = this.props;
+        onMouseEnterHex(hex);
+    };
+
     renderLine(lineNumber: number): React.ReactElement {
         const { width, preparedUnits, hexes } = this.props;
 
@@ -38,7 +43,12 @@ class BattleView extends React.Component<BattleViewProps> {
                     if (hex.isEmpty) return <EmptyHex key={i}>&nbsp;</EmptyHex>;
 
                     return (
-                        <Hex onClick={this.onHexClick(hex)} isHighlighted={hex.isHighlighted} key={i}>
+                        <Hex
+                            onMouseEnter={this.onMouseEnterHex(hex)}
+                            onClick={this.onHexClick(hex)}
+                            isHighlighted={hex.isHighlighted}
+                            key={i}
+                        >
                             <LabelWrap>
                                 {i}:{lineNumber}
                             </LabelWrap>

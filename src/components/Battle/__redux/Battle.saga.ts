@@ -21,6 +21,14 @@ function* hexClickSaga(action: ActionType<typeof actions.clickHex>) {
     }
 }
 
+function* mouseEnterHexSaga(action: ActionType<typeof actions.mouseEnterHex>) {
+    const { payload: hex } = action;
+
+    console.log("enter", hex);
+    yield;
+}
+
 export default function* googleSourceSaga() {
     yield all([takeEvery(getType(actions.clickHex), hexClickSaga)]);
+    yield all([takeEvery(getType(actions.mouseEnterHex), mouseEnterHexSaga)]);
 }

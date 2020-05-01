@@ -22,6 +22,7 @@ export interface BattleProps extends BattleUnitsProps {
     selectUnit(unit: PreparedUnit | null): void;
     addUnit(unit: BattleUnit): void;
     onHexClick(hex: Hex): void;
+    onMouseEnterHex(hex: Hex): void;
     hexes: Hexes;
 }
 
@@ -30,6 +31,7 @@ export interface BattleViewProps extends BattleUnitsProps {
     height: number;
     onHexClick(hex: Hex): void;
     hexes: Hexes;
+    onMouseEnterHex(hex: Hex): void;
 }
 
 export interface LineContainerProps {
@@ -95,4 +97,32 @@ export enum WayThrough {
     RIGHT_BOTTOM_TO_RIGHT = 12,
     RIGHT_TO_LEFT_BOTTOM = 13,
     RIGHT_BOTTOM_TO_LEFT_BOTTOM = 14,
+    CENTER_TO_LEFT_BOTTOM,
+    CENTER_TO_RIGHT_BOTTOM,
+    CENTER_TO_RIGHT,
+    CENTER_TO_RIGHT_TOP,
+    CENTER_TO_LEFT_TOP,
+    CENTER_TO_LEFT,
+}
+
+export type ActionPoint = number;
+
+export interface RoutePoint {
+    coord: Coord;
+    type: WayThrough | ActionPoint | null;
+}
+
+export enum Direction {
+    LEFT,
+    LEFT_TOP,
+    RIGHT_TOP,
+    RIGHT,
+    RIGHT_BOTTOM,
+    LEFT_BOTTOM,
+}
+
+export interface Cube {
+    x: number;
+    y: number;
+    z: number;
 }
