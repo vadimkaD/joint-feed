@@ -5,7 +5,7 @@ import { BattleProps, BattleState, BattleUnit, Hex, Owner, PreparedUnit } from "
 import { Dispatch } from "redux";
 import { selectUnit } from "../Unit/InfoPanel/__redux/InfoPanel.actions";
 import { InfoPanelState } from "../Unit/InfoPanel/InfoPanel.types";
-import { hexes, preparedUnits } from "./__redux/Battle.selectors";
+import { hexes, highlightedHexes, preparedUnits, unitsOnBoard } from "./__redux/Battle.selectors";
 import { UnitsState } from "../Player/Units/Units.types";
 import { addUnit, clickHex, mouseEnterHex } from "./__redux/Battle.actions";
 import { ACTION_POINTS, HEIGHT, WIDTH } from "./Battle.constants";
@@ -15,24 +15,15 @@ class Battle extends React.Component<BattleProps> {
         const { addUnit } = this.props;
         addUnit({
             id: 1,
-            x: 0,
-            y: 1,
+            coord: { x: 0, y: 1 },
             owner: Owner.PLAYER,
             currentActionPoints: ACTION_POINTS,
             maxActionPoints: ACTION_POINTS,
         });
     }
 
-    onHexClick = (hex: Hex) => {
-        const { preparedUnits, selectUnit } = this.props;
-        try {
-            const unit = preparedUnits.find(unit => unit.y === hex.y && unit.x === hex.x) as PreparedUnit | null;
-            selectUnit(unit ? unit : null);
-        } catch (e) {}
-    };
-
     render() {
-        const { preparedUnits, hexes, onHexClick, onMouseEnterHex } = this.props;
+        const { preparedUnits, hexes, onHexClick, onMouseEnterHex, unitsOnBoard, highlightedHexes } = this.props;
 
         return (
             <BattleView
@@ -40,6 +31,8 @@ class Battle extends React.Component<BattleProps> {
                 width={WIDTH}
                 height={HEIGHT}
                 hexes={hexes}
+                unitsOnBoard={unitsOnBoard}
+                highlightedHexes={highlightedHexes}
                 preparedUnits={preparedUnits}
                 onHexClick={onHexClick}
             />
@@ -50,6 +43,8 @@ class Battle extends React.Component<BattleProps> {
 const mapStateToProps = (state: UnitsState & BattleState & InfoPanelState) => ({
     preparedUnits: preparedUnits(state),
     hexes: hexes(state),
+    unitsOnBoard: unitsOnBoard(state),
+    highlightedHexes: highlightedHexes(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {

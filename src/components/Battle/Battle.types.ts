@@ -6,8 +6,7 @@ export enum Owner {
 }
 
 export interface BattleUnit {
-    x: number;
-    y: number;
+    coord: Coord;
     id: number;
     owner: Owner;
     currentActionPoints: number;
@@ -16,22 +15,24 @@ export interface BattleUnit {
 
 export interface BattleUnitsProps {
     preparedUnits: PreparedUnit[];
+    unitsOnBoard: UnitsOnBoard;
 }
 
-export interface BattleProps extends BattleUnitsProps {
+export interface HexesProps {
+    onHexClick(hex: Hex): void;
+    onMouseEnterHex(hex: Hex): void;
+    hexes: Hexes;
+    highlightedHexes: Hexes;
+}
+
+export interface BattleProps extends BattleUnitsProps, HexesProps {
     selectUnit(unit: PreparedUnit | null): void;
     addUnit(unit: BattleUnit): void;
-    onHexClick(hex: Hex): void;
-    onMouseEnterHex(hex: Hex): void;
-    hexes: Hexes;
 }
 
-export interface BattleViewProps extends BattleUnitsProps {
+export interface BattleViewProps extends BattleUnitsProps, HexesProps {
     width: number;
     height: number;
-    onHexClick(hex: Hex): void;
-    hexes: Hexes;
-    onMouseEnterHex(hex: Hex): void;
 }
 
 export interface LineContainerProps {
@@ -43,17 +44,14 @@ export type BattleState = {
     Battle: {
         battleUnits: BattleUnit[];
         hexes: Hexes;
+        hexUnderCursor: Hex;
     };
 };
 
 export interface PreparedUnit extends BattleUnit, Unit {}
 
 export interface Hex {
-    x: number;
-    y: number;
-    isWithUnit: boolean;
-    isHighlighted: boolean;
-    isPassable: boolean;
+    coord: Coord;
     isEmpty?: boolean;
 }
 
@@ -125,4 +123,8 @@ export interface Cube {
     x: number;
     y: number;
     z: number;
+}
+
+export interface UnitsOnBoard {
+    [coordinates: string]: PreparedUnit;
 }

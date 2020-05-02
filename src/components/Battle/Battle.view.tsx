@@ -3,6 +3,7 @@ import { BattleViewProps, PreparedUnit, Hex as HexType } from "./Battle.types";
 import { BattleViewWrapper, CenterWrapper, Hex, LabelWrap, LineContainer, EmptyHex } from "./Battle.styled";
 import Unit from "../Unit";
 import InfoPanel from "../Unit/InfoPanel/InfoPanel";
+import { getStringFromCoord } from "./Battle.utils";
 
 class BattleView extends React.Component<BattleViewProps> {
     widthArray: number[];
@@ -26,19 +27,18 @@ class BattleView extends React.Component<BattleViewProps> {
     };
 
     renderLine(lineNumber: number): React.ReactElement {
-        const { width, preparedUnits, hexes } = this.props;
+        const { width, hexes, unitsOnBoard, highlightedHexes } = this.props;
 
         return (
             <LineContainer width={width} lineNumber={lineNumber} key={lineNumber}>
                 {this.widthArray.map(i => {
-                    const hex: HexType = hexes[`${i}:${lineNumber}`];
+                    const hex: HexType = hexes[getStringFromCoord({ x: i, y: lineNumber })];
 
                     let renderUnit;
-                    try {
-                        const unit = preparedUnits.find(unit => unit.y === lineNumber && unit.x === i) as PreparedUnit;
-                        if (!unit) throw new Error("unit not found in this hex");
+                    const unit = unitsOnBoard[getStringFromCoord(hex.coord)];
+                    if (unit) {
                         renderUnit = <Unit unit={unit} />;
-                    } catch (e) {}
+                    }
 
                     if (hex.isEmpty) return <EmptyHex key={i}>&nbsp;</EmptyHex>;
 
@@ -46,7 +46,7 @@ class BattleView extends React.Component<BattleViewProps> {
                         <Hex
                             onMouseEnter={this.onMouseEnterHex(hex)}
                             onClick={this.onHexClick(hex)}
-                            isHighlighted={hex.isHighlighted}
+                            isHighlighted={!!highlightedHexes[getStringFromCoord(hex.coord)]}
                             key={i}
                         >
                             <LabelWrap>

@@ -10,6 +10,10 @@ export function getStringFromCoord(coord: Coord): string {
     return `${coord.x}:${coord.y}`;
 }
 
+export function isSameCoord(one: Coord, two: Coord) {
+    return one.x === two.x && one.y === two.y;
+}
+
 function getLeftTop(coord: Coord): Coord | null {
     if (coord.y > 0 && !(coord.x === 0 && coord.y % 2)) {
         return { x: coord.y % 2 ? coord.x - 1 : coord.x, y: coord.y - 1 };
@@ -79,7 +83,7 @@ export function getAreaCoords(radius: number, coord: Coord): Coord[] {
 }
 
 export function getUnitInHexOrNull(hex: Hex, units: PreparedUnit[]): PreparedUnit | null {
-    const unit = units.find(unit => unit.y === hex.y && unit.x === hex.x) as PreparedUnit;
+    const unit = units.find(unit => isSameCoord(unit.coord, hex.coord)) as PreparedUnit;
     return unit ? unit : null;
 }
 

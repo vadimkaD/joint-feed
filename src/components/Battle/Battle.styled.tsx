@@ -52,7 +52,6 @@ export const Hex = styled.div<HexProps>`
         background: ${props =>
             props.isHighlighted ? "radial-gradient(circle, #febf00 35%, rgba(255,255,255,1) 100%)" : "#febf00"};
         transform: rotate(30deg);
-        background: ${wayBackground[WayThrough.CENTER_TO_LEFT]};
     }
     :hover {
         :after {
