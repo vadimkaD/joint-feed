@@ -3,8 +3,7 @@ import { LineContainerProps, WayThrough } from "./Battle.types";
 import { HEX_HEIGHT, HEX_WIDTH, LEFT } from "./Battle.constants";
 
 interface HexProps {
-    isHighlighted?: boolean;
-    way?: WayThrough;
+    highlight?: WayThrough | boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -50,8 +49,15 @@ export const Hex = styled.div<HexProps>`
         clip-path: polygon(75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0);
         height: ${HEX_HEIGHT}px;
         width: ${HEX_WIDTH}px;
-        background: ${props =>
-            props.isHighlighted ? "radial-gradient(circle, #febf00 35%, rgba(255,255,255,1) 100%)" : "#febf00"};
+        background: ${props => {
+            if (typeof props.highlight === "number") {
+                return wayBackground[props.highlight];
+            } else if (typeof props.highlight === "boolean") {
+                return props.highlight ? "radial-gradient(circle, #febf00 35%, rgba(255,255,255,1) 100%)" : "#febf00";
+            }
+
+            return "#febf00";
+        }};
         transform: rotate(30deg);
     }
     :hover {

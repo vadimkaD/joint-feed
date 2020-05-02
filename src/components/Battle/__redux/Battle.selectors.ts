@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { BattleState, BattleUnit, Hex, Hexes, PreparedUnit, UnitsOnBoard } from "../Battle.types";
+import { BattleState, BattleUnit, Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle.types";
 import { units as playerUnits } from "../../Player/Units/__redux/Units.selectors";
 import { Unit, UnitsState } from "../../Player/Units/Units.types";
 import { unit as selectedUnit } from "../../Unit/InfoPanel/__redux/InfoPanel.selectors";
@@ -24,22 +24,23 @@ export const preparedUnits = createSelector<UnitsState & BattleState, Unit[], Ba
 );
 
 export const hexUnderCursor = (state: BattleState) => state.Battle.hexUnderCursor as Hex;
-export const highlightedHexes = createSelector<BattleState & InfoPanelState, Hexes, PreparedUnit | null, Hexes>(
-    hexes,
-    selectedUnit,
-    (hexes, selectedUnit) => {
-        if (selectedUnit) {
-            const coords = getAreaCoords(selectedUnit.currentActionPoints, selectedUnit.coord);
-            return coords.reduce((total: Hexes, coord) => {
-                const key = getStringFromCoord(coord);
-                total[key] = hexes[key];
-                return total;
-            }, {});
-        }
+export const highlightedHexes = createSelector<
+    BattleState & InfoPanelState,
+    Hexes,
+    PreparedUnit | null,
+    HightlightedHexes
+>(hexes, selectedUnit, (hexes, selectedUnit) => {
+    if (selectedUnit) {
+        const coords = getAreaCoords(selectedUnit.currentActionPoints, selectedUnit.coord);
+        return coords.reduce((total: HightlightedHexes, coord) => {
+            const key = getStringFromCoord(coord);
+            total[key] = true;
+            return total;
+        }, {});
+    }
 
-        return {};
-    },
-);
+    return {};
+});
 
 export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUnit[], UnitsOnBoard>(
     preparedUnits,

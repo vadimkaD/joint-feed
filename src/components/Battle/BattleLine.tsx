@@ -1,18 +1,9 @@
 import React from "react";
-import { Hex as HexType, Hexes, UnitsOnBoard } from "./Battle.types";
+import { Hex as HexType, BattleLineProps } from "./Battle.types";
 import { Hex, LabelWrap, LineContainer, EmptyHex } from "./Battle.styled";
 import Unit from "../Unit";
 import { getStringFromCoord } from "./Battle.utils";
 import { WIDTH_ARRAY, WIDTH } from "./Battle.constants";
-
-interface BattleLineProps {
-    onHexClick(hex: HexType): void;
-    onMouseEnterHex(hex: HexType): void;
-    lineNumber: number;
-    highlightedHexes: Hexes;
-    hexes: Hexes;
-    unitsOnBoard: UnitsOnBoard;
-}
 
 function BattleLine(props: BattleLineProps) {
     const { hexes, unitsOnBoard, highlightedHexes, lineNumber, onMouseEnterHex, onHexClick } = props;
@@ -37,7 +28,7 @@ function BattleLine(props: BattleLineProps) {
                     <Hex
                         onMouseEnter={mouseEnter(hex)}
                         onClick={onClick(hex)}
-                        isHighlighted={!!highlightedHexes[getStringFromCoord(hex.coord)]}
+                        highlight={highlightedHexes[getStringFromCoord(hex.coord)]}
                         key={i}
                     >
                         <LabelWrap>

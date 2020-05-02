@@ -22,7 +22,7 @@ export interface HexesProps {
     onHexClick(hex: Hex): void;
     onMouseEnterHex(hex: Hex): void;
     hexes: Hexes;
-    highlightedHexes: Hexes;
+    highlightedHexes: HightlightedHexes;
 }
 
 export interface BattleProps extends BattleUnitsProps, HexesProps {
@@ -31,6 +31,11 @@ export interface BattleProps extends BattleUnitsProps, HexesProps {
 }
 
 export interface BattleViewProps extends BattleUnitsProps, HexesProps {}
+
+export interface BattleLineProps extends HexesProps {
+    lineNumber: number;
+    unitsOnBoard: UnitsOnBoard;
+}
 
 export interface LineContainerProps {
     lineNumber: number;
@@ -124,4 +129,8 @@ export interface Cube {
 
 export interface UnitsOnBoard {
     [coordinates: string]: PreparedUnit;
+}
+
+export interface HightlightedHexes {
+    [coordinates: string]: WayThrough | boolean;
 }
