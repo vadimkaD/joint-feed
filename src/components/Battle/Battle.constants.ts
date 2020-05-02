@@ -1,4 +1,4 @@
-import { Hexes, Hex } from "./Battle.types";
+import { Hexes } from "./Battle.types";
 
 export const LEFT = -12;
 export const TOP = 46;
@@ -10,9 +10,12 @@ export const HEIGHT = 7;
 
 const defaultHexes: Hexes = {};
 
+export const WIDTH_ARRAY = new Array(WIDTH).fill(1).map((v, i) => i);
+export const HEIGHT_ARRAY = new Array(HEIGHT).fill(1).map((v, i) => i);
+
 for (let i = 0; i < WIDTH; i++) {
     for (let j = 0; j < HEIGHT; j++) {
-        defaultHexes[`${i}:${j}`] = { coord: { x: i, y: j }, isEmpty: !!(i === 10 && j % 2) };
+        defaultHexes[`${i}:${j}`] = { coord: { x: i, y: j }, isEmpty: !!(i === 10 && !(j % 2)) };
     }
 }
 

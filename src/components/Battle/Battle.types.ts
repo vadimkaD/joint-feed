@@ -30,10 +30,7 @@ export interface BattleProps extends BattleUnitsProps, HexesProps {
     addUnit(unit: BattleUnit): void;
 }
 
-export interface BattleViewProps extends BattleUnitsProps, HexesProps {
-    width: number;
-    height: number;
-}
+export interface BattleViewProps extends BattleUnitsProps, HexesProps {}
 
 export interface LineContainerProps {
     lineNumber: number;

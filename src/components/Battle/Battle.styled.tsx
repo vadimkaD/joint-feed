@@ -7,6 +7,7 @@ interface HexProps {
     way?: WayThrough;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const wayBackground = {
     [WayThrough.LEFT_TO_RIGHT]: "url('/images/hexes/way/left-to-right.png')",
     [WayThrough.LEFT_TOP_TO_RIGHT_BOTTOM]: "url('/images/hexes/way/left-top-to-right-bottom.png')",

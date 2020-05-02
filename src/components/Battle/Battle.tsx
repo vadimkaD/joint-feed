@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import BattleView from "./Battle.view";
 import { BattleProps, BattleState, BattleUnit, Hex, Owner, PreparedUnit } from "./Battle.types";
@@ -8,11 +8,12 @@ import { InfoPanelState } from "../Unit/InfoPanel/InfoPanel.types";
 import { hexes, highlightedHexes, preparedUnits, unitsOnBoard } from "./__redux/Battle.selectors";
 import { UnitsState } from "../Player/Units/Units.types";
 import { addUnit, clickHex, mouseEnterHex } from "./__redux/Battle.actions";
-import { ACTION_POINTS, HEIGHT, WIDTH } from "./Battle.constants";
+import { ACTION_POINTS } from "./Battle.constants";
 
-class Battle extends React.Component<BattleProps> {
-    componentDidMount(): void {
-        const { addUnit } = this.props;
+function Battle(props: BattleProps) {
+    const { preparedUnits, hexes, onHexClick, onMouseEnterHex, unitsOnBoard, highlightedHexes, addUnit } = props;
+
+    useEffect(() => {
         addUnit({
             id: 1,
             coord: { x: 0, y: 1 },
@@ -20,24 +21,18 @@ class Battle extends React.Component<BattleProps> {
             currentActionPoints: ACTION_POINTS,
             maxActionPoints: ACTION_POINTS,
         });
-    }
+    }, [addUnit]);
 
-    render() {
-        const { preparedUnits, hexes, onHexClick, onMouseEnterHex, unitsOnBoard, highlightedHexes } = this.props;
-
-        return (
-            <BattleView
-                onMouseEnterHex={onMouseEnterHex}
-                width={WIDTH}
-                height={HEIGHT}
-                hexes={hexes}
-                unitsOnBoard={unitsOnBoard}
-                highlightedHexes={highlightedHexes}
-                preparedUnits={preparedUnits}
-                onHexClick={onHexClick}
-            />
-        );
-    }
+    return (
+        <BattleView
+            onMouseEnterHex={onMouseEnterHex}
+            hexes={hexes}
+            unitsOnBoard={unitsOnBoard}
+            highlightedHexes={highlightedHexes}
+            preparedUnits={preparedUnits}
+            onHexClick={onHexClick}
+        />
+    );
 }
 
 const mapStateToProps = (state: UnitsState & BattleState & InfoPanelState) => ({

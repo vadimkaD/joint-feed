@@ -1,5 +1,5 @@
 import { HEIGHT, WIDTH } from "./Battle.constants";
-import { Coord, Cube, Hex, PreparedUnit, RoutePoint, WayThrough } from "./Battle.types";
+import { Coord, Cube, Hex, PreparedUnit } from "./Battle.types";
 
 export function getCoordsFromString(coord: string): Coord {
     const [x, y] = coord.split(":").map(v => +v);
@@ -144,9 +144,7 @@ function cubeLinedraw(a: Cube, b: Cube): Cube[] {
 export function getRoute(from: Coord, to: Coord): Coord[] {
     const fromCubeCoord = evenrToCube(from);
     const toCubeCoord = evenrToCube(to);
-    return cubeLinedraw(fromCubeCoord, toCubeCoord).map((cube, i, arr) => {
+    return cubeLinedraw(fromCubeCoord, toCubeCoord).map(cube => {
         return cubeToEvenr(cube);
     });
 }
-
-getRoute({ x: 0, y: 1 }, { x: 3, y: 3 });

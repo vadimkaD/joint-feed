@@ -5,7 +5,7 @@ import { units as playerUnits } from "../../Player/Units/__redux/Units.selectors
 import { Unit, UnitsState } from "../../Player/Units/Units.types";
 import { unit as selectedUnit } from "../../Unit/InfoPanel/__redux/InfoPanel.selectors";
 import { InfoPanelState } from "../../Unit/InfoPanel/InfoPanel.types";
-import { getAreaCoords, getStringFromCoord, isSameCoord } from "../Battle.utils";
+import { getAreaCoords, getStringFromCoord } from "../Battle.utils";
 
 export const units = (state: BattleState) => state.Battle.battleUnits as BattleUnit[];
 export const hexes = (state: BattleState) => state.Battle.hexes as Hexes;
