@@ -24,9 +24,6 @@ function* hexClickSaga(action: ActionType<typeof actions.clickHex>) {
 }
 
 function* mouseEnterHexSaga(action: ActionType<typeof actions.mouseEnterHex>) {
-    const { payload: hex } = action;
-
-    console.log("enter", hex);
     yield;
 }
 

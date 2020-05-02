@@ -62,7 +62,11 @@ export const Hex = styled.div<HexProps>`
     }
     :hover {
         :after {
-            background: rgb(204, 255, 229);
+            background: ${props => {
+                if (typeof props.highlight === "number") {
+                    return wayBackground[props.highlight];
+                } else return "radial-gradient(circle, #febf00 35%, rgba(255,255,255,1) 100%)";
+            }};
         }
     }
 `;

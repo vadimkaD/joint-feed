@@ -66,6 +66,10 @@ export interface Coord {
     y: number;
 }
 
+export interface Coords {
+    [coordinates: string]: Coord;
+}
+
 export enum WayThrough {
     LEFT_TO_RIGHT = 0,
     LEFT_TOP_TO_RIGHT_BOTTOM = 1,
@@ -104,6 +108,8 @@ export enum WayThrough {
     CENTER_TO_LEFT_TOP,
     CENTER_TO_LEFT,
 }
+
+export type WayThroughKeys = keyof typeof WayThrough;
 
 export type ActionPoint = number;
 

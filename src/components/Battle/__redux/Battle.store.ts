@@ -9,4 +9,6 @@ export const battleUnits = createReducer([] as BattleUnit[], handleAction => [
 ]);
 
 export const hexes = createReducer(defaultHexes as Hexes, handleAction => []);
-export const hexUnderCursor = createReducer(null as Hex | null, handleAction => []);
+export const hexUnderCursor = createReducer(null as Hex | null, handleAction => [
+    handleAction(actions.mouseEnterHex, (state, { payload }) => payload),
+]);

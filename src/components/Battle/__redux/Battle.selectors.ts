@@ -5,7 +5,16 @@ import { units as playerUnits } from "../../Player/Units/__redux/Units.selectors
 import { Unit, UnitsState } from "../../Player/Units/Units.types";
 import { unit as selectedUnit } from "../../Unit/InfoPanel/__redux/InfoPanel.selectors";
 import { InfoPanelState } from "../../Unit/InfoPanel/InfoPanel.types";
-import { getAreaCoords, getStringFromCoord } from "../Battle.utils";
+import {
+    coordArrToObj,
+    getAreaCoords,
+    getHighlightsForRoute,
+    getRoute,
+    getStringFromCoord,
+    getWayThrough,
+    hexArrToObj,
+    isSameCoord,
+} from "../Battle.utils";
 
 export const units = (state: BattleState) => state.Battle.battleUnits as BattleUnit[];
 export const hexes = (state: BattleState) => state.Battle.hexes as Hexes;
@@ -28,13 +37,25 @@ export const highlightedHexes = createSelector<
     BattleState & InfoPanelState,
     Hexes,
     PreparedUnit | null,
+    Hex | null,
     HightlightedHexes
->(hexes, selectedUnit, (hexes, selectedUnit) => {
+>(hexes, selectedUnit, hexUnderCursor, (hexes, selectedUnit, hexUnderCursor) => {
     if (selectedUnit) {
+        let highlights: HightlightedHexes = {};
         const coords = getAreaCoords(selectedUnit.currentActionPoints, selectedUnit.coord);
+        const areaObj = coordArrToObj(coords);
+        if (
+            hexUnderCursor &&
+            !isSameCoord(hexUnderCursor.coord, selectedUnit.coord) &&
+            areaObj[getStringFromCoord(hexUnderCursor.coord)]
+        ) {
+            const route = getRoute(selectedUnit.coord, hexUnderCursor.coord);
+            highlights = getHighlightsForRoute(route);
+            console.log("highlights", highlights);
+        }
         return coords.reduce((total: HightlightedHexes, coord) => {
             const key = getStringFromCoord(coord);
-            total[key] = true;
+            total[key] = highlights[key] !== undefined ? highlights[key] : true;
             return total;
         }, {});
     }
