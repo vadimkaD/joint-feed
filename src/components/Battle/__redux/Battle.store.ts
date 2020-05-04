@@ -1,7 +1,7 @@
 import { createReducer } from "deox";
 import { BattleUnit, Hex, Hexes } from "../Battle.types";
 import * as actions from "./Battle.actions";
-import { defaultHexes } from "../Battle.constants";
+import { defaultHexes } from "../../Battlefield/Battlefield.constants";
 
 export const battleUnits = createReducer([] as BattleUnit[], handleAction => [
     handleAction(actions.setUnits, (state, { payload }) => payload),

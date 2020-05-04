@@ -1,28 +1,14 @@
 import React from "react";
 import { BattleViewProps } from "./Battle.types";
-import { BattleViewWrapper, CenterWrapper } from "./Battle.styled";
+import { CenterWrapper } from "./Battle.styled";
 import InfoPanel from "../Unit/InfoPanel/InfoPanel";
-import { HEIGHT_ARRAY, WIDTH } from "./Battle.constants";
-import { BattleLine } from "./BattleLine";
+
+import Battlefield from "../Battlefield/Battlefield";
 
 function BattleView(props: BattleViewProps) {
-    const { highlightedHexes, hexes, onHexClick, onMouseEnterHex, unitsOnBoard } = props;
-
     return (
         <CenterWrapper>
-            <BattleViewWrapper width={WIDTH}>
-                {HEIGHT_ARRAY.map(i => (
-                    <BattleLine
-                        key={i}
-                        onMouseEnterHex={onMouseEnterHex}
-                        hexes={hexes}
-                        lineNumber={i}
-                        highlightedHexes={highlightedHexes}
-                        unitsOnBoard={unitsOnBoard}
-                        onHexClick={onHexClick}
-                    />
-                ))}
-            </BattleViewWrapper>
+            <Battlefield {...props} />
             <InfoPanel />
         </CenterWrapper>
     );

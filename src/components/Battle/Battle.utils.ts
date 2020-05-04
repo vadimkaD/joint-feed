@@ -1,15 +1,6 @@
-import { HEIGHT, WIDTH } from "./Battle.constants";
-import {
-    Coord,
-    Coords,
-    Cube,
-    Hex,
-    Hexes,
-    HightlightedHexes,
-    PreparedUnit,
-    WayThrough,
-    WayThroughKeys,
-} from "./Battle.types";
+import { Coord, Coords, Cube, Hex, Hexes, HightlightedHexes, PreparedUnit } from "./Battle.types";
+import { Highlight } from "../Battlefield/Battlefield.types";
+import { HEIGHT, WIDTH } from "../Battlefield/Battlefield.constants";
 
 export function getCoordsFromString(coord: string): Coord {
     const [x, y] = coord.split(":").map(v => +v);
@@ -107,6 +98,8 @@ export function getAreaCoords(radius: number, coord: Coord): Coord[] {
 }
 
 export function getUnitInHexOrNull(hex: Hex, units: PreparedUnit[]): PreparedUnit | null {
+    console.log("getUnitInHexOrNull hex", hex);
+    console.log("getUnitInHexOrNull units", units);
     const unit = units.find(unit => isSameCoord(unit.coord, hex.coord)) as PreparedUnit;
     return unit ? unit : null;
 }
@@ -173,90 +166,6 @@ export function getRoute(from: Coord, to: Coord): Coord[] {
     });
 }
 
-export function getWayThrough(prevCoord: Coord | null, coord: Coord, nextCoord: Coord | null): WayThrough {
-    let wayKeyString = "";
-
-    const leftTop = getLeftTop(coord);
-    const rightTop = getRightTop(coord);
-    const left = getLeft(coord);
-    const right = getRight(coord);
-    const rightBottom = getRightBottom(coord);
-    const leftBottom = getLeftBottom(coord);
-
-    if (prevCoord && nextCoord) {
-        if (leftTop && isSameCoord(leftTop, prevCoord)) {
-            wayKeyString = `LEFT_TOP_TO_`;
-        } else if (rightTop && isSameCoord(rightTop, prevCoord)) {
-            wayKeyString = `RIGHT_TOP_TO_`;
-        } else if (left && isSameCoord(left, prevCoord)) {
-            wayKeyString = `LEFT_TO_`;
-        } else if (right && isSameCoord(right, prevCoord)) {
-            wayKeyString = "RIGHT_TO_";
-        } else if (rightBottom && isSameCoord(rightBottom, prevCoord)) {
-            wayKeyString = "RIGHT_BOTTOM_TO_";
-        } else if (leftBottom && isSameCoord(leftBottom, prevCoord)) {
-            wayKeyString = "LEFT_BOTTOM_TO_";
-        }
-
-        if (leftTop && isSameCoord(leftTop, nextCoord)) {
-            wayKeyString += `LEFT`;
-        } else if (rightTop && isSameCoord(rightTop, nextCoord)) {
-            wayKeyString += `RIGHT_TOP`;
-        } else if (left && isSameCoord(left, nextCoord)) {
-            wayKeyString += `LEFT`;
-        } else if (right && isSameCoord(right, nextCoord)) {
-            wayKeyString += "RIGHT";
-        } else if (rightBottom && isSameCoord(rightBottom, nextCoord)) {
-            wayKeyString += "RIGHT_BOTTOM";
-        } else if (leftBottom && isSameCoord(leftBottom, nextCoord)) {
-            wayKeyString += "LEFT_BOTTOM";
-        }
-
-        console.log("wayKeyString 1:", wayKeyString);
-        return WayThrough[wayKeyString as WayThroughKeys];
-    }
-
-    if (prevCoord) {
-        if (leftTop && isSameCoord(leftTop, prevCoord)) {
-            wayKeyString = `CENTER_TO_LEFT_TOP`;
-        } else if (rightTop && isSameCoord(rightTop, prevCoord)) {
-            wayKeyString = `CENTER_TO_RIGHT_TOP`;
-        } else if (left && isSameCoord(left, prevCoord)) {
-            wayKeyString = `CENTER_TO_LEFT`;
-        } else if (right && isSameCoord(right, prevCoord)) {
-            wayKeyString = "CENTER_TO_RIGHT";
-        } else if (rightBottom && isSameCoord(rightBottom, prevCoord)) {
-            wayKeyString = "CENTER_TO_RIGHT_BOTTOM";
-        } else if (leftBottom && isSameCoord(leftBottom, prevCoord)) {
-            wayKeyString = "CENTER_TO_LEFT_BOTTOM";
-        }
-        console.log("wayKeyString 2:", wayKeyString);
-
-        return WayThrough[wayKeyString as WayThroughKeys];
-    }
-
-    if (nextCoord) {
-        if (leftTop && isSameCoord(leftTop, nextCoord)) {
-            wayKeyString = `CENTER_TO_LEFT_TOP`;
-        } else if (rightTop && isSameCoord(rightTop, nextCoord)) {
-            wayKeyString = `CENTER_TO_RIGHT_TOP`;
-        } else if (left && isSameCoord(left, nextCoord)) {
-            wayKeyString = `CENTER_TO_LEFT`;
-        } else if (right && isSameCoord(right, nextCoord)) {
-            wayKeyString = "CENTER_TO_RIGHT";
-        } else if (rightBottom && isSameCoord(rightBottom, nextCoord)) {
-            wayKeyString = "CENTER_TO_RIGHT_BOTTOM";
-        } else if (leftBottom && isSameCoord(leftBottom, nextCoord)) {
-            wayKeyString = "CENTER_TO_LEFT_BOTTOM";
-        }
-        console.log("wayKeyString 3:", wayKeyString);
-
-        return WayThrough[wayKeyString as WayThroughKeys];
-    }
-
-    return WayThrough[wayKeyString as WayThroughKeys];
-}
-
 export function coordArrToObj(coords: Coord[]): Coords {
     return coords.reduce((total: Coords, coord) => {
         total[getStringFromCoord(coord)] = coord;
@@ -274,13 +183,7 @@ export function hexArrToObj(hexes: Hex[]): Hexes {
 export function getHighlightsForRoute(route: Coord[]): HightlightedHexes {
     const highlights: HightlightedHexes = {};
     route.forEach((coord, index, arr) => {
-        if (index === 0) {
-            highlights[getStringFromCoord(coord)] = getWayThrough(null, coord, arr[index + 1]);
-        } else if (index === arr.length - 1) {
-            highlights[getStringFromCoord(coord)] = getWayThrough(arr[index - 1], coord, null);
-        } else {
-            highlights[getStringFromCoord(coord)] = getWayThrough(arr[index - 1], coord, arr[index + 1]);
-        }
+        highlights[getStringFromCoord(coord)] = Highlight.ROUTE;
     });
     return highlights;
 }
