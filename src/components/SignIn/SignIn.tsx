@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 import React from "react";
-import Paper from "@material-ui/core/Paper";
+import Card from "@material-ui/core/Card";
+import MeetingRoomRoundedIcon from "@material-ui/icons/MeetingRoomRounded";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { SignInWrap } from "./SignIn.styled";
@@ -13,6 +15,12 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             height: "100vh",
         },
+        title: {
+            padding: "15px 0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+        },
     }),
 );
 
@@ -22,7 +30,11 @@ function SignIn(props: any) {
     return (
         <Grid container spacing={0} direction="row" alignItems="center" justify="center" className={classes.root}>
             <Grid item>
-                <Paper>
+                <Card>
+                    <div className={classes.title}>
+                        <MeetingRoomRoundedIcon /> &nbsp;
+                        <Typography variant="h3">Sign in</Typography>
+                    </div>
                     <Divider />
                     <SignInWrap>
                         <Grid container spacing={3} direction="row" alignItems="center" justify="center">
@@ -43,7 +55,7 @@ function SignIn(props: any) {
                             </Grid>
                         </Grid>
                     </SignInWrap>
-                </Paper>
+                </Card>
             </Grid>
         </Grid>
     );
