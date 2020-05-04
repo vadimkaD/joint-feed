@@ -1,4 +1,5 @@
 import { Unit } from "../Player/Units/Units.types";
+import { Highlight } from "../Battlefield/Battlefield.types";
 
 export enum Owner {
     PLAYER,
@@ -70,52 +71,11 @@ export interface Coords {
     [coordinates: string]: Coord;
 }
 
-export enum WayThrough {
-    LEFT_TO_RIGHT = 0,
-    LEFT_TOP_TO_RIGHT_BOTTOM = 1,
-    LEFT_BOTTOM_TO_RIGHT_TOP = 9,
-    LEFT_TOP_TO_RIGHT = 2,
-    LEFT_TOP_TO_RIGHT_TOP = 3,
-    LEFT_TOP_TO_LEFT_BOTTOM = 4,
-    LEFT_TOP_TO_LEFT = 5,
-    LEFT_TO_RIGHT_TOP = 6,
-    LEFT_TO_RIGHT_BOTTOM = 7,
-    LEFT_TO_LEFT_BOTTOM = 8,
-    LEFT_TO_LEFT_TOP = 5,
-    LEFT_BOTTOM_TO_LEFT_TOP = 4,
-    LEFT_BOTTOM_TO_LEFT = 8,
-    LEFT_BOTTOM_TO_RIGHT = 13,
-    LEFT_BOTTOM_TO_RIGHT_BOTTOM = 14,
-    RIGHT_TO_LEFT = 0,
-    RIGHT_BOTTOM_TO_LEFT_TOP = 1,
-    RIGHT_TO_LEFT_TOP = 2,
-    RIGHT_TOP_TO_LEFT_TOP = 3,
-    RIGHT_TOP_TO_LEFT = 6,
-    RIGHT_BOTTOM_TO_LEFT = 7,
-    RIGHT_TOP_TO_LEFT_BOTTOM = 9,
-    RIGHT_TOP_TO_RIGHT = 10,
-    RIGHT_TO_RIGHT_TOP = 10,
-    RIGHT_TOP_TO_RIGHT_BOTTOM = 11,
-    RIGHT_BOTTOM_TO_RIGHT_TOP = 11,
-    RIGHT_TO_RIGHT_BOTTOM = 12,
-    RIGHT_BOTTOM_TO_RIGHT = 12,
-    RIGHT_TO_LEFT_BOTTOM = 13,
-    RIGHT_BOTTOM_TO_LEFT_BOTTOM = 14,
-    CENTER_TO_LEFT_BOTTOM,
-    CENTER_TO_RIGHT_BOTTOM,
-    CENTER_TO_RIGHT,
-    CENTER_TO_RIGHT_TOP,
-    CENTER_TO_LEFT_TOP,
-    CENTER_TO_LEFT,
-}
-
-export type WayThroughKeys = keyof typeof WayThrough;
-
 export type ActionPoint = number;
 
 export interface RoutePoint {
     coord: Coord;
-    type: WayThrough | ActionPoint | null;
+    type: ActionPoint | null;
 }
 
 export enum Direction {
@@ -138,5 +98,5 @@ export interface UnitsOnBoard {
 }
 
 export interface HightlightedHexes {
-    [coordinates: string]: WayThrough | boolean;
+    [coordinates: string]: Highlight;
 }

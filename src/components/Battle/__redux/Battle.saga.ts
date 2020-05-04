@@ -11,6 +11,7 @@ import { ActionType as QueueActionType } from "../../ActionQueue/ActionQueue.typ
 
 function* hexClickSaga(action: ActionType<typeof actions.clickHex>) {
     const { payload: hex } = action;
+    console.log("hex click saga", hex.coord);
     const prepared: PreparedUnit[] = yield select(preparedUnits);
     const selected = yield select(selectedUnit);
     const highlighted = yield select(highlightedHexes);

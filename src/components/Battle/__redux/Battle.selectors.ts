@@ -11,10 +11,9 @@ import {
     getHighlightsForRoute,
     getRoute,
     getStringFromCoord,
-    getWayThrough,
-    hexArrToObj,
     isSameCoord,
 } from "../Battle.utils";
+import { Highlight } from "../../Battlefield/Battlefield.types";
 
 export const units = (state: BattleState) => state.Battle.battleUnits as BattleUnit[];
 export const hexes = (state: BattleState) => state.Battle.hexes as Hexes;
@@ -40,8 +39,8 @@ export const highlightedHexes = createSelector<
     Hex | null,
     HightlightedHexes
 >(hexes, selectedUnit, hexUnderCursor, (hexes, selectedUnit, hexUnderCursor) => {
+    let highlights: HightlightedHexes = {};
     if (selectedUnit) {
-        let highlights: HightlightedHexes = {};
         const coords = getAreaCoords(selectedUnit.currentActionPoints, selectedUnit.coord);
         const areaObj = coordArrToObj(coords);
         if (
@@ -51,16 +50,18 @@ export const highlightedHexes = createSelector<
         ) {
             const route = getRoute(selectedUnit.coord, hexUnderCursor.coord);
             highlights = getHighlightsForRoute(route);
-            console.log("highlights", highlights);
         }
+
         return coords.reduce((total: HightlightedHexes, coord) => {
             const key = getStringFromCoord(coord);
-            total[key] = highlights[key] !== undefined ? highlights[key] : true;
+            total[key] = highlights[key] !== undefined ? highlights[key] : Highlight.HOVER;
             return total;
         }, {});
+    } else if (hexUnderCursor) {
+        highlights[getStringFromCoord(hexUnderCursor.coord)] = Highlight.HOVER;
     }
 
-    return {};
+    return highlights;
 });
 
 export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUnit[], UnitsOnBoard>(
