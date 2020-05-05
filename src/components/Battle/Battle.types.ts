@@ -1,5 +1,5 @@
 import { Unit } from "../Player/Units/Units.types";
-import { Highlight } from "../Battlefield/Battlefield.types";
+import { Highlight } from "../Battlefield/Battlefield.constants";
 
 export enum Owner {
     PLAYER,

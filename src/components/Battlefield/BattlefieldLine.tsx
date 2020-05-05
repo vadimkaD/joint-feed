@@ -1,11 +1,11 @@
 import React from "react";
 import { getCenter, getHexCoords, getPointsFromCoords } from "./Battlefield.utils";
-import { HEX_SIZE, WIDTH_ARRAY } from "./Battlefield.constants";
+import { HEX_SIZE, Highlight, WIDTH_ARRAY } from "./Battlefield.constants";
 import { Group, InteractiveHexPolygon, Text } from "./Battlefield.styled";
-import { BattlefieldLineProps, Highlight } from "./Battlefield.types";
+import { BattlefieldLineProps } from "./Battlefield.types";
 import { Hex as HexType } from "../Battle/Battle.types";
 import { getStringFromCoord } from "../Battle/Battle.utils";
-import { Hover, Route } from "./Battlefield.highlights";
+import { Hover, Route, SelectedUnitHighlight } from "./Battlefield.highlights";
 
 function BattlefieldLine(props: BattlefieldLineProps) {
     const { hexes, highlightedHexes, lineNumber, onMouseEnterHex, onHexClick } = props;
@@ -29,6 +29,8 @@ function BattlefieldLine(props: BattlefieldLineProps) {
                     case Highlight.ROUTE:
                         highlightRender = <Route center={center} />;
                         break;
+                    case Highlight.SELECTED_UNIT:
+                        highlightRender = <SelectedUnitHighlight points={points} />;
                 }
 
                 return (

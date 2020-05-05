@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import BattleView from "./Battle.view";
 import { BattleProps, BattleState, BattleUnit, Hex, Owner, PreparedUnit } from "./Battle.types";
 import { Dispatch } from "redux";
-import { selectUnit } from "../Unit/InfoPanel/__redux/InfoPanel.actions";
-import { InfoPanelState } from "../Unit/InfoPanel/InfoPanel.types";
+import { selectUnit } from "../InfoPanel/__redux/InfoPanel.actions";
+import { InfoPanelState } from "../InfoPanel/InfoPanel.types";
 import { hexes, highlightedHexes, preparedUnits, unitsOnBoard } from "./__redux/Battle.selectors";
 import { UnitsState } from "../Player/Units/Units.types";
 import { addUnit, clickHex, mouseEnterHex } from "./__redux/Battle.actions";
@@ -17,6 +17,14 @@ function Battle(props: BattleProps) {
         addUnit({
             id: 1,
             coord: { x: 0, y: 1 },
+            owner: Owner.PLAYER,
+            currentActionPoints: ACTION_POINTS,
+            maxActionPoints: ACTION_POINTS,
+        });
+
+        addUnit({
+            id: 2,
+            coord: { x: 12, y: 3 },
             owner: Owner.PLAYER,
             currentActionPoints: ACTION_POINTS,
             maxActionPoints: ACTION_POINTS,

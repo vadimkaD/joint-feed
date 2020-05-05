@@ -8,11 +8,6 @@ export interface BattlefieldLineProps extends HexesProps {
     unitsOnBoard: UnitsOnBoard;
 }
 
-export enum Highlight {
-    HOVER,
-    ROUTE,
-}
-
 export interface CenterProps {
     center: Coord;
 }

@@ -1,5 +1,5 @@
 import { createAction } from "deox";
-import { PreparedUnit } from "../../../Battle/Battle.types";
+import { PreparedUnit } from "../../Battle/Battle.types";
 
 const namespace = "[InfoPanel]";
 

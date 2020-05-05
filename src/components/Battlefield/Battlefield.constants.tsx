@@ -20,3 +20,9 @@ for (let i = 0; i < WIDTH; i++) {
 }
 
 export { defaultHexes };
+
+export enum Highlight {
+    HOVER,
+    ROUTE,
+    SELECTED_UNIT,
+}
