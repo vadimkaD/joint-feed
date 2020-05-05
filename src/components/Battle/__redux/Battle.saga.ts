@@ -1,26 +1,26 @@
-import { all, call, put, select, takeEvery } from "redux-saga/effects";
+import { all, put, select, takeEvery } from "redux-saga/effects";
 import { ActionType, getType } from "deox";
 import * as actions from "./Battle.actions";
-import { preparedUnits, highlightedHexes } from "./Battle.selectors";
-import { selectUnit } from "../../Unit/InfoPanel/__redux/InfoPanel.actions";
-import { PreparedUnit } from "../Battle.types";
-import { unit as selectedUnit } from "../../Unit/InfoPanel/__redux/InfoPanel.selectors";
-import { getStringFromCoord, getUnitInHexOrNull } from "../Battle.utils";
+import { highlightedHexes, unitsOnBoard } from "./Battle.selectors";
+import { selectUnit } from "../../InfoPanel/__redux/InfoPanel.actions";
+import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
+import { getStringFromCoord } from "../Battle.utils";
 import { addAction } from "../../ActionQueue/__redux/ActionQueue.actions";
 import { ActionType as QueueActionType } from "../../ActionQueue/ActionQueue.types";
 
 function* hexClickSaga(action: ActionType<typeof actions.clickHex>) {
     const { payload: hex } = action;
     console.log("hex click saga", hex.coord);
-    const prepared: PreparedUnit[] = yield select(preparedUnits);
+    const boardUnits = yield select(unitsOnBoard);
     const selected = yield select(selectedUnit);
     const highlighted = yield select(highlightedHexes);
     const key = getStringFromCoord(hex.coord);
-    if (selected && highlighted[key]) {
+    const boardUnit = boardUnits[key];
+
+    if (boardUnit) {
+        yield put(selectUnit(boardUnit));
+    } else if (selected && highlighted[key]) {
         yield put(addAction({ unitId: selected.id, actionType: QueueActionType.MOVE, target: hex }));
-    } else {
-        const unitInHex = yield call(getUnitInHexOrNull, hex, prepared);
-        yield put(selectUnit(unitInHex));
     }
 }
 

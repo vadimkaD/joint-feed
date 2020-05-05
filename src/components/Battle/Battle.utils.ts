@@ -1,5 +1,5 @@
-import { Coord, Coords, Cube, Hex, Hexes, HightlightedHexes, PreparedUnit } from "./Battle.types";
-import { Highlight } from "../Battlefield/Battlefield.types";
+import { Coord, Coords, Cube, Hex, Hexes, HightlightedHexes } from "./Battle.types";
+import { Highlight } from "../Battlefield/Battlefield.constants";
 import { HEIGHT, WIDTH } from "../Battlefield/Battlefield.constants";
 
 export function getCoordsFromString(coord: string): Coord {
@@ -95,13 +95,6 @@ export function getAreaCoords(radius: number, coord: Coord): Coord[] {
     }
 
     return [];
-}
-
-export function getUnitInHexOrNull(hex: Hex, units: PreparedUnit[]): PreparedUnit | null {
-    console.log("getUnitInHexOrNull hex", hex);
-    console.log("getUnitInHexOrNull units", units);
-    const unit = units.find(unit => isSameCoord(unit.coord, hex.coord)) as PreparedUnit;
-    return unit ? unit : null;
 }
 
 export function evenrToCube(hex: Coord): Cube {

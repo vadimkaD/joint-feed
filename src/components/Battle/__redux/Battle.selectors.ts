@@ -3,8 +3,8 @@ import { createSelector } from "reselect";
 import { BattleState, BattleUnit, Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle.types";
 import { units as playerUnits } from "../../Player/Units/__redux/Units.selectors";
 import { Unit, UnitsState } from "../../Player/Units/Units.types";
-import { unit as selectedUnit } from "../../Unit/InfoPanel/__redux/InfoPanel.selectors";
-import { InfoPanelState } from "../../Unit/InfoPanel/InfoPanel.types";
+import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
+import { InfoPanelState } from "../../InfoPanel/InfoPanel.types";
 import {
     coordArrToObj,
     getAreaCoords,
@@ -13,7 +13,7 @@ import {
     getStringFromCoord,
     isSameCoord,
 } from "../Battle.utils";
-import { Highlight } from "../../Battlefield/Battlefield.types";
+import { Highlight } from "../../Battlefield/Battlefield.constants";
 
 export const units = (state: BattleState) => state.Battle.battleUnits as BattleUnit[];
 export const hexes = (state: BattleState) => state.Battle.hexes as Hexes;
@@ -30,40 +30,6 @@ export const preparedUnits = createSelector<UnitsState & BattleState, Unit[], Ba
         }) as PreparedUnit[];
     },
 );
-
-export const hexUnderCursor = (state: BattleState) => state.Battle.hexUnderCursor as Hex;
-export const highlightedHexes = createSelector<
-    BattleState & InfoPanelState,
-    Hexes,
-    PreparedUnit | null,
-    Hex | null,
-    HightlightedHexes
->(hexes, selectedUnit, hexUnderCursor, (hexes, selectedUnit, hexUnderCursor) => {
-    let highlights: HightlightedHexes = {};
-    if (selectedUnit) {
-        const coords = getAreaCoords(selectedUnit.currentActionPoints, selectedUnit.coord);
-        const areaObj = coordArrToObj(coords);
-        if (
-            hexUnderCursor &&
-            !isSameCoord(hexUnderCursor.coord, selectedUnit.coord) &&
-            areaObj[getStringFromCoord(hexUnderCursor.coord)]
-        ) {
-            const route = getRoute(selectedUnit.coord, hexUnderCursor.coord);
-            highlights = getHighlightsForRoute(route);
-        }
-
-        return coords.reduce((total: HightlightedHexes, coord) => {
-            const key = getStringFromCoord(coord);
-            total[key] = highlights[key] !== undefined ? highlights[key] : Highlight.HOVER;
-            return total;
-        }, {});
-    } else if (hexUnderCursor) {
-        highlights[getStringFromCoord(hexUnderCursor.coord)] = Highlight.HOVER;
-    }
-
-    return highlights;
-});
-
 export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUnit[], UnitsOnBoard>(
     preparedUnits,
     units => {
@@ -73,3 +39,39 @@ export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUni
         }, {});
     },
 );
+export const hexUnderCursor = (state: BattleState) => state.Battle.hexUnderCursor as Hex;
+export const highlightedHexes = createSelector<
+    BattleState & InfoPanelState & UnitsState,
+    Hexes,
+    PreparedUnit | null,
+    Hex | null,
+    UnitsOnBoard,
+    HightlightedHexes
+>(hexes, selectedUnit, hexUnderCursor, unitsOnBoard, (hexes, selectedUnit, hexUnderCursor, unitsOnBoard) => {
+    let highlights: HightlightedHexes = {};
+    if (selectedUnit) {
+        const coords = getAreaCoords(selectedUnit.currentActionPoints, selectedUnit.coord);
+        const areaObj = coordArrToObj(coords);
+        if (
+            hexUnderCursor &&
+            !unitsOnBoard[getStringFromCoord(hexUnderCursor.coord)] &&
+            areaObj[getStringFromCoord(hexUnderCursor.coord)]
+        ) {
+            const route = getRoute(selectedUnit.coord, hexUnderCursor.coord);
+            highlights = getHighlightsForRoute(route);
+        }
+
+        return coords.reduce((total: HightlightedHexes, coord) => {
+            const key = getStringFromCoord(coord);
+            total[key] = highlights[key] !== undefined ? highlights[key] : Highlight.HOVER;
+            if (isSameCoord(coord, selectedUnit.coord)) {
+                total[key] = Highlight.SELECTED_UNIT;
+            }
+            return total;
+        }, {});
+    } else if (hexUnderCursor) {
+        highlights[getStringFromCoord(hexUnderCursor.coord)] = Highlight.HOVER;
+    }
+
+    return highlights;
+});

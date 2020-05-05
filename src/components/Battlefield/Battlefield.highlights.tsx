@@ -1,9 +1,13 @@
 import React from "react";
 import { CenterProps, PolygonProps } from "./Battlefield.types";
-import { HighlightImage, HighlightPolygon } from "./Battlefield.styled";
+import { HighlightImage, HighlightPolygon, SelectedUnitPolygon } from "./Battlefield.styled";
 
 export function Hover(props: PolygonProps) {
     return <HighlightPolygon {...props} />;
+}
+
+export function SelectedUnitHighlight(props: PolygonProps) {
+    return <SelectedUnitPolygon {...props} />;
 }
 
 export function Route(props: CenterProps) {

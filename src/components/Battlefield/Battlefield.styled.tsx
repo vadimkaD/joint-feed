@@ -8,10 +8,15 @@ export const HighlightPolygon = styled.polygon<PolygonProps>`
     fill: #ffd75f;
 `;
 
+export const SelectedUnitPolygon = styled.polygon<PolygonProps>`
+    pointer-events: none;
+    fill: #ffffff;
+`;
+
 export const InteractiveHexPolygon = styled.polygon<InteractivePolygonProps>`
     fill: #febf00;
     stroke-width: ${() => BORDER_SIZE};
-    stroke: white;
+    stroke: #f0f0f0;
     pointer-events: all;
     cursor: pointer;
 `;
