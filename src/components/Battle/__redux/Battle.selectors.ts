@@ -1,35 +1,19 @@
 import { createSelector } from "reselect";
 
-import { BattleState, BattleUnit, Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle.types";
-import { units as playerUnits } from "../../Player/Units/__redux/Units.selectors";
-import { Unit, UnitsState } from "../../Player/Units/Units.types";
+import { BattleState, Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle.types";
+import { UnitsState } from "../../Player/Units/Units.types";
 import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
 import { InfoPanelState } from "../../InfoPanel/InfoPanel.types";
-import {
-    coordArrToObj,
-    getAreaCoords,
-    getHighlightsForRoute,
-    getRoute,
-    getStringFromCoord,
-    isSameCoord,
-} from "../Battle.utils";
+import { getStringFromCoord } from "../Battle.utils";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
+import { selectedAbility } from "../../Abilities/__redux/Abilities.selectors";
+import { ABILITIES } from "../../Abilities/Abilities.constants";
+import { AbilitiesState } from "../../Abilities/Abilities.types";
+import { abilitiesDictionary } from "../../Abilities";
+import { preparedUnits } from "./Battle.external-selectors";
 
-export const units = (state: BattleState) => state.Battle.battleUnits as BattleUnit[];
 export const hexes = (state: BattleState) => state.Battle.hexes as Hexes;
 
-export const preparedUnits = createSelector<UnitsState & BattleState, Unit[], BattleUnit[], PreparedUnit[]>(
-    playerUnits,
-    units,
-    (playerUnits: Unit[], battleUnits: BattleUnit[]) => {
-        return battleUnits.map(battleUnit => {
-            return {
-                ...playerUnits.find(playerUnit => playerUnit.id === battleUnit.id),
-                ...battleUnit,
-            };
-        }) as PreparedUnit[];
-    },
-);
 export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUnit[], UnitsOnBoard>(
     preparedUnits,
     units => {
@@ -41,37 +25,37 @@ export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUni
 );
 export const hexUnderCursor = (state: BattleState) => state.Battle.hexUnderCursor as Hex;
 export const highlightedHexes = createSelector<
-    BattleState & InfoPanelState & UnitsState,
+    BattleState & InfoPanelState & UnitsState & AbilitiesState,
     Hexes,
     PreparedUnit | null,
     Hex | null,
     UnitsOnBoard,
+    ABILITIES | null,
     HightlightedHexes
->(hexes, selectedUnit, hexUnderCursor, unitsOnBoard, (hexes, selectedUnit, hexUnderCursor, unitsOnBoard) => {
-    let highlights: HightlightedHexes = {};
-    if (selectedUnit) {
-        const coords = getAreaCoords(selectedUnit.currentActionPoints, selectedUnit.coord);
-        const areaObj = coordArrToObj(coords);
-        if (
-            hexUnderCursor &&
-            !unitsOnBoard[getStringFromCoord(hexUnderCursor.coord)] &&
-            areaObj[getStringFromCoord(hexUnderCursor.coord)]
-        ) {
-            const route = getRoute(selectedUnit.coord, hexUnderCursor.coord);
-            highlights = getHighlightsForRoute(route);
+>(
+    hexes,
+    selectedUnit,
+    hexUnderCursor,
+    unitsOnBoard,
+    selectedAbility,
+    (hexes, selectedUnit, hexUnderCursor, unitsOnBoard, selectedAbility) => {
+        const highlights: HightlightedHexes = {};
+
+        console.log("selectedUnit", selectedUnit);
+
+        if (hexUnderCursor) {
+            highlights[getStringFromCoord(hexUnderCursor.coord)] = Highlight.HOVER;
         }
 
-        return coords.reduce((total: HightlightedHexes, coord) => {
-            const key = getStringFromCoord(coord);
-            total[key] = highlights[key] !== undefined ? highlights[key] : Highlight.HOVER;
-            if (isSameCoord(coord, selectedUnit.coord)) {
-                total[key] = Highlight.SELECTED_UNIT;
+        if (selectedUnit) {
+            const key = getStringFromCoord(selectedUnit.coord);
+            highlights[key] = Highlight.SELECTED_UNIT;
+            if (selectedAbility) {
+                const ability = abilitiesDictionary[selectedAbility];
+                Object.assign(highlights, ability.getHighlights(hexes, selectedUnit, unitsOnBoard, hexUnderCursor));
             }
-            return total;
-        }, {});
-    } else if (hexUnderCursor) {
-        highlights[getStringFromCoord(hexUnderCursor.coord)] = Highlight.HOVER;
-    }
+        }
 
-    return highlights;
-});
+        return highlights;
+    },
+);

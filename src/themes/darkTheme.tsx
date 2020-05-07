@@ -10,8 +10,6 @@ const headingsDefault: TypographyStyle = {
     fontFamily: "Zilla Slab",
 };
 
-console.log(breakpoints);
-
 const theme = createMuiTheme({
     breakpoints,
     typography: {

@@ -5,7 +5,7 @@ import { Group, InteractiveHexPolygon, Text } from "./Battlefield.styled";
 import { BattlefieldLineProps } from "./Battlefield.types";
 import { Hex as HexType } from "../Battle/Battle.types";
 import { getStringFromCoord } from "../Battle/Battle.utils";
-import { Hover, Route, SelectedUnitHighlight } from "./Battlefield.highlights";
+import { Hover, SelectedUnitHighlight, Move } from "./Battlefield.highlights";
 
 function BattlefieldLine(props: BattlefieldLineProps) {
     const { hexes, highlightedHexes, lineNumber, onMouseEnterHex, onHexClick } = props;
@@ -26,8 +26,8 @@ function BattlefieldLine(props: BattlefieldLineProps) {
                     case Highlight.HOVER:
                         highlightRender = <Hover points={points} />;
                         break;
-                    case Highlight.ROUTE:
-                        highlightRender = <Route center={center} />;
+                    case Highlight.MOVE:
+                        highlightRender = <Move center={center} />;
                         break;
                     case Highlight.SELECTED_UNIT:
                         highlightRender = <SelectedUnitHighlight points={points} />;

@@ -6,5 +6,5 @@ export interface UnitIconProps {
 
 export interface UnitIconPanelProps {
     unitsOnBoard: UnitsOnBoard;
-    selectUnit: (unit: PreparedUnit | null) => void;
+    selectUnit: (unitId: number | null) => void;
 }

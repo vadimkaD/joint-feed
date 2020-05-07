@@ -154,9 +154,11 @@ function cubeLinedraw(a: Cube, b: Cube): Cube[] {
 export function getRoute(from: Coord, to: Coord): Coord[] {
     const fromCubeCoord = evenrToCube(from);
     const toCubeCoord = evenrToCube(to);
-    return cubeLinedraw(fromCubeCoord, toCubeCoord).map(cube => {
-        return cubeToEvenr(cube);
-    });
+    return cubeLinedraw(fromCubeCoord, toCubeCoord)
+        .map(cube => {
+            return cubeToEvenr(cube);
+        })
+        .reverse();
 }
 
 export function coordArrToObj(coords: Coord[]): Coords {
@@ -176,7 +178,7 @@ export function hexArrToObj(hexes: Hex[]): Hexes {
 export function getHighlightsForRoute(route: Coord[]): HightlightedHexes {
     const highlights: HightlightedHexes = {};
     route.forEach((coord, index, arr) => {
-        highlights[getStringFromCoord(coord)] = Highlight.ROUTE;
+        highlights[getStringFromCoord(coord)] = Highlight.MOVE;
     });
     return highlights;
 }

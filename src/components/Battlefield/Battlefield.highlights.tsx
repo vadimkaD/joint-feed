@@ -10,7 +10,7 @@ export function SelectedUnitHighlight(props: PolygonProps) {
     return <SelectedUnitPolygon {...props} />;
 }
 
-export function Route(props: CenterProps) {
+export function Move(props: CenterProps) {
     return (
         <HighlightImage
             width={60}

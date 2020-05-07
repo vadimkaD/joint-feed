@@ -5,10 +5,12 @@ import { BattleProps, BattleState, BattleUnit, Hex, Owner, PreparedUnit } from "
 import { Dispatch } from "redux";
 import { selectUnit } from "../InfoPanel/__redux/InfoPanel.actions";
 import { InfoPanelState } from "../InfoPanel/InfoPanel.types";
-import { hexes, highlightedHexes, preparedUnits, unitsOnBoard } from "./__redux/Battle.selectors";
+import { hexes, highlightedHexes, unitsOnBoard } from "./__redux/Battle.selectors";
 import { UnitsState } from "../Player/Units/Units.types";
 import { addUnit, clickHex, mouseEnterHex } from "./__redux/Battle.actions";
 import { ACTION_POINTS } from "./Battle.constants";
+import { AbilitiesState } from "../Abilities/Abilities.types";
+import { preparedUnits } from "./__redux/Battle.external-selectors";
 
 function Battle(props: BattleProps) {
     const { preparedUnits, hexes, onHexClick, onMouseEnterHex, unitsOnBoard, highlightedHexes, addUnit } = props;
@@ -43,7 +45,7 @@ function Battle(props: BattleProps) {
     );
 }
 
-const mapStateToProps = (state: UnitsState & BattleState & InfoPanelState) => ({
+const mapStateToProps = (state: UnitsState & BattleState & InfoPanelState & AbilitiesState) => ({
     preparedUnits: preparedUnits(state),
     hexes: hexes(state),
     unitsOnBoard: unitsOnBoard(state),
@@ -52,7 +54,7 @@ const mapStateToProps = (state: UnitsState & BattleState & InfoPanelState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        selectUnit: (unit: PreparedUnit | null) => dispatch(selectUnit(unit)),
+        selectUnit: (unitId: number | null) => dispatch(selectUnit(unitId)),
         addUnit: (unit: BattleUnit) => dispatch(addUnit(unit)),
         onHexClick: (hex: Hex) => dispatch(clickHex(hex)),
         onMouseEnterHex: (hex: Hex) => dispatch(mouseEnterHex(hex)),
