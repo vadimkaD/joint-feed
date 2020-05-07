@@ -1,8 +1,10 @@
+import { AbilityKeys } from "../../Abilities/Abilities.types";
+
 export interface Unit {
     id: number;
     currentHp: number;
     maxHp: number;
-    abilities: number[];
+    abilities: AbilityKeys[];
     name: string;
     damage: number;
     image: string;

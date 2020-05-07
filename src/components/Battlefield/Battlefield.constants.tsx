@@ -23,6 +23,6 @@ export { defaultHexes };
 
 export enum Highlight {
     HOVER,
-    ROUTE,
+    MOVE,
     SELECTED_UNIT,
 }

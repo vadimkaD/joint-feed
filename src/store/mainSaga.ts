@@ -23,8 +23,6 @@ allSagas.keys().forEach(function(key) {
         throw new FilenameConventionError(filename, path, "saga");
     }
     const extended: Exported = { ...mod };
-    console.log("extended", extended);
-    console.log("key", key);
 
     if (!extended.default) {
         throw new NoDefaultSagaError(filename, path);
@@ -34,8 +32,6 @@ allSagas.keys().forEach(function(key) {
 });
 
 export default function* mainSaga() {
-    console.log("mainSaga called");
-
     yield all(
         sagas.map((saga: any) =>
             spawn(function*() {

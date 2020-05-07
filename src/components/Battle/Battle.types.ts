@@ -27,7 +27,7 @@ export interface HexesProps {
 }
 
 export interface BattleProps extends BattleUnitsProps, HexesProps {
-    selectUnit(unit: PreparedUnit | null): void;
+    selectUnit(unitId: number | null): void;
     addUnit(unit: BattleUnit): void;
 }
 
