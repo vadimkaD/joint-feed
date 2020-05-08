@@ -1,7 +1,8 @@
 import React from "react";
 import { ActionType } from "deox";
 import { ABILITIES } from "./Abilities.constants";
-import { Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
+import { Coord, Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
+import { Action } from "../ActionQueue/ActionQueue.types";
 
 export enum Target {
     UNITS = "UNITS",
@@ -18,6 +19,15 @@ export enum AbilityType {
     CAST = "CAST",
 }
 
+export interface AbilityActionOutlineProps {
+    action: Action;
+    from?: Coord;
+    isLastInChain?: boolean;
+    playerUnitsOnBoard: UnitsOnBoard;
+}
+
+export type AbilityActionOutline = React.FunctionComponent<AbilityActionOutlineProps>;
+
 export interface Ability {
     id: string;
     castTime: number;
@@ -28,6 +38,7 @@ export interface Ability {
     castType: AbilityType;
     getHighlights: GetHighlights;
     onHexClick: ActionType<any>;
+    actionOutline: AbilityActionOutline;
 }
 
 export type SomeAbilities = {

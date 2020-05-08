@@ -14,11 +14,9 @@ export const unit = createSelector<
     PreparedUnit[],
     PreparedUnit | null
 >(unitId, preparedUnits, (unitId, units) => {
-    console.log("unitId", unitId);
     if (unitId === null) return null;
     const foundUnit = units.find(unit => unit.id === unitId);
-    console.log("foundUnit", foundUnit);
-    return foundUnit !== undefined ? foundUnit : null;
+    return foundUnit ? foundUnit : null;
 });
 export const abilities = createSelector<InfoPanelState & BattleState & UnitsState, PreparedUnit | null, Ability[]>(
     [unit],

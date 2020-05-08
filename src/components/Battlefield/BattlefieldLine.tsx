@@ -1,11 +1,11 @@
 import React from "react";
 import { getCenter, getHexCoords, getPointsFromCoords } from "./Battlefield.utils";
-import { HEX_SIZE, Highlight, WIDTH_ARRAY } from "./Battlefield.constants";
+import { HEX_SIZE, WIDTH_ARRAY } from "./Battlefield.constants";
 import { Group, InteractiveHexPolygon, Text } from "./Battlefield.styled";
 import { BattlefieldLineProps } from "./Battlefield.types";
 import { Hex as HexType } from "../Battle/Battle.types";
 import { getStringFromCoord } from "../Battle/Battle.utils";
-import { Hover, SelectedUnitHighlight, Move } from "./Battlefield.highlights";
+import { getHighlightComponent } from "./Battlefield.highlights";
 
 function BattlefieldLine(props: BattlefieldLineProps) {
     const { hexes, highlightedHexes, lineNumber, onMouseEnterHex, onHexClick } = props;
@@ -22,17 +22,9 @@ function BattlefieldLine(props: BattlefieldLineProps) {
                 if (hex.isEmpty) return null;
                 const highlight = highlightedHexes[getStringFromCoord(hex.coord)];
                 let highlightRender;
-                switch (highlight) {
-                    case Highlight.HOVER:
-                        highlightRender = <Hover points={points} />;
-                        break;
-                    case Highlight.MOVE:
-                        highlightRender = <Move center={center} />;
-                        break;
-                    case Highlight.SELECTED_UNIT:
-                        highlightRender = <SelectedUnitHighlight points={points} />;
+                if (highlight) {
+                    highlightRender = getHighlightComponent[highlight]({ center });
                 }
-
                 return (
                     <Group key={i}>
                         <InteractiveHexPolygon points={points} onMouseEnter={mouseEnter(hex)} onClick={onClick(hex)} />

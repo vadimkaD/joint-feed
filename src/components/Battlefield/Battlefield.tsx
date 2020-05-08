@@ -3,9 +3,18 @@ import { BATTLEFIELD_HEIGHT, BATTLEFIELD_WIDTH, HEIGHT_ARRAY } from "./Battlefie
 import BattlefieldLine from "./BattlefieldLine";
 import { BattlefieldProps } from "./Battlefield.types";
 import Units from "./Units/Units";
+import ActionOutlines from "./ActionOutlines/ActionOutlines";
 
 function Battlefield(props: BattlefieldProps) {
-    const { highlightedHexes, hexes, onHexClick, onMouseEnterHex, unitsOnBoard } = props;
+    const {
+        highlightedHexes,
+        hexes,
+        onHexClick,
+        onMouseEnterHex,
+        unitsOnBoard,
+        playerActions,
+        playerUnitsOnBoard,
+    } = props;
 
     return (
         <svg
@@ -27,6 +36,7 @@ function Battlefield(props: BattlefieldProps) {
                 />
             ))}
             <Units unitsOnBoard={unitsOnBoard} />
+            <ActionOutlines playerActions={playerActions} playerUnitsOnBoard={playerUnitsOnBoard} />
         </svg>
     );
 }

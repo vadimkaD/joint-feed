@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { BattleState, Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle.types";
+import { BattleState, Hex, Hexes, HightlightedHexes, Owner, PreparedUnit, UnitsOnBoard } from "../Battle.types";
 import { UnitsState } from "../../Player/Units/Units.types";
 import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
 import { InfoPanelState } from "../../InfoPanel/InfoPanel.types";
@@ -41,8 +41,6 @@ export const highlightedHexes = createSelector<
     (hexes, selectedUnit, hexUnderCursor, unitsOnBoard, selectedAbility) => {
         const highlights: HightlightedHexes = {};
 
-        console.log("selectedUnit", selectedUnit);
-
         if (hexUnderCursor) {
             highlights[getStringFromCoord(hexUnderCursor.coord)] = Highlight.HOVER;
         }
@@ -57,5 +55,19 @@ export const highlightedHexes = createSelector<
         }
 
         return highlights;
+    },
+);
+
+export const playerUnitsOnBoard = createSelector<BattleState & UnitsState, UnitsOnBoard, UnitsOnBoard>(
+    unitsOnBoard,
+    units => {
+        const ownUnits: UnitsOnBoard = {};
+        for (const coord in units) {
+            const unit = units[coord];
+            if (unit.owner === Owner.PLAYER) {
+                ownUnits[coord] = unit;
+            }
+        }
+        return ownUnits;
     },
 );

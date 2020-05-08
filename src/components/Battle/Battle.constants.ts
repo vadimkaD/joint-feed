@@ -1,1 +1,1 @@
-export const ACTION_POINTS = 4;
+export const ACTION_POINTS = 6;

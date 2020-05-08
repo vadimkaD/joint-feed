@@ -6,7 +6,8 @@ import { unit } from "../../../InfoPanel/__redux/InfoPanel.selectors";
 import { PreparedUnit } from "../../../Battle/Battle.types";
 import { addAction } from "../../../ActionQueue/__redux/ActionQueue.actions";
 import { ABILITIES } from "../../Abilities.constants";
-import { updateUnit } from "../../../Player/Units/__redux/Units.actions";
+import { updateUnit } from "../../../Battle/__redux/Battle.actions";
+import { selectAbility } from "../../__redux/Abilities.actions";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;
@@ -19,7 +20,7 @@ function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
         selectedUnit.currentActionPoints = selectedUnit.currentActionPoints - 1;
         yield put(updateUnit(selectedUnit));
     }
-    yield;
+    yield put(selectAbility(null));
 }
 
 export default function* googleSourceSaga() {
