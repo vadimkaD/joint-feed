@@ -4,6 +4,7 @@ import MoveIcon from "./Move.icon";
 import { getHighlights } from "./Move.getHighlight";
 import { onHexClick } from "./__redux/Move.actions";
 import MoveOutline from "./Move.outline";
+import { moveEffector } from "./Move.effector";
 
 export const moveAbility: Ability = {
     id: ABILITIES.MOVE,
@@ -16,6 +17,7 @@ export const moveAbility: Ability = {
     getHighlights: getHighlights,
     onHexClick: onHexClick,
     actionOutline: MoveOutline,
+    effector: moveEffector,
 };
 
 export const ICON_PATH = "/images/abilities/move/move.png";

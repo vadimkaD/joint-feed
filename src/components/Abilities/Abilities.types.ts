@@ -39,6 +39,7 @@ export interface Ability {
     getHighlights: GetHighlights;
     onHexClick: ActionType<any>;
     actionOutline: AbilityActionOutline;
+    effector: AbilityEffector;
 }
 
 export type SomeAbilities = {
@@ -62,4 +63,9 @@ export type GetHighlights = (
     selectedUnit: PreparedUnit,
     unitsOnBoard: UnitsOnBoard,
     hexUnderCursor: Hex | null,
+    queue: Action[],
 ) => HightlightedHexes;
+
+type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>;
+export type AbilityEffect = AtLeast<PreparedUnit, "id">;
+export type AbilityEffector = (action: Action, unitsOnBoard: UnitsOnBoard) => AbilityEffect[];

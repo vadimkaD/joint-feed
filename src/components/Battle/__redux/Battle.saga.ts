@@ -18,11 +18,8 @@ function* hexClickSaga(action: ActionType<typeof actions.clickHex>) {
     const boardUnit = boardUnits[key];
 
     if (boardUnit) {
-        console.log("boardUnit", boardUnit);
         yield put(selectUnit(boardUnit.id));
     } else if (selected !== undefined && abilityKey) {
-        console.log("ability", abilityKey);
-        console.log("selected", selected);
         const ability = abilitiesDictionary[abilityKey];
         yield put(ability.onHexClick(hex));
     }

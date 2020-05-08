@@ -3,8 +3,8 @@ import { Action, ActionQueueState } from "../ActionQueue.types";
 import { playerUnitsOnBoard } from "../../Battle/__redux/Battle.selectors";
 import { BattleState, UnitsOnBoard } from "../../Battle/Battle.types";
 import { UnitsState } from "../../Player/Units/Units.types";
+import { queue } from "./ActionQueue.external-selectors";
 
-export const queue = (state: ActionQueueState) => state.ActionQueue.queue;
 export const playerActions = createSelector<
     ActionQueueState & BattleState & UnitsState,
     Action[],

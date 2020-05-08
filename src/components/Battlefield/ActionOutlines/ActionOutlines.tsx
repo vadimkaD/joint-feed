@@ -10,14 +10,10 @@ interface ActionOutlinesProps {
 }
 
 const ActionOutlines: FunctionComponent<ActionOutlinesProps> = ({ playerActions, playerUnitsOnBoard }) => {
-    console.log("playerActions", playerActions);
-    console.log("playerUnitsOnBoard", playerUnitsOnBoard);
-
     return (
         <>
             {playerActions.map((action, key) => {
                 const ability = abilitiesDictionary[action.ability];
-                console.log("ability", ability);
                 const Outline = ability.actionOutline;
                 const lastIndex = findLastIndex<Action>(
                     playerActions,

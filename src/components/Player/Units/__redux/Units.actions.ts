@@ -1,6 +1,5 @@
 import { createAction } from "deox";
 import { Unit } from "../Units.types";
-import { PreparedUnit } from "../../../Battle/Battle.types";
 
 const namespace = "[Units]";
 
