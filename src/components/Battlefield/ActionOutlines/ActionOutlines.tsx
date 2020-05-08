@@ -8,7 +8,6 @@ interface ActionOutlinesProps {
     playerActions: Action[];
     playerUnitsOnBoard: UnitsOnBoard;
 }
-
 const ActionOutlines: FunctionComponent<ActionOutlinesProps> = ({ playerActions, playerUnitsOnBoard }) => {
     return (
         <>
