@@ -22,7 +22,7 @@ for (let i = 0; i < WIDTH; i++) {
 export { defaultHexes };
 
 export enum Highlight {
-    HOVER,
-    MOVE,
-    SELECTED_UNIT,
+    HOVER = "HOVER",
+    MOVE = "MOVE",
+    SELECTED_UNIT = "SELECTED_UNIT",
 }

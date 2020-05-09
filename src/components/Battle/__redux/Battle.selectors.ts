@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { BattleState, Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle.types";
+import { BattleState, Hex, Hexes, HightlightedHexes, Owner, PreparedUnit, UnitsOnBoard } from "../Battle.types";
 import { UnitsState } from "../../Player/Units/Units.types";
 import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
 import { InfoPanelState } from "../../InfoPanel/InfoPanel.types";
@@ -11,6 +11,8 @@ import { ABILITIES } from "../../Abilities/Abilities.constants";
 import { AbilitiesState } from "../../Abilities/Abilities.types";
 import { abilitiesDictionary } from "../../Abilities";
 import { preparedUnits } from "./Battle.external-selectors";
+import { Action, ActionQueueState } from "../../ActionQueue/ActionQueue.types";
+import { queue } from "../../ActionQueue/__redux/ActionQueue.external-selectors";
 
 export const hexes = (state: BattleState) => state.Battle.hexes as Hexes;
 
@@ -25,12 +27,13 @@ export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUni
 );
 export const hexUnderCursor = (state: BattleState) => state.Battle.hexUnderCursor as Hex;
 export const highlightedHexes = createSelector<
-    BattleState & InfoPanelState & UnitsState & AbilitiesState,
+    BattleState & InfoPanelState & UnitsState & AbilitiesState & ActionQueueState,
     Hexes,
     PreparedUnit | null,
     Hex | null,
     UnitsOnBoard,
     ABILITIES | null,
+    Action[],
     HightlightedHexes
 >(
     hexes,
@@ -38,10 +41,9 @@ export const highlightedHexes = createSelector<
     hexUnderCursor,
     unitsOnBoard,
     selectedAbility,
-    (hexes, selectedUnit, hexUnderCursor, unitsOnBoard, selectedAbility) => {
+    queue,
+    (hexes, selectedUnit, hexUnderCursor, unitsOnBoard, selectedAbility, queue) => {
         const highlights: HightlightedHexes = {};
-
-        console.log("selectedUnit", selectedUnit);
 
         if (hexUnderCursor) {
             highlights[getStringFromCoord(hexUnderCursor.coord)] = Highlight.HOVER;
@@ -52,10 +54,27 @@ export const highlightedHexes = createSelector<
             highlights[key] = Highlight.SELECTED_UNIT;
             if (selectedAbility) {
                 const ability = abilitiesDictionary[selectedAbility];
-                Object.assign(highlights, ability.getHighlights(hexes, selectedUnit, unitsOnBoard, hexUnderCursor));
+                Object.assign(
+                    highlights,
+                    ability.getHighlights(hexes, selectedUnit, unitsOnBoard, hexUnderCursor, queue),
+                );
             }
         }
 
         return highlights;
+    },
+);
+
+export const playerUnitsOnBoard = createSelector<BattleState & UnitsState, UnitsOnBoard, UnitsOnBoard>(
+    unitsOnBoard,
+    units => {
+        const ownUnits: UnitsOnBoard = {};
+        for (const coord in units) {
+            const unit = units[coord];
+            if (unit.owner === Owner.PLAYER) {
+                ownUnits[coord] = unit;
+            }
+        }
+        return ownUnits;
     },
 );

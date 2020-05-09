@@ -1,7 +1,12 @@
 import { BattleUnitsProps, Coord, HexesProps, UnitsOnBoard } from "../Battle/Battle.types";
 import React from "react";
+import { Action } from "../ActionQueue/ActionQueue.types";
 
-export interface BattlefieldProps extends BattleUnitsProps, HexesProps {}
+export interface BattlefieldProps extends BattleUnitsProps, HexesProps {
+    playerActions: Action[];
+    playerUnitsOnBoard: UnitsOnBoard;
+    mouseLeaveBoard: () => void;
+}
 
 export interface BattlefieldLineProps extends HexesProps {
     lineNumber: number;

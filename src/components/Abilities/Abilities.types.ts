@@ -1,7 +1,8 @@
 import React from "react";
 import { ActionType } from "deox";
 import { ABILITIES } from "./Abilities.constants";
-import { Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
+import { Coord, Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
+import { Action } from "../ActionQueue/ActionQueue.types";
 
 export enum Target {
     UNITS = "UNITS",
@@ -18,6 +19,15 @@ export enum AbilityType {
     CAST = "CAST",
 }
 
+export interface AbilityActionOutlineProps {
+    action: Action;
+    from?: Coord;
+    isLastInChain?: boolean;
+    playerUnitsOnBoard: UnitsOnBoard;
+}
+
+export type AbilityActionOutline = React.FunctionComponent<AbilityActionOutlineProps>;
+
 export interface Ability {
     id: string;
     castTime: number;
@@ -28,6 +38,8 @@ export interface Ability {
     castType: AbilityType;
     getHighlights: GetHighlights;
     onHexClick: ActionType<any>;
+    actionOutline: AbilityActionOutline;
+    effector: AbilityEffector;
 }
 
 export type SomeAbilities = {
@@ -51,4 +63,9 @@ export type GetHighlights = (
     selectedUnit: PreparedUnit,
     unitsOnBoard: UnitsOnBoard,
     hexUnderCursor: Hex | null,
+    queue: Action[],
 ) => HightlightedHexes;
+
+type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>;
+export type AbilityEffect = AtLeast<PreparedUnit, "id">;
+export type AbilityEffector = (action: Action, unitsOnBoard: UnitsOnBoard) => AbilityEffect[];

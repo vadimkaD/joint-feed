@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import {
     Wrap,
@@ -16,6 +16,7 @@ import * as selectors from "./__redux/InfoPanel.selectors";
 import ForwardIcon from "@material-ui/icons/Forward";
 import { BattleState } from "../Battle/Battle.types";
 import { UnitsState } from "../Player/Units/Units.types";
+import { ACTION_POINTS_ARR } from "../Battle/Battle.constants";
 
 class InfoPanel extends React.Component<InfoPanelProps> {
     render() {
@@ -23,23 +24,18 @@ class InfoPanel extends React.Component<InfoPanelProps> {
 
         if (!unit) return null;
 
-        console.log("abilities", abilities);
-
         return (
             <Wrap>
                 <Panel>
                     <TickBar>
-                        <Tick />
-                        <ForwardIcon />
-                        <Tick />
-                        <ForwardIcon />
-                        <Tick />
-                        <ForwardIcon />
-                        <Tick />
-                        <ForwardIcon />
-                        <Tick />
-                        <ForwardIcon />
-                        <Tick />
+                        {ACTION_POINTS_ARR.map((v, i) => {
+                            return (
+                                <Fragment key={i}>
+                                    <Tick />
+                                    {i < ACTION_POINTS_ARR.length - 1 && <ForwardIcon />}
+                                </Fragment>
+                            );
+                        })}
                     </TickBar>
 
                     <AbilityPanel>

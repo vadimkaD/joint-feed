@@ -1,9 +1,10 @@
 import { Unit } from "../Player/Units/Units.types";
 import { Highlight } from "../Battlefield/Battlefield.constants";
+import { Action } from "../ActionQueue/ActionQueue.types";
 
 export enum Owner {
-    PLAYER,
-    ENEMY,
+    PLAYER = "PLAYER",
+    ENEMY = "ENEMY",
 }
 
 export interface BattleUnit {
@@ -29,18 +30,15 @@ export interface HexesProps {
 export interface BattleProps extends BattleUnitsProps, HexesProps {
     selectUnit(unitId: number | null): void;
     addUnit(unit: BattleUnit): void;
+    playerActions: Action[];
+    playerUnitsOnBoard: UnitsOnBoard;
+    mouseLeaveBoard: () => void;
 }
 
-export interface BattleViewProps extends BattleUnitsProps, HexesProps {}
-
-export interface BattleLineProps extends HexesProps {
-    lineNumber: number;
-    unitsOnBoard: UnitsOnBoard;
-}
-
-export interface LineContainerProps {
-    lineNumber: number;
-    width: number;
+export interface BattleViewProps extends BattleUnitsProps, HexesProps {
+    playerActions: Action[];
+    playerUnitsOnBoard: UnitsOnBoard;
+    mouseLeaveBoard: () => void;
 }
 
 export type BattleState = {
@@ -69,22 +67,6 @@ export interface Coord {
 
 export interface Coords {
     [coordinates: string]: Coord;
-}
-
-export type ActionPoint = number;
-
-export interface RoutePoint {
-    coord: Coord;
-    type: ActionPoint | null;
-}
-
-export enum Direction {
-    LEFT,
-    LEFT_TOP,
-    RIGHT_TOP,
-    RIGHT,
-    RIGHT_BOTTOM,
-    LEFT_BOTTOM,
 }
 
 export interface Cube {

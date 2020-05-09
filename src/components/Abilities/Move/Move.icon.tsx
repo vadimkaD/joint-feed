@@ -7,17 +7,12 @@ import { selectAbility } from "../__redux/Abilities.actions";
 import { ABILITIES } from "../Abilities.constants";
 import { AbilitiesState } from "../Abilities.types";
 import { selectedAbility } from "../__redux/Abilities.selectors";
+import { ICON_PATH } from "./Move.constants";
 
 const MoveIcon: React.FunctionComponent<MoveIconProps> = ({ selectAbility, selectedAbility }) => {
     const onClick = (e: React.SyntheticEvent) => selectAbility(ABILITIES.MOVE);
 
-    return (
-        <AbilityIcon
-            icon="/images/abilities/move/move.png"
-            isSelected={selectedAbility === ABILITIES.MOVE}
-            onClick={onClick}
-        />
-    );
+    return <AbilityIcon icon={ICON_PATH} isSelected={selectedAbility === ABILITIES.MOVE} onClick={onClick} />;
 };
 
 const mapStateToProps = (state: AbilitiesState) => ({

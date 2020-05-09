@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { IconPanel, UnitIcon } from "./UnitIconPanel.styled";
 import { UnitIconPanelProps } from "./UnitIconPanel.types";
 import { UnitsState } from "../Player/Units/Units.types";
-import { BattleState, PreparedUnit } from "../Battle/Battle.types";
+import { BattleState } from "../Battle/Battle.types";
 import { unitsOnBoard } from "../Battle/__redux/Battle.selectors";
 import { Dispatch } from "redux";
 import { selectUnit } from "../InfoPanel/__redux/InfoPanel.actions";
