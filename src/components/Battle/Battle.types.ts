@@ -32,11 +32,13 @@ export interface BattleProps extends BattleUnitsProps, HexesProps {
     addUnit(unit: BattleUnit): void;
     playerActions: Action[];
     playerUnitsOnBoard: UnitsOnBoard;
+    mouseLeaveBoard: () => void;
 }
 
 export interface BattleViewProps extends BattleUnitsProps, HexesProps {
     playerActions: Action[];
     playerUnitsOnBoard: UnitsOnBoard;
+    mouseLeaveBoard: () => void;
 }
 
 export type BattleState = {

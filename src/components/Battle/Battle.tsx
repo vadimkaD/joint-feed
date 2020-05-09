@@ -7,7 +7,7 @@ import { selectUnit } from "../InfoPanel/__redux/InfoPanel.actions";
 import { InfoPanelState } from "../InfoPanel/InfoPanel.types";
 import { hexes, highlightedHexes, playerUnitsOnBoard, unitsOnBoard } from "./__redux/Battle.selectors";
 import { UnitsState } from "../Player/Units/Units.types";
-import { addUnit, clickHex, mouseEnterHex } from "./__redux/Battle.actions";
+import { addUnit, clickHex, mouseEnterHex, mouseLeaveBoard } from "./__redux/Battle.actions";
 import { ACTION_POINTS } from "./Battle.constants";
 import { AbilitiesState } from "../Abilities/Abilities.types";
 import { preparedUnits } from "./__redux/Battle.external-selectors";
@@ -25,6 +25,7 @@ function Battle(props: BattleProps) {
         addUnit,
         playerActions,
         playerUnitsOnBoard,
+        mouseLeaveBoard,
     } = props;
 
     useEffect(() => {
@@ -55,6 +56,7 @@ function Battle(props: BattleProps) {
             onHexClick={onHexClick}
             playerActions={playerActions}
             playerUnitsOnBoard={playerUnitsOnBoard}
+            mouseLeaveBoard={mouseLeaveBoard}
         />
     );
 }
@@ -74,6 +76,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         addUnit: (unit: BattleUnit) => dispatch(addUnit(unit)),
         onHexClick: (hex: Hex) => dispatch(clickHex(hex)),
         onMouseEnterHex: (hex: Hex) => dispatch(mouseEnterHex(hex)),
+        mouseLeaveBoard: () => dispatch(mouseLeaveBoard()),
     };
 };
 

@@ -14,6 +14,7 @@ function Battlefield(props: BattlefieldProps) {
         unitsOnBoard,
         playerActions,
         playerUnitsOnBoard,
+        mouseLeaveBoard,
     } = props;
 
     return (
@@ -23,6 +24,7 @@ function Battlefield(props: BattlefieldProps) {
             width={BATTLEFIELD_WIDTH}
             height={BATTLEFIELD_HEIGHT}
             xmlns="http://www.w3.org/2000/svg"
+            onMouseLeave={mouseLeaveBoard}
         >
             {HEIGHT_ARRAY.map((i, j) => (
                 <BattlefieldLine
