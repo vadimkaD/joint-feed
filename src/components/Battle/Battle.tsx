@@ -10,9 +10,10 @@ import { UnitsState } from "../Player/Units/Units.types";
 import { addUnit, clickHex, mouseEnterHex, mouseLeaveBoard } from "./__redux/Battle.actions";
 import { ACTION_POINTS } from "./Battle.constants";
 import { AbilitiesState } from "../Abilities/Abilities.types";
-import { preparedUnits } from "./__redux/Battle.external-selectors";
+import { isAnimation, preparedUnits } from "./__redux/Battle.external-selectors";
 import { playerActions } from "../ActionQueue/__redux/ActionQueue.selectors";
 import { ActionQueueState } from "../ActionQueue/ActionQueue.types";
+import { queue } from "../ActionQueue/__redux/ActionQueue.external-selectors";
 
 function Battle(props: BattleProps) {
     const {
@@ -26,6 +27,8 @@ function Battle(props: BattleProps) {
         playerActions,
         playerUnitsOnBoard,
         mouseLeaveBoard,
+        queue,
+        isAnimation,
     } = props;
 
     useEffect(() => {
@@ -48,6 +51,7 @@ function Battle(props: BattleProps) {
 
     return (
         <BattleView
+            isAnimation={isAnimation}
             onMouseEnterHex={onMouseEnterHex}
             hexes={hexes}
             unitsOnBoard={unitsOnBoard}
@@ -57,6 +61,7 @@ function Battle(props: BattleProps) {
             playerActions={playerActions}
             playerUnitsOnBoard={playerUnitsOnBoard}
             mouseLeaveBoard={mouseLeaveBoard}
+            queue={queue}
         />
     );
 }
@@ -68,6 +73,8 @@ const mapStateToProps = (state: UnitsState & BattleState & InfoPanelState & Abil
     highlightedHexes: highlightedHexes(state),
     playerActions: playerActions(state),
     playerUnitsOnBoard: playerUnitsOnBoard(state),
+    queue: queue(state),
+    isAnimation: isAnimation(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {

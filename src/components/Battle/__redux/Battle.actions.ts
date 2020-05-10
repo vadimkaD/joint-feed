@@ -9,3 +9,8 @@ export const clickHex = createAction(`${namespace} click hex`, resolve => (hex: 
 export const mouseEnterHex = createAction(`${namespace} mouse enter hex`, resolve => (hex: Hex) => resolve(hex));
 export const mouseLeaveBoard = createAction(`${namespace} mouse leave board`);
 export const updateUnit = createAction(`${namespace} update unit`, resolve => (unit: BattleUnit) => resolve(unit));
+export const playStepClick = createAction(`${namespace} click play step`);
+export const setAnimation = createAction(`${namespace} set animation`, resolve => (isAnimation: boolean) =>
+    resolve(isAnimation),
+);
+export const nextStep = createAction(`${namespace} next step`);

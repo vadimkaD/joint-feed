@@ -10,7 +10,7 @@ import { selectedAbility } from "../../Abilities/__redux/Abilities.selectors";
 import { ABILITIES } from "../../Abilities/Abilities.constants";
 import { AbilitiesState } from "../../Abilities/Abilities.types";
 import { abilitiesDictionary } from "../../Abilities";
-import { preparedUnits } from "./Battle.external-selectors";
+import { isAnimation, preparedUnits } from "./Battle.external-selectors";
 import { Action, ActionQueueState } from "../../ActionQueue/ActionQueue.types";
 import { queue } from "../../ActionQueue/__redux/ActionQueue.external-selectors";
 
@@ -34,6 +34,7 @@ export const highlightedHexes = createSelector<
     UnitsOnBoard,
     ABILITIES | null,
     Action[],
+    boolean,
     HightlightedHexes
 >(
     hexes,
@@ -42,12 +43,15 @@ export const highlightedHexes = createSelector<
     unitsOnBoard,
     selectedAbility,
     queue,
-    (hexes, selectedUnit, hexUnderCursor, unitsOnBoard, selectedAbility, queue) => {
+    isAnimation,
+    (hexes, selectedUnit, hexUnderCursor, unitsOnBoard, selectedAbility, queue, isAnimation) => {
         const highlights: HightlightedHexes = {};
 
         if (hexUnderCursor) {
             highlights[getStringFromCoord(hexUnderCursor.coord)] = Highlight.HOVER;
         }
+
+        if (isAnimation) return highlights;
 
         if (selectedUnit) {
             const key = getStringFromCoord(selectedUnit.coord);

@@ -21,12 +21,19 @@ export enum AbilityType {
 
 export interface AbilityActionOutlineProps {
     action: Action;
-    from?: Coord;
     isLastInChain?: boolean;
     playerUnitsOnBoard: UnitsOnBoard;
 }
 
 export type AbilityActionOutline = React.FunctionComponent<AbilityActionOutlineProps>;
+
+export interface AbilityAnimatorProps {
+    unitsOnBoard: UnitsOnBoard;
+    hexes: Hexes;
+    action: Action;
+}
+
+export type AbilityAnimator = React.FunctionComponent<AbilityAnimatorProps>;
 
 export interface Ability {
     id: string;
@@ -40,6 +47,7 @@ export interface Ability {
     onHexClick: ActionType<any>;
     actionOutline: AbilityActionOutline;
     effector: AbilityEffector;
+    abilityAnimator: AbilityAnimator;
 }
 
 export type SomeAbilities = {
