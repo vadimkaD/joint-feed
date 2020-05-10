@@ -4,6 +4,7 @@ import BattlefieldLine from "./BattlefieldLine";
 import { BattlefieldProps } from "./Battlefield.types";
 import Units from "./Units/Units";
 import ActionOutlines from "./ActionOutlines/ActionOutlines";
+import StepAnimations from "./StepAnimations/StepAnimations";
 
 function Battlefield(props: BattlefieldProps) {
     const {
@@ -15,6 +16,7 @@ function Battlefield(props: BattlefieldProps) {
         playerActions,
         playerUnitsOnBoard,
         mouseLeaveBoard,
+        isAnimation,
     } = props;
 
     return (
@@ -37,8 +39,11 @@ function Battlefield(props: BattlefieldProps) {
                     lineNumber={j}
                 />
             ))}
-            <Units unitsOnBoard={unitsOnBoard} />
-            <ActionOutlines playerActions={playerActions} playerUnitsOnBoard={playerUnitsOnBoard} />
+            {isAnimation ? null : <Units unitsOnBoard={unitsOnBoard} />}
+            {isAnimation ? null : (
+                <ActionOutlines playerActions={playerActions} playerUnitsOnBoard={playerUnitsOnBoard} />
+            )}
+            <StepAnimations />
         </svg>
     );
 }

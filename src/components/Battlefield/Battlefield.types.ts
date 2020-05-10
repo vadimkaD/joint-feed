@@ -4,8 +4,10 @@ import { Action } from "../ActionQueue/ActionQueue.types";
 
 export interface BattlefieldProps extends BattleUnitsProps, HexesProps {
     playerActions: Action[];
+    queue: Action[];
     playerUnitsOnBoard: UnitsOnBoard;
     mouseLeaveBoard: () => void;
+    isAnimation: boolean;
 }
 
 export interface BattlefieldLineProps extends HexesProps {

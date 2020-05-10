@@ -4,6 +4,7 @@ import { BattleState, BattleUnit, PreparedUnit } from "../Battle.types";
 import { units as playerUnits } from "../../Player/Units/__redux/Units.selectors";
 
 export const units = (state: BattleState) => state.Battle.battleUnits as BattleUnit[];
+export const isAnimation = (state: BattleState) => state.Battle.isAnimation as boolean;
 export const preparedUnits = createSelector<UnitsState & BattleState, Unit[], BattleUnit[], PreparedUnit[]>(
     playerUnits,
     units,
