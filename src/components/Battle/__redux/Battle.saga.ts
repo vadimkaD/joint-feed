@@ -51,7 +51,6 @@ function* playStepSaga(action: ActionType<typeof actions.playStepClick>) {
     console.log("stepActionArray", stepActionArray);
 
     for (const step of stepActionArray) {
-        //TODO: add effects logic
         yield delay(TICK_TIMEOUT);
         const tick: Action[] = [];
         for (const action of step) {
