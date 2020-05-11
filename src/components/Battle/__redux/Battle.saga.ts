@@ -59,7 +59,7 @@ function* playStepSaga(action: ActionType<typeof actions.playStepClick>) {
         }
         let tickAction;
 
-        //TODO: приоритет применения эффектов на основании порядка queue
+        //TODO: приоритет применения эффектов на основании EffectType
         while ((tickAction = tick.pop())) {
             console.log("tickAction:", tickAction);
             const ability = abilitiesDictionary[tickAction.ability];
@@ -67,9 +67,9 @@ function* playStepSaga(action: ActionType<typeof actions.playStepClick>) {
             console.log("effects:", effects);
             const units = Object.values(selectedUnitsOnBoard);
             for (const unit of units) {
-                const effectForUnit = effects.find(effect => effect.id === unit.id);
+                const effectForUnit = effects.find(effect => effect.effect.id === unit.id);
                 if (effectForUnit) {
-                    yield put(actions.updateUnit(effectForUnit as BattleUnit));
+                    yield put(actions.updateUnit(effectForUnit.effect as BattleUnit));
                 }
             }
         }

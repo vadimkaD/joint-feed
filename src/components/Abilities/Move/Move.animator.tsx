@@ -1,24 +1,9 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { AbilityAnimator } from "../Abilities.types";
-import { UnitImage } from "../../Battlefield/Units/Units.styled";
 import { Coord, PreparedUnit } from "../../Battle/Battle.types";
 import { getCenter } from "../../Battlefield/Battlefield.utils";
 import { UNIT_SIZE } from "../../Battlefield/Units/Units.constants";
-import { TICK_TIMEOUT } from "../../Battle/Battle.constants";
-
-interface UnitImageWithTransitionProps {
-    translateX: number;
-    translateY: number;
-}
-
-const UnitImageWithTransition = styled(UnitImage)<UnitImageWithTransitionProps>`
-    transition-duration: ${props => TICK_TIMEOUT / 1000}s;
-    border: 1px solid red;
-    ${props => `
-        transform: matrix(1, 0, 0, 1, ${props.translateX}, ${props.translateY});
-    `}
-`;
+import { UnitImageWithTransition } from "./Move.styled";
 
 const MoveAnimator: AbilityAnimator = ({ hexes, unitsOnBoard, action }) => {
     const [translateX, setTranslateX] = useState(0);

@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
 import { StepAnimationsProps } from "./StepAnimations.types";
 import { UnitsState } from "../../Player/Units/Units.types";

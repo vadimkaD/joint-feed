@@ -25,4 +25,5 @@ export enum Highlight {
     HOVER = "HOVER",
     MOVE = "MOVE",
     SELECTED_UNIT = "SELECTED_UNIT",
+    MAGIC_ARROW = "MAGIC_ARROW",
 }

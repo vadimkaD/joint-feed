@@ -1,7 +1,7 @@
 import React from "react";
 import { ActionType } from "deox";
 import { ABILITIES } from "./Abilities.constants";
-import { Coord, Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
+import { Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
 import { Action } from "../ActionQueue/ActionQueue.types";
 
 export enum Target {
@@ -10,8 +10,9 @@ export enum Target {
 }
 
 export enum EffectType {
-    ENEMY = "ENEMY",
-    FRIENDLY = "FRIENDLY",
+    DEFENCE_AND_HEAL = "DEFENCE_AND_HEAL",
+    TRANSPORT = "TRANSPORT",
+    DAMAGE_AND_FIELD_EFFECT = "DAMAGE_AND_FIELD_EFFECT",
 }
 
 export enum AbilityType {
@@ -75,5 +76,13 @@ export type GetHighlights = (
 ) => HightlightedHexes;
 
 type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>;
-export type AbilityEffect = AtLeast<PreparedUnit, "id">;
+export interface AbilityEffect {
+    type: EffectType;
+    effect: AtLeast<PreparedUnit, "id">;
+}
 export type AbilityEffector = (action: Action, unitsOnBoard: UnitsOnBoard) => AbilityEffect[];
+
+export interface AbilityIconProps {
+    selectAbility: (ability: ABILITIES | null) => void;
+    selectedAbility: ABILITIES | null;
+}

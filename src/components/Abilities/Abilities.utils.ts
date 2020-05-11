@@ -14,13 +14,13 @@ export const getEffectsForSelectedUnit = (
             return ability.effector(action, unitsOnBoard);
         })
         .flat()
-        .filter(effect => effect.id === selectedUnit.id);
+        .filter(effect => effect.effect.id === selectedUnit.id);
 };
 
 export const getEffectedUnit = (effects: AbilityEffect[], unit: PreparedUnit): PreparedUnit => {
     return effects.reduce(
         (total, effect) => {
-            Object.assign(total, effect);
+            Object.assign(total, effect.effect);
             return total;
         },
         { ...unit },
