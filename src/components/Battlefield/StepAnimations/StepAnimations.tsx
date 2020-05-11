@@ -23,8 +23,7 @@ const StepAnimations: React.FunctionComponent<StepAnimationsProps> = ({
     return (
         <>
             {Object.keys(actionsByUnits).map((unitId, index) => {
-                const id = +unitId;
-                const actions = actionsByUnits[id] as Action[];
+                const actions = actionsByUnits[unitId] as Action[];
                 const action = actions[0];
                 if (action) {
                     const ability = abilitiesDictionary[action.ability];

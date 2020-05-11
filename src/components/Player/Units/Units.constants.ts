@@ -1,20 +1,18 @@
-import { Unit } from "./Units.types";
 import { ABILITIES } from "../../Abilities/Abilities.constants";
+import { BaseUnit } from "../../Unit/Unit.types";
 
-export const units: Unit[] = [
+export const units: BaseUnit[] = [
     {
-        id: 1,
+        id: "Elf",
         maxHp: 25,
-        currentHp: 10,
         damage: 7,
         abilities: [ABILITIES.MOVE],
         name: "Лучник",
         image: "/images/units/sprites/Elf_Vampire.png",
     },
     {
-        id: 2,
+        id: "Dwarf",
         maxHp: 25,
-        currentHp: 25,
         damage: 7,
         abilities: [ABILITIES.MOVE],
         name: "Воин с топором",

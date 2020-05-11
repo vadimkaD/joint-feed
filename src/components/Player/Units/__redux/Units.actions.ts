@@ -1,6 +1,6 @@
 import { createAction } from "deox";
-import { Unit } from "../Units.types";
+import { BaseUnit } from "../../../Unit/Unit.types";
 
 const namespace = "[Units]";
 
-export const setUnits = createAction(`${namespace} set units`, resolve => (units: Unit[]) => resolve(units));
+export const setUnits = createAction(`${namespace} set units`, resolve => (units: BaseUnit[]) => resolve(units));

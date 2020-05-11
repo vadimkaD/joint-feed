@@ -33,7 +33,8 @@ function Battle(props: BattleProps) {
 
     useEffect(() => {
         addUnit({
-            id: 1,
+            id: "Elf",
+            currentHp: 25,
             coord: { x: 0, y: 1 },
             owner: Owner.PLAYER,
             currentActionPoints: ACTION_POINTS,
@@ -41,7 +42,8 @@ function Battle(props: BattleProps) {
         });
 
         addUnit({
-            id: 2,
+            id: "Dwarf",
+            currentHp: 25,
             coord: { x: 12, y: 3 },
             owner: Owner.PLAYER,
             currentActionPoints: ACTION_POINTS,
@@ -79,7 +81,7 @@ const mapStateToProps = (state: UnitsState & BattleState & InfoPanelState & Abil
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        selectUnit: (unitId: number | null) => dispatch(selectUnit(unitId)),
+        selectUnit: (unitId: string | null) => dispatch(selectUnit(unitId)),
         addUnit: (unit: BattleUnit) => dispatch(addUnit(unit)),
         onHexClick: (hex: Hex) => dispatch(clickHex(hex)),
         onMouseEnterHex: (hex: Hex) => dispatch(mouseEnterHex(hex)),
