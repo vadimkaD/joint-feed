@@ -1,4 +1,4 @@
-import { Unit } from "../Player/Units/Units.types";
+import { BaseUnit } from "../Unit/Unit.types";
 import { Highlight } from "../Battlefield/Battlefield.constants";
 import { Action } from "../ActionQueue/ActionQueue.types";
 
@@ -9,8 +9,9 @@ export enum Owner {
 
 export interface BattleUnit {
     coord: Coord;
-    id: number;
+    id: string;
     owner: Owner;
+    currentHp: number;
     currentActionPoints: number;
     maxActionPoints: number;
 }
@@ -28,7 +29,7 @@ export interface HexesProps {
 }
 
 export interface BattleProps extends BattleUnitsProps, HexesProps {
-    selectUnit(unitId: number | null): void;
+    selectUnit(unitId: string | null): void;
     addUnit(unit: BattleUnit): void;
     playerActions: Action[];
     queue: Action[];
@@ -54,7 +55,7 @@ export type BattleState = {
     };
 };
 
-export interface PreparedUnit extends BattleUnit, Unit {}
+export interface PreparedUnit extends BattleUnit, BaseUnit {}
 
 export interface Hex {
     coord: Coord;

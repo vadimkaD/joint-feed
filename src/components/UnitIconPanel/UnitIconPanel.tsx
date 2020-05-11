@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 const UnitIconPanel: FunctionComponent<UnitIconPanelProps> = ({ unitsOnBoard, selectUnit }) => {
     const keys = Object.keys(unitsOnBoard);
 
-    const onClick = (unitId: number | null) => (e: React.SyntheticEvent) => selectUnit(unitId);
+    const onClick = (unitId: string | null) => (e: React.SyntheticEvent) => selectUnit(unitId);
 
     return (
         <IconPanel>
@@ -28,7 +28,7 @@ const mapStateToProps = (state: UnitsState & BattleState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        selectUnit: (unitId: number | null) => dispatch(selectUnit(unitId)),
+        selectUnit: (unitId: string | null) => dispatch(selectUnit(unitId)),
     };
 };
 

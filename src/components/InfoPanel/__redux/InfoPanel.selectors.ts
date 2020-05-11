@@ -7,10 +7,10 @@ import { abilitiesDictionary as abilitiesConstants } from "../../Abilities";
 import { UnitsState } from "../../Player/Units/Units.types";
 import { preparedUnits } from "../../Battle/__redux/Battle.external-selectors";
 
-export const unitId = (state: InfoPanelState) => state.InfoPanel.unitId as number | null;
+export const unitId = (state: InfoPanelState) => state.InfoPanel.unitId as string | null;
 export const unit = createSelector<
     InfoPanelState & BattleState & UnitsState,
-    number | null,
+    string | null,
     PreparedUnit[],
     PreparedUnit | null
 >(unitId, preparedUnits, (unitId, units) => {

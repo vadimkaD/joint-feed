@@ -3,7 +3,7 @@ import { Ability } from "../Abilities/Abilities.types";
 
 export type InfoPanelState = {
     InfoPanel: {
-        unitId: number | null;
+        unitId: string | null;
     };
 };
 

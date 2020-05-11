@@ -4,7 +4,7 @@ import { ABILITIES } from "../Abilities/Abilities.constants";
 export type ActionTarget = Coord | PreparedUnit;
 
 export interface Action {
-    unitId: number;
+    unitId: string;
     target: ActionTarget;
     ability: ABILITIES;
 }

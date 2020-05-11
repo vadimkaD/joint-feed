@@ -9,5 +9,5 @@ export interface StepAnimationsProps {
 }
 
 export interface ActionsByUnits {
-    [unitId: number]: Action[];
+    [unitId: string]: Action[];
 }
