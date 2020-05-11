@@ -6,12 +6,12 @@ import { selectAbility } from "../__redux/Abilities.actions";
 import { ABILITIES } from "../Abilities.constants";
 import { AbilitiesState, AbilityIconProps } from "../Abilities.types";
 import { selectedAbility } from "../__redux/Abilities.selectors";
-import { ICON_PATH } from "./Move.constants";
+import { ICON_PATH } from "./MagicArrow.constants";
 
-const MoveIcon: React.FunctionComponent<AbilityIconProps> = ({ selectAbility, selectedAbility }) => {
-    const onClick = (e: React.SyntheticEvent) => selectAbility(ABILITIES.MOVE);
+const MagicArrowIcon: React.FunctionComponent<AbilityIconProps> = ({ selectAbility, selectedAbility }) => {
+    const onClick = (e: React.SyntheticEvent) => selectAbility(ABILITIES.MAGIC_ARROW);
 
-    return <AbilityIcon icon={ICON_PATH} isSelected={selectedAbility === ABILITIES.MOVE} onClick={onClick} />;
+    return <AbilityIcon icon={ICON_PATH} isSelected={selectedAbility === ABILITIES.MAGIC_ARROW} onClick={onClick} />;
 };
 
 const mapStateToProps = (state: AbilitiesState) => ({
@@ -24,4 +24,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MoveIcon);
+export default connect(mapStateToProps, mapDispatchToProps)(MagicArrowIcon);

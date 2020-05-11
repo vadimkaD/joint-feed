@@ -1,6 +1,12 @@
 import styled from "styled-components";
-import { Polygon } from "../../Battlefield/Battlefield.styled";
+import { UnitImage } from "../../Battlefield/Units/Units.styled";
+import { TICK_TIMEOUT } from "../../Battle/Battle.constants";
+import { UnitImageWithTransitionProps } from "./Move.types";
 
-export const OutlinePolygon = styled(Polygon)`
-    fill: rgba(255, 255, 255, 0.3);
+export const UnitImageWithTransition = styled(UnitImage)<UnitImageWithTransitionProps>`
+    transition-duration: ${props => TICK_TIMEOUT / 1000}s;
+    border: 1px solid red;
+    ${props => `
+        transform: matrix(1, 0, 0, 1, ${props.translateX}, ${props.translateY});
+    `}
 `;

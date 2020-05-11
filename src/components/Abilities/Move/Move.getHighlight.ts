@@ -1,4 +1,4 @@
-import { HightlightedHexes, PreparedUnit } from "../../Battle/Battle.types";
+import { HightlightedHexes } from "../../Battle/Battle.types";
 import { GetHighlights } from "../Abilities.types";
 import {
     coordArrToObj,

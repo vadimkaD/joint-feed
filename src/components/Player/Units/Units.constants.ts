@@ -6,7 +6,7 @@ export const units: BaseUnit[] = [
         id: "Elf",
         maxHp: 25,
         damage: 7,
-        abilities: [ABILITIES.MOVE],
+        abilities: [ABILITIES.MOVE, ABILITIES.MAGIC_ARROW],
         name: "Лучник",
         image: "/images/units/sprites/Elf_Vampire.png",
     },

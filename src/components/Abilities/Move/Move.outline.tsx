@@ -2,11 +2,11 @@ import React from "react";
 import { AbilityActionOutline } from "../Abilities.types";
 import { getCenter, getHexCoords, getPointsFromCoords } from "../../Battlefield/Battlefield.utils";
 import { Coord, PreparedUnit } from "../../Battle/Battle.types";
-import { OutlinePolygon } from "./Move.styled";
 import { HEX_SIZE } from "../../Battlefield/Battlefield.constants";
 import { Move } from "./Move.highlight";
 import { UNIT_SIZE } from "../../Battlefield/Units/Units.constants";
 import { UnitImage } from "../../Battlefield/Units/Units.styled";
+import { OutlinePolygon } from "../Abilities.styled";
 
 const MoveOutline: AbilityActionOutline = ({ action, playerUnitsOnBoard, isLastInChain }) => {
     const target = action.target as Coord;

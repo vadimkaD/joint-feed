@@ -1,4 +1,4 @@
-import { AbilityEffect, AbilityEffector } from "../Abilities.types";
+import { AbilityEffect, AbilityEffector, EffectType } from "../Abilities.types";
 import { Coord, PreparedUnit } from "../../Battle/Battle.types";
 
 export const moveEffector: AbilityEffector = (action, unitsOnBoard) => {
@@ -8,7 +8,7 @@ export const moveEffector: AbilityEffector = (action, unitsOnBoard) => {
 
     if (unit) {
         const coord = action.target as Coord;
-        effects.push({ id: unit.id, coord });
+        effects.push({ type: EffectType.TRANSPORT, effect: { id: unit.id, coord } });
     }
 
     return effects;
