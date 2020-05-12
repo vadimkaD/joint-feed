@@ -1,5 +1,8 @@
 import { createAction } from "deox";
+import { EffectRecord } from "../Effects.types";
 
 const namespace = "[Effects]";
 
-export const action = createAction(`${namespace} action`, resolve => (null) => resolve(null));
+export const addEffect = createAction(`${namespace} add effect`, resolve => (effectRecord: EffectRecord) =>
+    resolve(effectRecord),
+);

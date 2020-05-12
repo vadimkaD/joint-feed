@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { UnitImage } from "../../Battlefield/Units/Units.styled";
 import { TICK_TIMEOUT } from "../../Battle/Battle.constants";
-import { UnitImageWithTransitionProps } from "./Move.types";
+import { TransitionProps } from "../Abilities.types";
 
-export const UnitImageWithTransition = styled(UnitImage)<UnitImageWithTransitionProps>`
+export const UnitImageWithTransition = styled(UnitImage)<TransitionProps>`
     transition-duration: ${props => TICK_TIMEOUT / 1000}s;
     border: 1px solid red;
     ${props => `

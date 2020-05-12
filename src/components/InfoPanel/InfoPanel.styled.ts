@@ -64,6 +64,9 @@ export const Panel = styled.div`
 
 export const Tick = styled.div`
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 2px solid black;
     height: 48px;
     width: 48px;

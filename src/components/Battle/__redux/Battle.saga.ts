@@ -1,19 +1,19 @@
-import { all, put, select, takeEvery, delay } from "redux-saga/effects";
+import { all, put, select, take, takeEvery, delay } from "redux-saga/effects";
 import { ActionType, getType } from "deox";
 import * as actions from "./Battle.actions";
+import { actionComplete, nextTick, setAnimation, setTick } from "./Battle.actions";
 import { unitsOnBoard } from "./Battle.selectors";
 import { selectUnit } from "../../InfoPanel/__redux/InfoPanel.actions";
 import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
-import { getStringFromCoord } from "../Battle.utils";
+import { getStringFromCoord, sortActionsByAbilityType } from "../Battle.utils";
 import { selectedAbility } from "../../Abilities/__redux/Abilities.selectors";
 import { abilitiesDictionary } from "../../Abilities";
 import { ABILITIES } from "../../Abilities/Abilities.constants";
 import { actionsByUnits } from "../../Battlefield/StepAnimations/__redux/StepAnimations.selectors";
 import { ActionsByUnits } from "../../Battlefield/StepAnimations/StepAnimations.types";
-import { removeAction } from "../../ActionQueue/__redux/ActionQueue.actions";
-import { Action } from "../../ActionQueue/ActionQueue.types";
+import { getTickActions } from "../../ActionQueue/ActionQueue.utils";
 import { ACTION_POINTS, TICK_TIMEOUT } from "../Battle.constants";
-import { BattleUnit, UnitsOnBoard } from "../Battle.types";
+import { tick } from "./Battle.external-selectors";
 
 function* hexClickSaga(action: ActionType<typeof actions.clickHex>) {
     const { payload: hex } = action;
@@ -34,48 +34,27 @@ function* hexClickSaga(action: ActionType<typeof actions.clickHex>) {
 function* playStepSaga(action: ActionType<typeof actions.playStepClick>) {
     console.log("start step");
     const selectedActionsByUnits: ActionsByUnits = yield select(actionsByUnits);
-    console.log("selectedActionsByUnits", selectedActionsByUnits);
-    const allActions = Object.values(selectedActionsByUnits);
-    const stepActionArray: Action[][] = [];
-    for (const actions of allActions) {
-        for (let i = 0; i < ACTION_POINTS; i++) {
-            const action = actions[i];
-            if (action) {
-                stepActionArray[i] ? stepActionArray[i].push(action) : (stepActionArray[i] = [action]);
-            }
+    const tickActionArray = getTickActions(selectedActionsByUnits);
+
+    const startTick = yield select(tick);
+
+    for (const tick of tickActionArray) {
+        const sorted = sortActionsByAbilityType(tick);
+        for (const action of sorted) {
+            const ability = abilitiesDictionary[action.ability];
+            yield put(ability.handleEffect(action));
+            yield take(actionComplete);
         }
+        yield put(nextTick());
     }
 
-    const selectedUnitsOnBoard: UnitsOnBoard = yield select(unitsOnBoard);
-    yield put(actions.setAnimation(true));
-    console.log("stepActionArray", stepActionArray);
+    yield put(setTick(startTick));
 
-    for (const step of stepActionArray) {
+    yield put(setAnimation(true));
+    for (let i = 0; i < ACTION_POINTS; i++) {
         yield delay(TICK_TIMEOUT);
-        const tick: Action[] = [];
-        for (const action of step) {
-            tick.push(action);
-            yield put(removeAction(action));
-        }
-        let tickAction;
-
-        //TODO: приоритет применения эффектов на основании EffectType
-        while ((tickAction = tick.pop())) {
-            console.log("tickAction:", tickAction);
-            const ability = abilitiesDictionary[tickAction.ability];
-            const effects = ability.effector(tickAction, selectedUnitsOnBoard);
-            console.log("effects:", effects);
-            const units = Object.values(selectedUnitsOnBoard);
-            for (const unit of units) {
-                const effectForUnit = effects.find(effect => effect.effect.id === unit.id);
-                if (effectForUnit) {
-                    yield put(actions.updateUnit(effectForUnit.effect as BattleUnit));
-                }
-            }
-        }
+        yield put(nextTick());
     }
-    yield put(actions.setAnimation(false));
-    yield put(actions.nextStep());
 }
 
 export default function* googleSourceSaga() {

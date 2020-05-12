@@ -52,6 +52,8 @@ export type BattleState = {
         hexes: Hexes;
         hexUnderCursor: Hex;
         isAnimation: boolean;
+        tickNumber: number;
+        stepNumber: number;
     };
 };
 
