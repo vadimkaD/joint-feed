@@ -1,6 +1,8 @@
 import { Coord, Coords, Cube, Hex, Hexes, HightlightedHexes } from "./Battle.types";
-import { Highlight } from "../Battlefield/Battlefield.constants";
-import { HEIGHT, WIDTH } from "../Battlefield/Battlefield.constants";
+import { HEIGHT, Highlight, WIDTH } from "../Battlefield/Battlefield.constants";
+import { Action } from "../ActionQueue/ActionQueue.types";
+import { abilitiesDictionary } from "../Abilities";
+import { EffectType } from "../Effects/Effects.types";
 
 export function getCoordsFromString(coord: string): Coord {
     const [x, y] = coord.split(":").map(v => +v);
@@ -181,4 +183,35 @@ export function getHighlightsForRoute(route: Coord[]): HightlightedHexes {
         highlights[getStringFromCoord(coord)] = Highlight.MOVE;
     });
     return highlights;
+}
+
+export function sortActionsByAbilityType(actions: Action[]): Action[] {
+    const DEFENCE_AND_HEAL: Action[] = actions.filter(action => {
+        const ability = abilitiesDictionary[action.ability];
+        return ability.effectType === EffectType.DEFENCE_AND_HEAL;
+    });
+
+    const TRANSPORT: Action[] = actions.filter(action => {
+        const ability = abilitiesDictionary[action.ability];
+        return ability.effectType === EffectType.TRANSPORT;
+    });
+
+    const DAMAGE_AND_FIELD_EFFECT: Action[] = actions.filter(action => {
+        const ability = abilitiesDictionary[action.ability];
+        return ability.effectType === EffectType.DAMAGE_AND_FIELD_EFFECT;
+    });
+
+    return [...DEFENCE_AND_HEAL, ...TRANSPORT, ...DAMAGE_AND_FIELD_EFFECT];
+}
+
+export function isInRange(coord: Coord, test: Coord, range: number): boolean {
+    const allNear = getAreaCoords(range, coord);
+    const obj = coordArrToObj(allNear);
+    return !!obj[getStringFromCoord(test)];
+}
+
+export function offsetDistance(from: Coord, to: Coord): number {
+    const ac = evenrToCube(from);
+    const bc = evenrToCube(to);
+    return cubeDistance(ac, bc);
 }

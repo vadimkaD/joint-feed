@@ -9,21 +9,27 @@ import { UnitImage } from "../../Battlefield/Units/Units.styled";
 import { OutlinePolygon } from "../Abilities.styled";
 
 const MoveOutline: AbilityActionOutline = ({ action, playerUnitsOnBoard, isLastInChain }) => {
-    const target = action.target as Coord;
-    const center = getCenter(target.x, target.y);
-    const points = getPointsFromCoords(getHexCoords(center, HEX_SIZE));
-    const unit = Object.values(playerUnitsOnBoard).find(unit => unit.id === action.unitId) as PreparedUnit | undefined;
-    let renderUnit;
-    if (unit) {
-        renderUnit = <UnitImage xlinkHref={unit.image} x={center.x - UNIT_SIZE / 2} y={center.y - UNIT_SIZE / 2} />;
+    const target = action.target[0] as Coord | undefined;
+    if (target) {
+        const center = getCenter(target.x, target.y);
+        const points = getPointsFromCoords(getHexCoords(center, HEX_SIZE));
+        const unit = Object.values(playerUnitsOnBoard).find(unit => unit.id === action.unitId) as
+            | PreparedUnit
+            | undefined;
+        let renderUnit;
+        if (unit) {
+            renderUnit = <UnitImage xlinkHref={unit.image} x={center.x - UNIT_SIZE / 2} y={center.y - UNIT_SIZE / 2} />;
+        }
+        return (
+            <>
+                <Move center={center} />
+                {isLastInChain && renderUnit}
+                <OutlinePolygon points={points} />
+            </>
+        );
     }
-    return (
-        <>
-            <Move center={center} />
-            {isLastInChain && renderUnit}
-            <OutlinePolygon points={points} />
-        </>
-    );
+
+    return null;
 };
 
 export default MoveOutline;

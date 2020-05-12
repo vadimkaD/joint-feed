@@ -7,16 +7,20 @@ import { OutlinePolygon } from "../Abilities.styled";
 import { MagicArrow } from "./MagicArrow.highlight";
 
 const MagicArrowOutline: AbilityActionOutline = ({ action, playerUnitsOnBoard, isLastInChain }) => {
-    const target = action.target as Coord;
-    const center = getCenter(target.x, target.y);
-    const points = getPointsFromCoords(getHexCoords(center, HEX_SIZE));
+    const target = action.target[0] as Coord | undefined;
+    if (target) {
+        const center = getCenter(target.x, target.y);
+        const points = getPointsFromCoords(getHexCoords(center, HEX_SIZE));
 
-    return (
-        <>
-            <MagicArrow center={center} />
-            <OutlinePolygon points={points} />
-        </>
-    );
+        return (
+            <>
+                <MagicArrow center={center} />
+                <OutlinePolygon points={points} />
+            </>
+        );
+    }
+
+    return null;
 };
 
 export default MagicArrowOutline;

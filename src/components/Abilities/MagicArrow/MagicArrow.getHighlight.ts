@@ -11,8 +11,6 @@ export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, 
 
     const updatedUnit = getEffectedUnit(effectsForSelectedUnit, selectedUnit);
 
-    console.log("updatedUnit:", updatedUnit);
-
     const coords = getAreaCoords(CAST_RANGE, updatedUnit.coord);
     const areaObj = coordArrToObj(coords);
 

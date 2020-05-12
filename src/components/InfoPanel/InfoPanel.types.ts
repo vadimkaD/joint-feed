@@ -1,5 +1,6 @@
 import { PreparedUnit } from "../Battle/Battle.types";
 import { Ability } from "../Abilities/Abilities.types";
+import { Action } from "../ActionQueue/ActionQueue.types";
 
 export type InfoPanelState = {
     InfoPanel: {
@@ -13,6 +14,7 @@ export interface UnitProps {
 
 export interface InfoPanelProps extends UnitProps {
     abilities: Ability[];
+    unitActions: Action[];
 }
 
 export interface HpValueProps {

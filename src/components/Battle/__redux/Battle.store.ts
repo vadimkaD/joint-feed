@@ -27,3 +27,8 @@ export const isAnimation = createReducer(false as boolean, handleAction => [
 export const stepNumber = createReducer(1 as number, handleAction => [
     handleAction(actions.nextStep, state => state + 1),
 ]);
+
+export const tickNumber = createReducer(1 as number, handleAction => [
+    handleAction(actions.nextTick, state => state + 1),
+    handleAction(actions.setTick, (state, { payload }) => payload),
+]);

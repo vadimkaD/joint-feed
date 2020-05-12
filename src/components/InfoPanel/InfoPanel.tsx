@@ -17,10 +17,12 @@ import ForwardIcon from "@material-ui/icons/Forward";
 import { BattleState } from "../Battle/Battle.types";
 import { UnitsState } from "../Player/Units/Units.types";
 import { ACTION_POINTS_ARR } from "../Battle/Battle.constants";
+import { unitActions } from "../ActionQueue/__redux/ActionQueue.selectors";
+import { ActionQueueState } from "../ActionQueue/ActionQueue.types";
 
 class InfoPanel extends React.Component<InfoPanelProps> {
     render() {
-        const { unit, abilities } = this.props;
+        const { unit, abilities, unitActions } = this.props;
 
         if (!unit) return null;
 
@@ -31,7 +33,7 @@ class InfoPanel extends React.Component<InfoPanelProps> {
                         {ACTION_POINTS_ARR.map((v, i) => {
                             return (
                                 <Fragment key={i}>
-                                    <Tick />
+                                    <Tick>{unitActions[i] ? unitActions[i].ability : null}</Tick>
                                     {i < ACTION_POINTS_ARR.length - 1 && <ForwardIcon />}
                                 </Fragment>
                             );
@@ -47,12 +49,6 @@ class InfoPanel extends React.Component<InfoPanelProps> {
                                 </AbilityIconWrap>
                             );
                         })}
-                        <AbilityIconWrap></AbilityIconWrap>
-                        <AbilityIconWrap></AbilityIconWrap>
-                        <AbilityIconWrap></AbilityIconWrap>
-                        <AbilityIconWrap></AbilityIconWrap>
-                        <AbilityIconWrap></AbilityIconWrap>
-                        <AbilityIconWrap></AbilityIconWrap>
                     </AbilityPanel>
                 </Panel>
                 <UnitImage unit={unit}>
@@ -66,9 +62,14 @@ class InfoPanel extends React.Component<InfoPanelProps> {
     }
 }
 
-const mapStateToProps = (state: InfoPanelState & BattleState & UnitsState) => ({
-    unit: selectors.unit(state),
-    abilities: selectors.abilities(state),
-});
+const mapStateToProps = (state: InfoPanelState & BattleState & UnitsState & ActionQueueState) => {
+    const unit = selectors.unit(state);
+
+    return {
+        unit: unit,
+        abilities: selectors.abilities(state),
+        unitActions: unit ? unitActions(unit.id)(state) : [],
+    };
+};
 
 export default connect(mapStateToProps)(InfoPanel);

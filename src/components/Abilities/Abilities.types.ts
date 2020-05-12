@@ -3,16 +3,13 @@ import { ActionType } from "deox";
 import { ABILITIES } from "./Abilities.constants";
 import { Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
 import { Action } from "../ActionQueue/ActionQueue.types";
+import { EffectType } from "../Effects/Effects.types";
+import { AtLeast } from "../../types";
+import { AbilityAnimation } from "../Animations/Animations.types";
 
 export enum Target {
     UNITS = "UNITS",
     AREA = "AREA",
-}
-
-export enum EffectType {
-    DEFENCE_AND_HEAL = "DEFENCE_AND_HEAL",
-    TRANSPORT = "TRANSPORT",
-    DAMAGE_AND_FIELD_EFFECT = "DAMAGE_AND_FIELD_EFFECT",
 }
 
 export enum AbilityType {
@@ -31,7 +28,7 @@ export type AbilityActionOutline = React.FunctionComponent<AbilityActionOutlineP
 export interface AbilityAnimatorProps {
     unitsOnBoard: UnitsOnBoard;
     hexes: Hexes;
-    action: Action;
+    animation: AbilityAnimation;
 }
 
 export type AbilityAnimator = React.FunctionComponent<AbilityAnimatorProps>;
@@ -49,6 +46,8 @@ export interface Ability {
     actionOutline: AbilityActionOutline;
     effector: AbilityEffector;
     abilityAnimator: AbilityAnimator;
+    effectType: EffectType;
+    handleEffect: ActionType<any>;
 }
 
 export type SomeAbilities = {
@@ -75,7 +74,6 @@ export type GetHighlights = (
     queue: Action[],
 ) => HightlightedHexes;
 
-type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>;
 export interface AbilityEffect {
     type: EffectType;
     effect: AtLeast<PreparedUnit, "id">;
@@ -85,4 +83,9 @@ export type AbilityEffector = (action: Action, unitsOnBoard: UnitsOnBoard) => Ab
 export interface AbilityIconProps {
     selectAbility: (ability: ABILITIES | null) => void;
     selectedAbility: ABILITIES | null;
+}
+
+export interface TransitionProps {
+    translateX: number;
+    translateY: number;
 }
