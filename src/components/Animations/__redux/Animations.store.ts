@@ -8,9 +8,9 @@ export const animations = createReducer({} as Animations, handleAction => [
 
         const tickRecord = state[tick] ? [...state[tick], animation] : [animation];
 
-        // if (!tickRecord.find(innerAnimation => animation.animationId === innerAnimation.animationId)) {
-        //     tickRecord.push(animation);
-        // }
+        if (!tickRecord.find(innerAnimation => animation.animationId === innerAnimation.animationId)) {
+            tickRecord.push(animation);
+        }
 
         return { ...state, [tick]: tickRecord };
     }),

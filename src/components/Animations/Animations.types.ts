@@ -11,6 +11,11 @@ export interface AbilityAnimation {
 export interface Animations {
     [tick: number]: AbilityAnimation[];
 }
+
+export type AnimationsByAbility = {
+    [key in ABILITIES]?: AnimationRecord[];
+};
+
 export interface AnimationRecord {
     tick: number;
     animation: AbilityAnimation;

@@ -5,7 +5,7 @@ import { getHighlights } from "./Move.getHighlight";
 import { handleEffect, onHexClick } from "./__redux/Move.actions";
 import MoveOutline from "./Move.outline";
 import { moveEffector } from "./Move.effector";
-import MoveAnimator from "./Move.animator";
+import MoveAnimator from "./animator/Move.animator";
 import { EffectType } from "../../Effects/Effects.types";
 import { CAST_RANGE, CAST_TIME, DELAY } from "./Move.constants";
 
