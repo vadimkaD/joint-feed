@@ -7,38 +7,43 @@ import { BattleState } from "../../Battle/Battle.types";
 import { hexes, unitsOnBoard } from "../../Battle/__redux/Battle.selectors";
 import { isAnimation, tick } from "../../Battle/__redux/Battle.external-selectors";
 import { abilitiesDictionary } from "../../Abilities";
-import { animations } from "../../Animations/__redux/Animations.selectors";
-import { AbilityAnimation, AnimationsState } from "../../Animations/Animations.types";
+import { animations, animationsByAbility } from "../../Animations/__redux/Animations.selectors";
+import { AbilityAnimation, AnimationRecord, AnimationsState } from "../../Animations/Animations.types";
+import { ABILITIES } from "../../Abilities/Abilities.constants";
 
 const StepAnimations: React.FunctionComponent<StepAnimationsProps> = ({
     unitsOnBoard,
-    animations,
+    animationsByAbility,
     isAnimation,
     tick,
     hexes,
 }) => {
     if (!isAnimation) return null;
 
-    const currentTickAnimations = animations[tick] as AbilityAnimation[] | undefined;
+    console.log("animationsByAbility", animationsByAbility);
 
-    console.log("tick", tick);
-    if (currentTickAnimations) {
-        return (
-            <>
-                {currentTickAnimations.map((animation, index) => {
-                    const ability = abilitiesDictionary[animation.ability];
-                    const Animator = ability.abilityAnimator;
-                    return <Animator key={index} hexes={hexes} unitsOnBoard={unitsOnBoard} animation={animation} />;
-                })}
-            </>
-        );
-    }
-    return null;
+    return (
+        <>
+            {Object.keys(animationsByAbility).map((abilityKey, index) => {
+                const ability = abilitiesDictionary[abilityKey as ABILITIES];
+                const Animator = ability.abilityAnimator;
+                return (
+                    <Animator
+                        key={index}
+                        hexes={hexes}
+                        unitsOnBoard={unitsOnBoard}
+                        animationRecords={animationsByAbility[abilityKey as ABILITIES] as AnimationRecord[]}
+                        currentTick={tick}
+                    />
+                );
+            })}
+        </>
+    );
 };
 
 const mapStateToProps = (state: BattleState & UnitsState & AnimationsState) => ({
     isAnimation: isAnimation(state),
-    animations: animations(state),
+    animationsByAbility: animationsByAbility(state),
     unitsOnBoard: unitsOnBoard(state),
     hexes: hexes(state),
     tick: tick(state),

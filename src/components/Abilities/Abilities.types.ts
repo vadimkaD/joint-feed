@@ -5,7 +5,7 @@ import { Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Ba
 import { Action } from "../ActionQueue/ActionQueue.types";
 import { EffectType } from "../Effects/Effects.types";
 import { AtLeast } from "../../types";
-import { AbilityAnimation } from "../Animations/Animations.types";
+import { AbilityAnimation, AnimationRecord } from "../Animations/Animations.types";
 
 export enum Target {
     UNITS = "UNITS",
@@ -28,7 +28,8 @@ export type AbilityActionOutline = React.FunctionComponent<AbilityActionOutlineP
 export interface AbilityAnimatorProps {
     unitsOnBoard: UnitsOnBoard;
     hexes: Hexes;
-    animation: AbilityAnimation;
+    currentTick: number;
+    animationRecords: AnimationRecord[];
 }
 
 export type AbilityAnimator = React.FunctionComponent<AbilityAnimatorProps>;
@@ -88,4 +89,8 @@ export interface AbilityIconProps {
 export interface TransitionProps {
     translateX: number;
     translateY: number;
+}
+
+export interface HiddenProps {
+    isHidden: boolean;
 }

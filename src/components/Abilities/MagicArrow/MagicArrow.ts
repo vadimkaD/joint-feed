@@ -6,7 +6,7 @@ import { CAST_RANGE, CAST_TIME, DELAY } from "./MagicArrow.constants";
 import { handleEffect, onHexClick } from "./__redux/MagicArrow.actions";
 import MagicArrowOutline from "./MagicArrow.outline";
 import { EffectType } from "../../Effects/Effects.types";
-import MagicArrowAnimator from "./MagicArrow.animator";
+import MagicArrowAnimator from "./animator/MagicArrow.animator";
 
 export const magicArrowAbility: Ability = {
     id: ABILITIES.MAGIC_ARROW,

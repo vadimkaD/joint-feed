@@ -44,9 +44,9 @@ export const highlightedHexes = createSelector<
     selectedAbility,
     queue,
     isAnimation,
+
     (hexes, selectedUnit, hexUnderCursor, unitsOnBoard, selectedAbility, queue, isAnimation) => {
         const highlights: HightlightedHexes = {};
-
         if (hexUnderCursor) {
             highlights[getStringFromCoord(hexUnderCursor.coord)] = Highlight.HOVER;
         }
