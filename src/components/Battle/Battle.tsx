@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import BattleView from "./Battle.view";
-import { BattleProps, BattleState, BattleUnit, Hex, Owner } from "./Battle.types";
+import { BattleProps, BattleState, BattleUnit, Owner } from "./Battle.types";
 import { Dispatch } from "redux";
 import { selectUnit } from "../InfoPanel/__redux/InfoPanel.actions";
 import { InfoPanelState } from "../InfoPanel/InfoPanel.types";
-import { hexes, highlightedHexes, playerUnitsOnBoard, unitsOnBoard } from "./__redux/Battle.selectors";
+import { highlightedHexes, playerUnitsOnBoard, unitsOnBoard } from "./__redux/Battle.selectors";
 import { UnitsState } from "../Player/Units/Units.types";
 import { addUnit, clickHex, mouseEnterHex, mouseLeaveBoard } from "./__redux/Battle.actions";
 import { ACTION_POINTS } from "./Battle.constants";
@@ -14,6 +14,8 @@ import { isAnimation, preparedUnits } from "./__redux/Battle.external-selectors"
 import { playerActions } from "../ActionQueue/__redux/ActionQueue.selectors";
 import { ActionQueueState } from "../ActionQueue/ActionQueue.types";
 import { queue } from "../ActionQueue/__redux/ActionQueue.external-selectors";
+import { Hex, HexesState } from "../Hexes/Hexes.types";
+import { hexes } from "../Hexes/__redux/Hexes.selectors";
 
 function Battle(props: BattleProps) {
     const {
@@ -68,7 +70,9 @@ function Battle(props: BattleProps) {
     );
 }
 
-const mapStateToProps = (state: UnitsState & BattleState & InfoPanelState & AbilitiesState & ActionQueueState) => ({
+const mapStateToProps = (
+    state: UnitsState & HexesState & BattleState & InfoPanelState & AbilitiesState & ActionQueueState,
+) => ({
     preparedUnits: preparedUnits(state),
     hexes: hexes(state),
     unitsOnBoard: unitsOnBoard(state),

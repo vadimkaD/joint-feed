@@ -1,6 +1,6 @@
 import { createAction } from "deox";
-import { Hex } from "../../../Battle/Battle.types";
 import { Action } from "../../../ActionQueue/ActionQueue.types";
+import { Hex } from "../../../Hexes/Hexes.types";
 
 const namespace = "[MagicArrow]";
 

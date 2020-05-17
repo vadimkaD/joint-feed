@@ -1,11 +1,12 @@
 import React from "react";
 import { ActionType } from "deox";
 import { ABILITIES } from "./Abilities.constants";
-import { Hex, Hexes, HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
+import { HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
 import { Action } from "../ActionQueue/ActionQueue.types";
 import { EffectType } from "../Effects/Effects.types";
 import { AtLeast } from "../../types";
-import { AbilityAnimation, AnimationRecord } from "../Animations/Animations.types";
+import { AnimationRecord } from "../Animations/Animations.types";
+import { Hex, Hexes } from "../Hexes/Hexes.types";
 
 export enum Target {
     UNITS = "UNITS",
