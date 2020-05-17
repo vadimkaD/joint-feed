@@ -9,7 +9,6 @@ export const mouseLeaveBoard = createAction(`${namespace} mouse leave board`);
 export const updateUnit = createAction(`${namespace} update unit`, resolve => (unit: Partial<BattleUnit>) =>
     resolve(unit),
 );
-export const playStepClick = createAction(`${namespace} click play step`);
 export const setAnimation = createAction(`${namespace} set animation`, resolve => (isAnimation: boolean) =>
     resolve(isAnimation),
 );
