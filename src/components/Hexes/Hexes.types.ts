@@ -12,5 +12,6 @@ export interface Hexes {
 export interface HexesState {
     Hexes: {
         hexes: Hexes;
+        hexUnderCursor: Hex | null;
     };
 }

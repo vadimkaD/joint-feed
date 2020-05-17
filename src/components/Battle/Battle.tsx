@@ -7,7 +7,7 @@ import { selectUnit } from "../InfoPanel/__redux/InfoPanel.actions";
 import { InfoPanelState } from "../InfoPanel/InfoPanel.types";
 import { highlightedHexes, playerUnitsOnBoard, unitsOnBoard } from "./__redux/Battle.selectors";
 import { UnitsState } from "../Player/Units/Units.types";
-import { addUnit, clickHex, mouseEnterHex, mouseLeaveBoard } from "./__redux/Battle.actions";
+import { addUnit, mouseLeaveBoard } from "./__redux/Battle.actions";
 import { ACTION_POINTS } from "./Battle.constants";
 import { AbilitiesState } from "../Abilities/Abilities.types";
 import { isAnimation, preparedUnits } from "./__redux/Battle.external-selectors";
@@ -16,6 +16,7 @@ import { ActionQueueState } from "../ActionQueue/ActionQueue.types";
 import { queue } from "../ActionQueue/__redux/ActionQueue.external-selectors";
 import { Hex, HexesState } from "../Hexes/Hexes.types";
 import { hexes } from "../Hexes/__redux/Hexes.selectors";
+import { clickHex, mouseEnterHex } from "../Hexes/__redux/Hexes.actions";
 
 function Battle(props: BattleProps) {
     const {

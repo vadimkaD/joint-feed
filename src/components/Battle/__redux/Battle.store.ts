@@ -1,8 +1,7 @@
 import { createReducer } from "deox";
 import { BattleUnit } from "../Battle.types";
 import * as actions from "./Battle.actions";
-import { defaultHexes } from "../../Battlefield/Battlefield.constants";
-import { Hex, Hexes } from "../../Hexes/Hexes.types";
+import { Hex } from "../../Hexes/Hexes.types";
 
 export const battleUnits = createReducer([] as BattleUnit[], handleAction => [
     handleAction(actions.setUnits, (state, { payload }) => payload),
@@ -13,11 +12,6 @@ export const battleUnits = createReducer([] as BattleUnit[], handleAction => [
     handleAction(actions.nextStep, state => {
         return state.map(unit => ({ ...unit, currentActionPoints: unit.maxActionPoints }));
     }),
-]);
-
-export const hexUnderCursor = createReducer(null as Hex | null, handleAction => [
-    handleAction(actions.mouseEnterHex, (state, { payload }) => payload),
-    handleAction(actions.mouseLeaveBoard, () => null),
 ]);
 
 export const isAnimation = createReducer(false as boolean, handleAction => [
