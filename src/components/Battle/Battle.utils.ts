@@ -1,8 +1,8 @@
-import { Hex, Hexes } from "./Battle.types";
 import { Action } from "../ActionQueue/ActionQueue.types";
 import { abilitiesDictionary } from "../Abilities";
 import { EffectType } from "../Effects/Effects.types";
 import { getStringFromCoord } from "../../hexagons";
+import { Hex, Hexes } from "../Hexes/Hexes.types";
 
 export function hexArrToObj(hexes: Hex[]): Hexes {
     return hexes.reduce((total: Hexes, hex) => {

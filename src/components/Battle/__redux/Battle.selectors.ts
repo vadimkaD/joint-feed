@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { BattleState, Hex, Hexes, HightlightedHexes, Owner, PreparedUnit, UnitsOnBoard } from "../Battle.types";
+import { BattleState, HightlightedHexes, Owner, PreparedUnit, UnitsOnBoard } from "../Battle.types";
 import { UnitsState } from "../../Player/Units/Units.types";
 import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
 import { InfoPanelState } from "../../InfoPanel/InfoPanel.types";
@@ -13,8 +13,8 @@ import { isAnimation, preparedUnits } from "./Battle.external-selectors";
 import { Action, ActionQueueState } from "../../ActionQueue/ActionQueue.types";
 import { queue } from "../../ActionQueue/__redux/ActionQueue.external-selectors";
 import { getStringFromCoord } from "../../../hexagons";
-
-export const hexes = (state: BattleState) => state.Battle.hexes as Hexes;
+import { Hex, Hexes, HexesState } from "../../Hexes/Hexes.types";
+import { hexes } from "../../Hexes/__redux/Hexes.selectors";
 
 export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUnit[], UnitsOnBoard>(
     preparedUnits,
@@ -27,7 +27,7 @@ export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUni
 );
 export const hexUnderCursor = (state: BattleState) => state.Battle.hexUnderCursor as Hex;
 export const highlightedHexes = createSelector<
-    BattleState & InfoPanelState & UnitsState & AbilitiesState & ActionQueueState,
+    BattleState & InfoPanelState & UnitsState & AbilitiesState & ActionQueueState & HexesState,
     Hexes,
     PreparedUnit | null,
     Hex | null,

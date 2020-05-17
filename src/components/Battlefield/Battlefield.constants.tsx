@@ -1,4 +1,4 @@
-import { Hexes } from "../Battle/Battle.types";
+import { Hexes } from "../Hexes/Hexes.types";
 
 export const HEX_SIZE = 40;
 export const WIDTH = 13;

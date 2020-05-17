@@ -2,6 +2,7 @@ import { BaseUnit } from "../Unit/Unit.types";
 import { Highlight } from "../Battlefield/Battlefield.constants";
 import { Action } from "../ActionQueue/ActionQueue.types";
 import { Coord } from "../../hexagons/hexagons.types";
+import { Hex, Hexes } from "../Hexes/Hexes.types";
 
 export enum Owner {
     PLAYER = "PLAYER",
@@ -59,15 +60,6 @@ export type BattleState = {
 };
 
 export interface PreparedUnit extends BattleUnit, BaseUnit {}
-
-export interface Hex {
-    coord: Coord;
-    isEmpty?: boolean;
-}
-
-export interface Hexes {
-    [coordinates: string]: Hex;
-}
 
 export interface UnitsOnBoard {
     [coordinates: string]: PreparedUnit;

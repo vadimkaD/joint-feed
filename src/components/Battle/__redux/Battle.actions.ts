@@ -1,5 +1,6 @@
 import { createAction } from "deox";
-import { BattleUnit, Hex } from "../Battle.types";
+import { BattleUnit } from "../Battle.types";
+import { Hex } from "../../Hexes/Hexes.types";
 
 const namespace = "[Battle]";
 
