@@ -1,10 +1,10 @@
 import React from "react";
 import { AbilityActionOutline } from "../Abilities.types";
 import { getCenter, getHexCoords, getPointsFromCoords } from "../../Battlefield/Battlefield.utils";
-import { Coord } from "../../Battle/Battle.types";
 import { HEX_SIZE } from "../../Battlefield/Battlefield.constants";
 import { OutlinePolygon } from "../Abilities.styled";
 import { MagicArrow } from "./MagicArrow.highlight";
+import { Coord } from "../../../hexagons/hexagons.types";
 
 const MagicArrowOutline: AbilityActionOutline = ({ action, playerUnitsOnBoard, isLastInChain }) => {
     const target = action.target[0] as Coord | undefined;

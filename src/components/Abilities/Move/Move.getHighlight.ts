@@ -1,15 +1,9 @@
 import { HightlightedHexes } from "../../Battle/Battle.types";
 import { GetHighlights } from "../Abilities.types";
-import {
-    coordArrToObj,
-    getAreaCoords,
-    getHighlightsForRoute,
-    getRoute,
-    getStringFromCoord,
-    isSameCoord,
-} from "../../Battle/Battle.utils";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
 import { getEffectedUnit, getEffectsForSelectedUnit } from "../Abilities.utils";
+import { coordArrToObj, getAreaCoords, getRoute, getStringFromCoord, isSameCoord } from "../../../hexagons";
+import { getHighlightsForRoute } from "./Move.utils";
 
 export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, hexUnderCursor, queue) => {
     const highlights: HightlightedHexes = {};

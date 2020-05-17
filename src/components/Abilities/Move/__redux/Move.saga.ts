@@ -2,9 +2,8 @@ import { all, put, select, takeEvery } from "redux-saga/effects";
 import { ActionType, getType } from "deox";
 import { v4 as uuidv4 } from "uuid";
 import * as actions from "./Move.actions";
-import { getRoute, isInRange, isSameCoord, offsetDistance } from "../../../Battle/Battle.utils";
 import { unit } from "../../../InfoPanel/__redux/InfoPanel.selectors";
-import { Coord, PreparedUnit, UnitsOnBoard } from "../../../Battle/Battle.types";
+import { PreparedUnit, UnitsOnBoard } from "../../../Battle/Battle.types";
 import { addAction } from "../../../ActionQueue/__redux/ActionQueue.actions";
 import { ABILITIES } from "../../Abilities.constants";
 import { actionComplete, updateUnit } from "../../../Battle/__redux/Battle.actions";
@@ -21,6 +20,8 @@ import { getCoordOfUnitForCurrentTick } from "../../Abilities.saga";
 import { ACTION_POINTS } from "../../../Battle/Battle.constants";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
 import { AbilityAnimation } from "../../../Animations/Animations.types";
+import { getRoute, isInRange, isSameCoord, offsetDistance } from "../../../../hexagons";
+import { Coord } from "../../../../hexagons/hexagons.types";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;

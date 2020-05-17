@@ -1,6 +1,7 @@
 import { BaseUnit } from "../Unit/Unit.types";
 import { Highlight } from "../Battlefield/Battlefield.constants";
 import { Action } from "../ActionQueue/ActionQueue.types";
+import { Coord } from "../../hexagons/hexagons.types";
 
 export enum Owner {
     PLAYER = "PLAYER",
@@ -66,21 +67,6 @@ export interface Hex {
 
 export interface Hexes {
     [coordinates: string]: Hex;
-}
-
-export interface Coord {
-    x: number;
-    y: number;
-}
-
-export interface Coords {
-    [coordinates: string]: Coord;
-}
-
-export interface Cube {
-    x: number;
-    y: number;
-    z: number;
 }
 
 export interface UnitsOnBoard {

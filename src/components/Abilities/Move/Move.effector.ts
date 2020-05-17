@@ -1,6 +1,7 @@
 import { AbilityEffect, AbilityEffector } from "../Abilities.types";
-import { Coord, PreparedUnit } from "../../Battle/Battle.types";
+import { PreparedUnit } from "../../Battle/Battle.types";
 import { EffectType } from "../../Effects/Effects.types";
+import { Coord } from "../../../hexagons/hexagons.types";
 
 export const moveEffector: AbilityEffector = (action, unitsOnBoard) => {
     const effects: AbilityEffect[] = [];

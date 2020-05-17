@@ -4,8 +4,8 @@ import { HEX_SIZE, WIDTH_ARRAY } from "./Battlefield.constants";
 import { Group, InteractiveHexPolygon, Text } from "./Battlefield.styled";
 import { BattlefieldLineProps } from "./Battlefield.types";
 import { Hex as HexType } from "../Battle/Battle.types";
-import { getStringFromCoord } from "../Battle/Battle.utils";
 import { getHighlightComponent } from "./Battlefield.highlights";
+import { getStringFromCoord } from "../../hexagons";
 
 function BattlefieldLine(props: BattlefieldLineProps) {
     const { hexes, highlightedHexes, lineNumber, onMouseEnterHex, onHexClick } = props;

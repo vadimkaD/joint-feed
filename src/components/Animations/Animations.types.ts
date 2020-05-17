@@ -1,4 +1,3 @@
-import { Coord } from "../Battle/Battle.types";
 import { ABILITIES } from "../Abilities/Abilities.constants";
 import { AnyObject } from "../../types";
 
