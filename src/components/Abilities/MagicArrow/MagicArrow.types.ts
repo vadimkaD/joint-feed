@@ -1,5 +1,5 @@
-import { Coord } from "../../Battle/Battle.types";
 import { AnimationRecord } from "../../Animations/Animations.types";
+import { Coord } from "../../../hexagons/hexagons.types";
 
 export interface MagicArrowAnimationParams {
     from: Coord;

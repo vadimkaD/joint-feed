@@ -1,6 +1,7 @@
-import { BattleUnitsProps, Coord, HexesProps, UnitsOnBoard } from "../Battle/Battle.types";
+import { BattleUnitsProps, HexesProps, UnitsOnBoard } from "../Battle/Battle.types";
 import React from "react";
 import { Action } from "../ActionQueue/ActionQueue.types";
+import { Coord } from "../../hexagons/hexagons.types";
 
 export interface BattlefieldProps extends BattleUnitsProps, HexesProps {
     playerActions: Action[];

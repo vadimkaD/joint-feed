@@ -3,7 +3,7 @@ import { ActionType, getType } from "deox";
 import { v4 as uuidv4 } from "uuid";
 import * as actions from "./MagicArrow.actions";
 import { unit } from "../../../InfoPanel/__redux/InfoPanel.selectors";
-import { Coord, PreparedUnit, UnitsOnBoard } from "../../../Battle/Battle.types";
+import { PreparedUnit, UnitsOnBoard } from "../../../Battle/Battle.types";
 import { addAction } from "../../../ActionQueue/__redux/ActionQueue.actions";
 import { ABILITIES } from "../../Abilities.constants";
 import { actionComplete, updateUnit } from "../../../Battle/__redux/Battle.actions";
@@ -11,7 +11,6 @@ import { selectAbility } from "../../__redux/Abilities.actions";
 import { CAST_RANGE, CAST_TIME, DELAY } from "../MagicArrow.constants";
 import { Action } from "../../../ActionQueue/ActionQueue.types";
 import { unitsOnBoard } from "../../../Battle/__redux/Battle.selectors";
-import { isInRange } from "../../../Battle/Battle.utils";
 import { tick } from "../../../Battle/__redux/Battle.external-selectors";
 import { getCoordOfUnitForCurrentTick } from "../../Abilities.saga";
 import { ACTION_POINTS } from "../../../Battle/Battle.constants";
@@ -19,6 +18,8 @@ import { Effect } from "../../../Effects/Effects.types";
 import { addEffect } from "../../../Effects/__redux/Effects.actions";
 import { AbilityAnimation } from "../../../Animations/Animations.types";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
+import { Coord } from "../../../../hexagons/hexagons.types";
+import { isInRange } from "../../../../hexagons";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;

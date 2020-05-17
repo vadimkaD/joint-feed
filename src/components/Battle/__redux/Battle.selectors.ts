@@ -4,7 +4,6 @@ import { BattleState, Hex, Hexes, HightlightedHexes, Owner, PreparedUnit, UnitsO
 import { UnitsState } from "../../Player/Units/Units.types";
 import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
 import { InfoPanelState } from "../../InfoPanel/InfoPanel.types";
-import { getStringFromCoord } from "../Battle.utils";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
 import { selectedAbility } from "../../Abilities/__redux/Abilities.selectors";
 import { ABILITIES } from "../../Abilities/Abilities.constants";
@@ -13,6 +12,7 @@ import { abilitiesDictionary } from "../../Abilities";
 import { isAnimation, preparedUnits } from "./Battle.external-selectors";
 import { Action, ActionQueueState } from "../../ActionQueue/ActionQueue.types";
 import { queue } from "../../ActionQueue/__redux/ActionQueue.external-selectors";
+import { getStringFromCoord } from "../../../hexagons";
 
 export const hexes = (state: BattleState) => state.Battle.hexes as Hexes;
 

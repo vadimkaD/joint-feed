@@ -5,7 +5,7 @@ import { actionComplete, nextTick, setAnimation, setTick } from "./Battle.action
 import { unitsOnBoard } from "./Battle.selectors";
 import { selectUnit } from "../../InfoPanel/__redux/InfoPanel.actions";
 import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
-import { getStringFromCoord, sortActionsByAbilityType } from "../Battle.utils";
+import { sortActionsByAbilityType } from "../Battle.utils";
 import { selectedAbility } from "../../Abilities/__redux/Abilities.selectors";
 import { abilitiesDictionary } from "../../Abilities";
 import { ABILITIES } from "../../Abilities/Abilities.constants";
@@ -14,6 +14,7 @@ import { ActionsByUnits } from "../../Battlefield/StepAnimations/StepAnimations.
 import { getTickActions } from "../../ActionQueue/ActionQueue.utils";
 import { ACTION_POINTS, TICK_TIMEOUT } from "../Battle.constants";
 import { tick } from "./Battle.external-selectors";
+import { getStringFromCoord } from "../../../hexagons";
 
 function* hexClickSaga(action: ActionType<typeof actions.clickHex>) {
     const { payload: hex } = action;

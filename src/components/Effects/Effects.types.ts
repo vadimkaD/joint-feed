@@ -1,5 +1,6 @@
-import { BattleUnit, Coord, Hex } from "../Battle/Battle.types";
+import { BattleUnit, Hex } from "../Battle/Battle.types";
 import { ABILITIES } from "../Abilities/Abilities.constants";
+import { Coord } from "../../hexagons/hexagons.types";
 
 export enum EffectType {
     DEFENCE_AND_HEAL = "DEFENCE_AND_HEAL",
