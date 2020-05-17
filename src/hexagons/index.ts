@@ -76,26 +76,6 @@ export function getAllNearCoords(coord: Coord): Coord[] {
     return result;
 }
 
-export function getAreaCoords(radius: number, coord: Coord): Coord[] {
-    if (radius < 0) return [];
-
-    if (radius === 0) {
-        return [coord];
-    }
-
-    if (radius === 1) {
-        return [...getAllNearCoords(coord), coord];
-    }
-
-    if (radius > 1) {
-        const nearCoords = getAllNearCoords(coord);
-        const areaCoords: Coord[] = nearCoords.map(coord => getAreaCoords(radius - 1, coord)).flat();
-        return [...new Set(areaCoords.map(coord => getStringFromCoord(coord)))].map(c => getCoordsFromString(c));
-    }
-
-    return [];
-}
-
 export function evenrToCube(hex: Coord): Cube {
     const x = hex.x - (hex.y + (hex.y & 1)) / 2;
     const z = hex.y;
@@ -174,7 +154,23 @@ export function coordArrToObj(coords: Coord[]): Coords {
 }
 
 export function isInRange(coord: Coord, test: Coord, range: number): boolean {
-    const allNear = getAreaCoords(range, coord);
+    const allNear = getArea(coord, range);
     const obj = coordArrToObj(allNear);
     return !!obj[getStringFromCoord(test)];
+}
+
+export function cubeAdd(one: Cube, two: Cube): Cube {
+    return { x: one.x + two.x, y: one.y + two.y, z: one.z + two.z };
+}
+
+export function getArea(coord: Coord, radius: number): Coord[] {
+    const results: Coord[] = [];
+    for (let x = -radius; x <= radius; x++) {
+        for (let y = Math.max(-radius, -x - radius); y <= Math.min(radius, -x + radius); y++) {
+            const z = -x - y;
+            results.push(cubeToEvenr(cubeAdd(evenrToCube(coord), { z, x, y })));
+        }
+    }
+
+    return results;
 }
