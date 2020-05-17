@@ -14,7 +14,7 @@ import { Action, ActionQueueState } from "../../ActionQueue/ActionQueue.types";
 import { queue } from "../../ActionQueue/__redux/ActionQueue.external-selectors";
 import { getStringFromCoord } from "../../../hexagons";
 import { Hex, Hexes, HexesState } from "../../Hexes/Hexes.types";
-import { hexes } from "../../Hexes/__redux/Hexes.selectors";
+import { hexes, hexUnderCursor } from "../../Hexes/__redux/Hexes.selectors";
 
 export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUnit[], UnitsOnBoard>(
     preparedUnits,
@@ -25,7 +25,6 @@ export const unitsOnBoard = createSelector<BattleState & UnitsState, PreparedUni
         }, {});
     },
 );
-export const hexUnderCursor = (state: BattleState) => state.Battle.hexUnderCursor as Hex;
 export const highlightedHexes = createSelector<
     BattleState & InfoPanelState & UnitsState & AbilitiesState & ActionQueueState & HexesState,
     Hexes,
