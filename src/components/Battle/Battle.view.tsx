@@ -5,12 +5,12 @@ import InfoPanel from "../InfoPanel/InfoPanel";
 
 import Battlefield from "../Battlefield/Battlefield";
 import UnitIconPanel from "../UnitIconPanel/UnitIconPanel";
-import BattleStepPanel from "../BattleStepPanel/BattleStepPanel";
+import PlayStep from "../PlayStep/PlayStep";
 
 function BattleView(props: BattleViewProps) {
     return (
         <CenterWrapper>
-            <BattleStepPanel />
+            <PlayStep />
             <Battlefield {...props} />
             <InfoPanel />
             <UnitIconPanel />

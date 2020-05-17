@@ -1,16 +1,19 @@
-import { all, put, select, take, takeEvery, delay } from "redux-saga/effects";
 import { ActionType, getType } from "deox";
-import * as actions from "./Battle.actions";
-import { actionComplete, nextTick, setAnimation, setTick } from "./Battle.actions";
-import { sortActionsByAbilityType } from "../Battle.utils";
-import { abilitiesDictionary } from "../../Abilities";
-import { actionsByUnits } from "../../Battlefield/StepAnimations/__redux/StepAnimations.selectors";
 import { ActionsByUnits } from "../../Battlefield/StepAnimations/StepAnimations.types";
+import { all, delay, put, select, take, takeEvery } from "redux-saga/effects";
+import { actionsByUnits } from "../../Battlefield/StepAnimations/__redux/StepAnimations.selectors";
 import { getTickActions } from "../../ActionQueue/ActionQueue.utils";
-import { ACTION_POINTS, TICK_TIMEOUT } from "../Battle.constants";
-import { tick } from "./Battle.external-selectors";
+import { tick } from "../../Battle/__redux/Battle.external-selectors";
+import { sortActionsByAbilityType } from "../../Battle/Battle.utils";
+import { abilitiesDictionary } from "../../Abilities";
+import { actionComplete } from "../../Battle/__redux/Battle.actions";
+import { nextTick } from "../../Battle/__redux/Battle.actions";
+import { setTick } from "../../Battle/__redux/Battle.actions";
+import { setAnimation } from "../../Battle/__redux/Battle.actions";
+import { ACTION_POINTS, TICK_TIMEOUT } from "../../Battle/Battle.constants";
+import { playStepClick } from "./PlayStep.actions";
 
-function* playStepSaga(action: ActionType<typeof actions.playStepClick>) {
+function* playStepSaga(action: ActionType<typeof playStepClick>) {
     console.log("start step");
     const selectedActionsByUnits: ActionsByUnits = yield select(actionsByUnits);
     const tickActionArray = getTickActions(selectedActionsByUnits);
@@ -37,5 +40,5 @@ function* playStepSaga(action: ActionType<typeof actions.playStepClick>) {
 }
 
 export default function* googleSourceSaga() {
-    yield all([takeEvery(getType(actions.playStepClick), playStepSaga)]);
+    yield all([takeEvery(getType(playStepClick), playStepSaga)]);
 }
