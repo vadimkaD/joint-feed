@@ -1,7 +1,6 @@
 import { createSelector } from "reselect";
 
 import { BattleState, HightlightedHexes, Owner, UnitsOnBoard } from "../Battle.types";
-import { UnitsState } from "../../Player/Units/Units.types";
 import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
 import { InfoPanelState } from "../../InfoPanel/InfoPanel.types";
 import { Highlight } from "../../Battlefield/Battlefield.constants";

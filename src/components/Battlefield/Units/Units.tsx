@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from "react";
+import { useSelector } from "react-redux";
 import { UnitsOnBoard } from "../../Battle/Battle.types";
 import { getCenter } from "../Battlefield.utils";
 import { UnitImage } from "./Units.styled";
 import { UNIT_SIZE } from "./Units.constants";
+import { unitsOnBoard as unitsOnBoardSelector } from "../../Battle/__redux/Battle.selectors";
 
-interface UnitsProps {
-    unitsOnBoard: UnitsOnBoard;
-}
+const Units: FunctionComponent<{}> = props => {
+    const unitsOnBoard: UnitsOnBoard = useSelector(unitsOnBoardSelector);
 
-const Units: FunctionComponent<UnitsProps> = ({ unitsOnBoard }) => {
     const coords: string[] = Object.keys(unitsOnBoard);
     return (
         <>

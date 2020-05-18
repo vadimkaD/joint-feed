@@ -1,23 +1,18 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { BATTLEFIELD_HEIGHT, BATTLEFIELD_WIDTH, HEIGHT_ARRAY } from "./Battlefield.constants";
 import BattlefieldLine from "./BattlefieldLine";
-import { BattlefieldProps } from "./Battlefield.types";
 import Units from "./Units/Units";
 import ActionOutlines from "./ActionOutlines/ActionOutlines";
 import StepAnimations from "./StepAnimations/StepAnimations";
+import { mouseLeaveBoard } from "../Battle/__redux/Battle.actions";
+import { isAnimation as isAnimationSelector } from "../Battle/__redux/Battle.external-selectors";
 
-function Battlefield(props: BattlefieldProps) {
-    const {
-        highlightedHexes,
-        hexes,
-        onHexClick,
-        onMouseEnterHex,
-        unitsOnBoard,
-        playerActions,
-        playerUnitsOnBoard,
-        mouseLeaveBoard,
-        isAnimation,
-    } = props;
+const Battlefield: React.FunctionComponent<{}> = props => {
+    const dispatch = useDispatch();
+    const isAnimation = useSelector(isAnimationSelector);
+
+    const onMouseLeaveBoard = (e: React.SyntheticEvent) => dispatch(mouseLeaveBoard());
 
     return (
         <svg
@@ -26,26 +21,16 @@ function Battlefield(props: BattlefieldProps) {
             width={BATTLEFIELD_WIDTH}
             height={BATTLEFIELD_HEIGHT}
             xmlns="http://www.w3.org/2000/svg"
-            onMouseLeave={mouseLeaveBoard}
+            onMouseLeave={onMouseLeaveBoard}
         >
             {HEIGHT_ARRAY.map((i, j) => (
-                <BattlefieldLine
-                    hexes={hexes}
-                    onMouseEnterHex={onMouseEnterHex}
-                    onHexClick={onHexClick}
-                    unitsOnBoard={unitsOnBoard}
-                    highlightedHexes={highlightedHexes}
-                    key={i}
-                    lineNumber={j}
-                />
+                <BattlefieldLine key={i} lineNumber={j} />
             ))}
-            {isAnimation ? null : <Units unitsOnBoard={unitsOnBoard} />}
-            {isAnimation ? null : (
-                <ActionOutlines playerActions={playerActions} playerUnitsOnBoard={playerUnitsOnBoard} />
-            )}
+            {isAnimation ? null : <Units />}
+            {isAnimation ? null : <ActionOutlines />}
             <StepAnimations />
         </svg>
     );
-}
+};
 
 export default Battlefield;
