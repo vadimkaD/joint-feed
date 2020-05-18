@@ -6,7 +6,6 @@ import { UnitsOnBoard } from "../../../Battle/Battle.types";
 import { addAction } from "../../../ActionQueue/__redux/ActionQueue.actions";
 import { ABILITIES } from "../../Abilities.constants";
 import { actionComplete } from "../../../Battle/__redux/Battle.actions";
-import { selectAbility } from "../../__redux/Abilities.actions";
 import { CAST_RANGE, CAST_TIME, DELAY } from "../MagicArrow.constants";
 import { Action } from "../../../ActionQueue/ActionQueue.types";
 import { unitsOnBoard } from "../../../Battle/__redux/Battle.selectors";
@@ -22,6 +21,7 @@ import { isInRange } from "../../../../hexagons";
 import { BattleUnit } from "../../../BattleUnits/BattleUnits.types";
 import { updateUnit } from "../../../BattleUnits/__redux/BattleUnits.actions";
 import { selectedUnit as unit } from "../../../SelectedUnit/__redux/SelectedUnit.selectors";
+import { selectAbility } from "../../../SelectedAbility/__redux/SelectedAbility.actions";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;

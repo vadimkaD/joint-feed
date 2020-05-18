@@ -1,9 +1,9 @@
 import { createReducer } from "deox";
-import * as actions from "./Abilities.actions";
-import { ABILITIES } from "../Abilities.constants";
+import { ABILITIES } from "../../Abilities/Abilities.constants";
 import { selectUnit } from "../../SelectedUnit/__redux/SelectedUnit.actions";
+import { selectAbility } from "./SelectedAbility.actions";
 
 export const selectedAbility = createReducer(null as ABILITIES | null, handleAction => [
-    handleAction(actions.selectAbility, (state, { payload }) => payload),
+    handleAction(selectAbility, (state, { payload }) => payload),
     handleAction(selectUnit, (state, { payload }) => null),
 ]);
