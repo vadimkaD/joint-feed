@@ -14,11 +14,10 @@ import {
 import { InfoPanelProps, InfoPanelState } from "./InfoPanel.types";
 import * as selectors from "./__redux/InfoPanel.selectors";
 import ForwardIcon from "@material-ui/icons/Forward";
-import { BattleState } from "../Battle/Battle.types";
-import { UnitsState } from "../Player/Units/Units.types";
 import { ACTION_POINTS_ARR } from "../Battle/Battle.constants";
 import { unitActions } from "../ActionQueue/__redux/ActionQueue.selectors";
 import { ActionQueueState } from "../ActionQueue/ActionQueue.types";
+import { BattleUnitsState } from "../BattleUnits/BattleUnits.types";
 
 class InfoPanel extends React.Component<InfoPanelProps> {
     render() {
@@ -62,7 +61,7 @@ class InfoPanel extends React.Component<InfoPanelProps> {
     }
 }
 
-const mapStateToProps = (state: InfoPanelState & BattleState & UnitsState & ActionQueueState) => {
+const mapStateToProps = (state: InfoPanelState & BattleUnitsState & ActionQueueState) => {
     const unit = selectors.unit(state);
 
     return {

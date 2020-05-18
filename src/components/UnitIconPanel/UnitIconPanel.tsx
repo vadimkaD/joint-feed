@@ -1,12 +1,11 @@
 import React, { FunctionComponent } from "react";
 import { IconPanel, UnitIcon } from "./UnitIconPanel.styled";
 import { UnitIconPanelProps } from "./UnitIconPanel.types";
-import { UnitsState } from "../Player/Units/Units.types";
-import { BattleState } from "../Battle/Battle.types";
 import { unitsOnBoard } from "../Battle/__redux/Battle.selectors";
 import { Dispatch } from "redux";
 import { selectUnit } from "../InfoPanel/__redux/InfoPanel.actions";
 import { connect } from "react-redux";
+import { BattleUnitsState } from "../BattleUnits/BattleUnits.types";
 
 const UnitIconPanel: FunctionComponent<UnitIconPanelProps> = ({ unitsOnBoard, selectUnit }) => {
     const keys = Object.keys(unitsOnBoard);
@@ -22,7 +21,7 @@ const UnitIconPanel: FunctionComponent<UnitIconPanelProps> = ({ unitsOnBoard, se
     );
 };
 
-const mapStateToProps = (state: UnitsState & BattleState) => ({
+const mapStateToProps = (state: BattleUnitsState) => ({
     unitsOnBoard: unitsOnBoard(state),
 });
 

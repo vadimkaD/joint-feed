@@ -1,6 +1,6 @@
-import { PreparedUnit } from "../Battle/Battle.types";
 import { Ability } from "../Abilities/Abilities.types";
 import { Action } from "../ActionQueue/ActionQueue.types";
+import { BattleUnit } from "../BattleUnits/BattleUnits.types";
 
 export type InfoPanelState = {
     InfoPanel: {
@@ -9,7 +9,7 @@ export type InfoPanelState = {
 };
 
 export interface UnitProps {
-    unit: PreparedUnit | null;
+    unit: BattleUnit | null;
 }
 
 export interface InfoPanelProps extends UnitProps {

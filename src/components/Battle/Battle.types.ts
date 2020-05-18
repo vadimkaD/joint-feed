@@ -1,25 +1,15 @@
-import { BaseUnit } from "../Unit/Unit.types";
 import { Highlight } from "../Battlefield/Battlefield.constants";
 import { Action } from "../ActionQueue/ActionQueue.types";
-import { Coord } from "../../hexagons/hexagons.types";
 import { Hex, Hexes } from "../Hexes/Hexes.types";
+import { BattleUnit } from "../BattleUnits/BattleUnits.types";
 
 export enum Owner {
     PLAYER = "PLAYER",
     ENEMY = "ENEMY",
 }
 
-export interface BattleUnit {
-    coord: Coord;
-    id: string;
-    owner: Owner;
-    currentHp: number;
-    currentActionPoints: number;
-    maxActionPoints: number;
-}
-
 export interface BattleUnitsProps {
-    preparedUnits: PreparedUnit[];
+    battleUnits: BattleUnit[];
     unitsOnBoard: UnitsOnBoard;
 }
 
@@ -59,10 +49,8 @@ export type BattleState = {
     };
 };
 
-export interface PreparedUnit extends BattleUnit, BaseUnit {}
-
 export interface UnitsOnBoard {
-    [coordinates: string]: PreparedUnit;
+    [coordinates: string]: BattleUnit;
 }
 
 export interface HightlightedHexes {
