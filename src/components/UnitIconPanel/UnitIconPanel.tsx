@@ -1,16 +1,16 @@
 import React, { FunctionComponent } from "react";
 import { IconPanel, UnitIcon } from "./UnitIconPanel.styled";
-import { UnitIconPanelProps } from "./UnitIconPanel.types";
-import { unitsOnBoard } from "../Battle/__redux/Battle.selectors";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
-import { BattleUnitsState } from "../BattleUnits/BattleUnits.types";
+import { unitsOnBoard as unitsOnBoardSelector } from "../Battle/__redux/Battle.selectors";
+import { useSelector, useDispatch } from "react-redux";
 import { selectUnit } from "../SelectedUnit/__redux/SelectedUnit.actions";
 
-const UnitIconPanel: FunctionComponent<UnitIconPanelProps> = ({ unitsOnBoard, selectUnit }) => {
+const UnitIconPanel: FunctionComponent<{}> = props => {
+    const dispatch = useDispatch();
+    const unitsOnBoard = useSelector(unitsOnBoardSelector);
+
     const keys = Object.keys(unitsOnBoard);
 
-    const onClick = (unitId: string | null) => (e: React.SyntheticEvent) => selectUnit(unitId);
+    const onClick = (unitId: string | null) => (e: React.SyntheticEvent) => dispatch(selectUnit(unitId));
 
     return (
         <IconPanel>
@@ -21,14 +21,4 @@ const UnitIconPanel: FunctionComponent<UnitIconPanelProps> = ({ unitsOnBoard, se
     );
 };
 
-const mapStateToProps = (state: BattleUnitsState) => ({
-    unitsOnBoard: unitsOnBoard(state),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        selectUnit: (unitId: string | null) => dispatch(selectUnit(unitId)),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UnitIconPanel);
+export default UnitIconPanel;

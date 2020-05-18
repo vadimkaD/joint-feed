@@ -2,9 +2,7 @@ import { createSelector } from "reselect";
 
 import { BattleState, HightlightedHexes, Owner, UnitsOnBoard } from "../Battle.types";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
-import { selectedAbility } from "../../Abilities/__redux/Abilities.selectors";
 import { ABILITIES } from "../../Abilities/Abilities.constants";
-import { AbilitiesState } from "../../Abilities/Abilities.types";
 import { abilitiesDictionary } from "../../Abilities";
 import { isAnimation } from "./Battle.external-selectors";
 import { Action, ActionQueueState } from "../../ActionQueue/ActionQueue.types";
@@ -16,6 +14,8 @@ import { BattleUnit, BattleUnitsState } from "../../BattleUnits/BattleUnits.type
 import { battleUnits } from "../../BattleUnits/__redux/BattleUnits.selectors";
 import { selectedUnit } from "../../SelectedUnit/__redux/SelectedUnit.selectors";
 import { SelectedUnitState } from "../../SelectedUnit/SelectedUnit.types";
+import { selectedAbility } from "../../SelectedAbility/__redux/SelectedAbility.selectors";
+import { SelectedAbilityState } from "../../SelectedAbility/SelectedAbility.types";
 
 export const unitsOnBoard = createSelector<BattleUnitsState, BattleUnit[], UnitsOnBoard>(battleUnits, units => {
     return units.reduce((onBoard: UnitsOnBoard, unit) => {
@@ -25,7 +25,7 @@ export const unitsOnBoard = createSelector<BattleUnitsState, BattleUnit[], Units
 });
 
 export const highlightedHexes = createSelector<
-    BattleState & SelectedUnitState & BattleUnitsState & AbilitiesState & ActionQueueState & HexesState,
+    BattleState & SelectedUnitState & BattleUnitsState & SelectedAbilityState & ActionQueueState & HexesState,
     Hexes,
     BattleUnit | null,
     Hex | null,
