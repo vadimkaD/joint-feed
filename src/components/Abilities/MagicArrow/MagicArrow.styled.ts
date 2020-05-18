@@ -5,6 +5,7 @@ import { HiddenProps, TransitionProps } from "../Abilities.types";
 
 export const ArrowCircle = styled.circle<TransitionProps & HiddenProps>`
     transition-duration: ${props => (TICK_TIMEOUT * CAST_TIME) / 1000}s;
+    transition-timing-function: ease;
     stroke-dasharray: 6 6;
     stroke: #bf360c;
     fill: #616161;

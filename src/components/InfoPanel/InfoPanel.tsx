@@ -11,13 +11,15 @@ import {
     AbilityPanel,
     AbilityIconWrap,
 } from "./InfoPanel.styled";
-import { InfoPanelProps, InfoPanelState } from "./InfoPanel.types";
-import * as selectors from "./__redux/InfoPanel.selectors";
+import { InfoPanelProps } from "./InfoPanel.types";
 import ForwardIcon from "@material-ui/icons/Forward";
 import { ACTION_POINTS_ARR } from "../Battle/Battle.constants";
 import { unitActions } from "../ActionQueue/__redux/ActionQueue.selectors";
 import { ActionQueueState } from "../ActionQueue/ActionQueue.types";
 import { BattleUnitsState } from "../BattleUnits/BattleUnits.types";
+import { selectedUnit } from "../SelectedUnit/__redux/SelectedUnit.selectors";
+import { SelectedUnitState } from "../SelectedUnit/SelectedUnit.types";
+import { abilities } from "./__redux/InfoPanel.selectors";
 
 class InfoPanel extends React.Component<InfoPanelProps> {
     render() {
@@ -61,12 +63,12 @@ class InfoPanel extends React.Component<InfoPanelProps> {
     }
 }
 
-const mapStateToProps = (state: InfoPanelState & BattleUnitsState & ActionQueueState) => {
-    const unit = selectors.unit(state);
+const mapStateToProps = (state: SelectedUnitState & BattleUnitsState & ActionQueueState) => {
+    const unit = selectedUnit(state);
 
     return {
         unit: unit,
-        abilities: selectors.abilities(state),
+        abilities: abilities(state),
         unitActions: unit ? unitActions(unit.id)(state) : [],
     };
 };

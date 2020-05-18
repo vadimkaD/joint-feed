@@ -1,11 +1,17 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { AbilityAnimator } from "../../Abilities.types";
 import { getCenter } from "../../../Battlefield/Battlefield.utils";
 import { MoveAnimationParams } from "../Move.types";
 import { UnitAnimator } from "./Move.unit-animator";
 import { BattleUnit } from "../../../BattleUnits/BattleUnits.types";
+import { unitsOnBoard as unitsOnBoardSelector } from "../../../Battle/__redux/Battle.selectors";
+import { tick } from "../../../Battle/__redux/Battle.external-selectors";
 
-const MoveAnimator: AbilityAnimator = ({ hexes, unitsOnBoard, animationRecords, currentTick }) => {
+const MoveAnimator: AbilityAnimator = ({ animationRecords }) => {
+    const unitsOnBoard = useSelector(unitsOnBoardSelector);
+    const currentTick = useSelector(tick);
+
     return (
         <>
             {animationRecords

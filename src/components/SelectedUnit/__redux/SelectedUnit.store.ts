@@ -1,7 +1,6 @@
 import { createReducer } from "deox";
-
-import * as actions from "./InfoPanel.actions";
+import { selectUnit } from "./SelectedUnit.actions";
 
 export const unitId = createReducer(null as string | null, handleAction => [
-    handleAction(actions.selectUnit, (state, { payload }) => payload),
+    handleAction(selectUnit, (state, { payload }) => payload),
 ]);

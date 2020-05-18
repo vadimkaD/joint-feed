@@ -28,9 +28,6 @@ export interface AbilityActionOutlineProps {
 export type AbilityActionOutline = React.FunctionComponent<AbilityActionOutlineProps>;
 
 export interface AbilityAnimatorProps {
-    unitsOnBoard: UnitsOnBoard;
-    hexes: Hexes;
-    currentTick: number;
     animationRecords: AnimationRecord[];
 }
 
