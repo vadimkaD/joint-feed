@@ -1,8 +1,6 @@
 import { createSelector } from "reselect";
 
 import { BattleState, HightlightedHexes, Owner, UnitsOnBoard } from "../Battle.types";
-import { unit as selectedUnit } from "../../InfoPanel/__redux/InfoPanel.selectors";
-import { InfoPanelState } from "../../InfoPanel/InfoPanel.types";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
 import { selectedAbility } from "../../Abilities/__redux/Abilities.selectors";
 import { ABILITIES } from "../../Abilities/Abilities.constants";
@@ -16,6 +14,8 @@ import { Hex, Hexes, HexesState } from "../../Hexes/Hexes.types";
 import { hexes, hexUnderCursor } from "../../Hexes/__redux/Hexes.selectors";
 import { BattleUnit, BattleUnitsState } from "../../BattleUnits/BattleUnits.types";
 import { battleUnits } from "../../BattleUnits/__redux/BattleUnits.selectors";
+import { selectedUnit } from "../../SelectedUnit/__redux/SelectedUnit.selectors";
+import { SelectedUnitState } from "../../SelectedUnit/SelectedUnit.types";
 
 export const unitsOnBoard = createSelector<BattleUnitsState, BattleUnit[], UnitsOnBoard>(battleUnits, units => {
     return units.reduce((onBoard: UnitsOnBoard, unit) => {
@@ -25,7 +25,7 @@ export const unitsOnBoard = createSelector<BattleUnitsState, BattleUnit[], Units
 });
 
 export const highlightedHexes = createSelector<
-    BattleState & InfoPanelState & BattleUnitsState & AbilitiesState & ActionQueueState & HexesState,
+    BattleState & SelectedUnitState & BattleUnitsState & AbilitiesState & ActionQueueState & HexesState,
     Hexes,
     BattleUnit | null,
     Hex | null,

@@ -3,9 +3,9 @@ import { IconPanel, UnitIcon } from "./UnitIconPanel.styled";
 import { UnitIconPanelProps } from "./UnitIconPanel.types";
 import { unitsOnBoard } from "../Battle/__redux/Battle.selectors";
 import { Dispatch } from "redux";
-import { selectUnit } from "../InfoPanel/__redux/InfoPanel.actions";
 import { connect } from "react-redux";
 import { BattleUnitsState } from "../BattleUnits/BattleUnits.types";
+import { selectUnit } from "../SelectedUnit/__redux/SelectedUnit.actions";
 
 const UnitIconPanel: FunctionComponent<UnitIconPanelProps> = ({ unitsOnBoard, selectUnit }) => {
     const keys = Object.keys(unitsOnBoard);

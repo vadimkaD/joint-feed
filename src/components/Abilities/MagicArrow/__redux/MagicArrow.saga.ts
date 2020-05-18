@@ -2,7 +2,6 @@ import { all, put, select, takeEvery } from "redux-saga/effects";
 import { ActionType, getType } from "deox";
 import { v4 as uuidv4 } from "uuid";
 import * as actions from "./MagicArrow.actions";
-import { unit } from "../../../InfoPanel/__redux/InfoPanel.selectors";
 import { UnitsOnBoard } from "../../../Battle/Battle.types";
 import { addAction } from "../../../ActionQueue/__redux/ActionQueue.actions";
 import { ABILITIES } from "../../Abilities.constants";
@@ -22,6 +21,7 @@ import { Coord } from "../../../../hexagons/hexagons.types";
 import { isInRange } from "../../../../hexagons";
 import { BattleUnit } from "../../../BattleUnits/BattleUnits.types";
 import { updateUnit } from "../../../BattleUnits/__redux/BattleUnits.actions";
+import { selectedUnit as unit } from "../../../SelectedUnit/__redux/SelectedUnit.selectors";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;

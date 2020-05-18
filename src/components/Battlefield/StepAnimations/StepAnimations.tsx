@@ -1,28 +1,16 @@
 import React from "react";
-import { connect } from "react-redux";
-
-import { StepAnimationsProps } from "./StepAnimations.types";
-import { BattleState } from "../../Battle/Battle.types";
-import { unitsOnBoard } from "../../Battle/__redux/Battle.selectors";
-import { isAnimation, tick } from "../../Battle/__redux/Battle.external-selectors";
+import { useSelector } from "react-redux";
+import { isAnimation as isAnimationSelector } from "../../Battle/__redux/Battle.external-selectors";
 import { abilitiesDictionary } from "../../Abilities";
-import { animationsByAbility } from "../../Animations/__redux/Animations.selectors";
-import { AnimationRecord, AnimationsState } from "../../Animations/Animations.types";
+import { animationsByAbility as animationsByAbilitySelector } from "../../Animations/__redux/Animations.selectors";
+import { AnimationRecord } from "../../Animations/Animations.types";
 import { ABILITIES } from "../../Abilities/Abilities.constants";
-import { hexes } from "../../Hexes/__redux/Hexes.selectors";
-import { HexesState } from "../../Hexes/Hexes.types";
-import { BattleUnitsState } from "../../BattleUnits/BattleUnits.types";
 
-const StepAnimations: React.FunctionComponent<StepAnimationsProps> = ({
-    unitsOnBoard,
-    animationsByAbility,
-    isAnimation,
-    tick,
-    hexes,
-}) => {
+const StepAnimations: React.FunctionComponent<{}> = props => {
+    const isAnimation = useSelector(isAnimationSelector);
+    const animationsByAbility = useSelector(animationsByAbilitySelector);
+
     if (!isAnimation) return null;
-
-    console.log("animationsByAbility", animationsByAbility);
 
     return (
         <>
@@ -32,10 +20,7 @@ const StepAnimations: React.FunctionComponent<StepAnimationsProps> = ({
                 return (
                     <Animator
                         key={index}
-                        hexes={hexes}
-                        unitsOnBoard={unitsOnBoard}
                         animationRecords={animationsByAbility[abilityKey as ABILITIES] as AnimationRecord[]}
-                        currentTick={tick}
                     />
                 );
             })}
@@ -43,12 +28,4 @@ const StepAnimations: React.FunctionComponent<StepAnimationsProps> = ({
     );
 };
 
-const mapStateToProps = (state: BattleUnitsState & HexesState & BattleState & AnimationsState) => ({
-    isAnimation: isAnimation(state),
-    animationsByAbility: animationsByAbility(state),
-    unitsOnBoard: unitsOnBoard(state),
-    hexes: hexes(state),
-    tick: tick(state),
-});
-
-export default connect(mapStateToProps)(StepAnimations);
+export default StepAnimations;

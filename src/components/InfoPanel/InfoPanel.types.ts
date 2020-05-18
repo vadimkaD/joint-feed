@@ -2,12 +2,6 @@ import { Ability } from "../Abilities/Abilities.types";
 import { Action } from "../ActionQueue/ActionQueue.types";
 import { BattleUnit } from "../BattleUnits/BattleUnits.types";
 
-export type InfoPanelState = {
-    InfoPanel: {
-        unitId: string | null;
-    };
-};
-
 export interface UnitProps {
     unit: BattleUnit | null;
 }
