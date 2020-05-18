@@ -1,12 +1,13 @@
 import React from "react";
 import { ActionType } from "deox";
 import { ABILITIES } from "./Abilities.constants";
-import { HightlightedHexes, PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
+import { HightlightedHexes, UnitsOnBoard } from "../Battle/Battle.types";
 import { Action } from "../ActionQueue/ActionQueue.types";
 import { EffectType } from "../Effects/Effects.types";
 import { AtLeast } from "../../types";
 import { AnimationRecord } from "../Animations/Animations.types";
 import { Hex, Hexes } from "../Hexes/Hexes.types";
+import { BattleUnit } from "../BattleUnits/BattleUnits.types";
 
 export enum Target {
     UNITS = "UNITS",
@@ -70,7 +71,7 @@ export interface AbilitiesState {
 
 export type GetHighlights = (
     hexes: Hexes,
-    selectedUnit: PreparedUnit,
+    selectedUnit: BattleUnit,
     unitsOnBoard: UnitsOnBoard,
     hexUnderCursor: Hex | null,
     queue: Action[],
@@ -78,7 +79,7 @@ export type GetHighlights = (
 
 export interface AbilityEffect {
     type: EffectType;
-    effect: AtLeast<PreparedUnit, "id">;
+    effect: AtLeast<BattleUnit, "id">;
 }
 export type AbilityEffector = (action: Action, unitsOnBoard: UnitsOnBoard) => AbilityEffect[];
 

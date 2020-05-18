@@ -1,24 +1,22 @@
 import { createSelector } from "reselect";
 
 import { InfoPanelState } from "../InfoPanel.types";
-import { BattleState, PreparedUnit } from "../../Battle/Battle.types";
 import { Ability } from "../../Abilities/Abilities.types";
 import { abilitiesDictionary as abilitiesConstants } from "../../Abilities";
-import { UnitsState } from "../../Player/Units/Units.types";
-import { preparedUnits } from "../../Battle/__redux/Battle.external-selectors";
+import { BattleUnit, BattleUnitsState } from "../../BattleUnits/BattleUnits.types";
+import { battleUnits } from "../../BattleUnits/__redux/BattleUnits.selectors";
 
 export const unitId = (state: InfoPanelState) => state.InfoPanel.unitId as string | null;
-export const unit = createSelector<
-    InfoPanelState & BattleState & UnitsState,
-    string | null,
-    PreparedUnit[],
-    PreparedUnit | null
->(unitId, preparedUnits, (unitId, units) => {
-    if (unitId === null) return null;
-    const foundUnit = units.find(unit => unit.id === unitId);
-    return foundUnit ? foundUnit : null;
-});
-export const abilities = createSelector<InfoPanelState & BattleState & UnitsState, PreparedUnit | null, Ability[]>(
+export const unit = createSelector<InfoPanelState & BattleUnitsState, string | null, BattleUnit[], BattleUnit | null>(
+    unitId,
+    battleUnits,
+    (unitId, units) => {
+        if (unitId === null) return null;
+        const foundUnit = units.find(unit => unit.id === unitId);
+        return foundUnit ? foundUnit : null;
+    },
+);
+export const abilities = createSelector<InfoPanelState & BattleUnitsState, BattleUnit | null, Ability[]>(
     [unit],
     unit => {
         if (!unit) return [];

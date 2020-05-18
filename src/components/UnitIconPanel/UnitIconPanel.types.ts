@@ -1,7 +1,8 @@
-import { PreparedUnit, UnitsOnBoard } from "../Battle/Battle.types";
+import { UnitsOnBoard } from "../Battle/Battle.types";
+import { BattleUnit } from "../BattleUnits/BattleUnits.types";
 
 export interface UnitIconProps {
-    unit: PreparedUnit;
+    unit: BattleUnit;
 }
 
 export interface UnitIconPanelProps {

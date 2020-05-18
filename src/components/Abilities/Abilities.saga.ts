@@ -1,12 +1,12 @@
-import { PreparedUnit } from "../Battle/Battle.types";
 import { select } from "redux-saga/effects";
 import { tick } from "../Battle/__redux/Battle.external-selectors";
 import { Effect, EffectType, TickEffects, UnitTargetAndValue } from "../Effects/Effects.types";
 import { tickEffects } from "../Effects/__redux/Effects.selectors";
 import { abilitiesDictionary } from "./index";
 import { Coord } from "../../hexagons/hexagons.types";
+import { BattleUnit } from "../BattleUnits/BattleUnits.types";
 
-export function* getCoordOfUnitForCurrentTick(unit: PreparedUnit) {
+export function* getCoordOfUnitForCurrentTick(unit: BattleUnit) {
     const tickNumber: number = yield select(tick);
     const effects: TickEffects = yield select(tickEffects);
     const allPreviousTicks: number[] = Object.keys(effects)

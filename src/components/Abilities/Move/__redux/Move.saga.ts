@@ -3,10 +3,10 @@ import { ActionType, getType } from "deox";
 import { v4 as uuidv4 } from "uuid";
 import * as actions from "./Move.actions";
 import { unit } from "../../../InfoPanel/__redux/InfoPanel.selectors";
-import { PreparedUnit, UnitsOnBoard } from "../../../Battle/Battle.types";
+import { UnitsOnBoard } from "../../../Battle/Battle.types";
 import { addAction } from "../../../ActionQueue/__redux/ActionQueue.actions";
 import { ABILITIES } from "../../Abilities.constants";
-import { actionComplete, updateUnit } from "../../../Battle/__redux/Battle.actions";
+import { actionComplete } from "../../../Battle/__redux/Battle.actions";
 import { selectAbility } from "../../__redux/Abilities.actions";
 import { queue } from "../../../ActionQueue/__redux/ActionQueue.external-selectors";
 import { getEffectedUnit, getEffectsForSelectedUnit } from "../../Abilities.utils";
@@ -22,10 +22,12 @@ import { addAnimation } from "../../../Animations/__redux/Animations.actions";
 import { AbilityAnimation } from "../../../Animations/Animations.types";
 import { getRoute, isInRange, isSameCoord, offsetDistance } from "../../../../hexagons";
 import { Coord } from "../../../../hexagons/hexagons.types";
+import { BattleUnit } from "../../../BattleUnits/BattleUnits.types";
+import { updateUnit } from "../../../BattleUnits/__redux/BattleUnits.actions";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;
-    const selectedUnit: PreparedUnit = { ...(yield select(unit)) };
+    const selectedUnit: BattleUnit = { ...(yield select(unit)) };
     const actionQueue: Action[] = yield select(queue);
     const preparedUnitsOnBoard = yield select(unitsOnBoard);
     const effects = getEffectsForSelectedUnit(actionQueue, preparedUnitsOnBoard, selectedUnit);
@@ -57,7 +59,7 @@ function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
 function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>) {
     const action = reduxAction.payload as Action;
     const units: UnitsOnBoard = yield select(unitsOnBoard);
-    const unit = Object.values(units).find(unit => unit.id === action.unitId) as PreparedUnit | null;
+    const unit = Object.values(units).find(unit => unit.id === action.unitId) as BattleUnit | null;
     if (unit) {
         const unitCoord = yield getCoordOfUnitForCurrentTick(unit);
 

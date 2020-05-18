@@ -2,12 +2,12 @@ import { createSelector } from "reselect";
 import { queue } from "../../../ActionQueue/__redux/ActionQueue.external-selectors";
 import { unitsOnBoard } from "../../../Battle/__redux/Battle.selectors";
 import { Action, ActionQueueState } from "../../../ActionQueue/ActionQueue.types";
-import { BattleState, UnitsOnBoard } from "../../../Battle/Battle.types";
-import { UnitsState } from "../../../Player/Units/Units.types";
+import { UnitsOnBoard } from "../../../Battle/Battle.types";
 import { ActionsByUnits } from "../StepAnimations.types";
+import { BattleUnitsState } from "../../../BattleUnits/BattleUnits.types";
 
 export const actionsByUnits = createSelector<
-    ActionQueueState & BattleState & UnitsState,
+    ActionQueueState & BattleUnitsState,
     Action[],
     UnitsOnBoard,
     ActionsByUnits

@@ -2,16 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { StepAnimationsProps } from "./StepAnimations.types";
-import { UnitsState } from "../../Player/Units/Units.types";
 import { BattleState } from "../../Battle/Battle.types";
 import { unitsOnBoard } from "../../Battle/__redux/Battle.selectors";
 import { isAnimation, tick } from "../../Battle/__redux/Battle.external-selectors";
 import { abilitiesDictionary } from "../../Abilities";
-import { animations, animationsByAbility } from "../../Animations/__redux/Animations.selectors";
-import { AbilityAnimation, AnimationRecord, AnimationsState } from "../../Animations/Animations.types";
+import { animationsByAbility } from "../../Animations/__redux/Animations.selectors";
+import { AnimationRecord, AnimationsState } from "../../Animations/Animations.types";
 import { ABILITIES } from "../../Abilities/Abilities.constants";
 import { hexes } from "../../Hexes/__redux/Hexes.selectors";
 import { HexesState } from "../../Hexes/Hexes.types";
+import { BattleUnitsState } from "../../BattleUnits/BattleUnits.types";
 
 const StepAnimations: React.FunctionComponent<StepAnimationsProps> = ({
     unitsOnBoard,
@@ -43,7 +43,7 @@ const StepAnimations: React.FunctionComponent<StepAnimationsProps> = ({
     );
 };
 
-const mapStateToProps = (state: BattleState & HexesState & UnitsState & AnimationsState) => ({
+const mapStateToProps = (state: BattleUnitsState & HexesState & BattleState & AnimationsState) => ({
     isAnimation: isAnimation(state),
     animationsByAbility: animationsByAbility(state),
     unitsOnBoard: unitsOnBoard(state),
