@@ -14,8 +14,6 @@ const AnimatedProjectiles: React.FunctionComponent<{}> = () => {
         [animations],
     );
 
-    console.log("projectileAnimations", projectileAnimations);
-
     return (
         <>
             {projectileAnimations.map((animation, index) => {
