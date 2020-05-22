@@ -7,6 +7,7 @@ import ActionOutlines from "./ActionOutlines/ActionOutlines";
 import StepAnimations from "./StepAnimations/StepAnimations";
 import { mouseLeaveBoard } from "../Battle/__redux/Battle.actions";
 import { isAnimation as isAnimationSelector } from "../Battle/__redux/Battle.external-selectors";
+import AnimatedUnits from "./AnimatedUnits/AnimatedUnits";
 
 const Battlefield: React.FunctionComponent<{}> = props => {
     const dispatch = useDispatch();
@@ -26,9 +27,9 @@ const Battlefield: React.FunctionComponent<{}> = props => {
             {HEIGHT_ARRAY.map((i, j) => (
                 <BattlefieldLine key={i} lineNumber={j} />
             ))}
-            {isAnimation ? null : <Units />}
+            {isAnimation ? <AnimatedUnits /> : <Units />}
             {isAnimation ? null : <ActionOutlines />}
-            <StepAnimations />
+            {false ? <StepAnimations /> : null}
         </svg>
     );
 };

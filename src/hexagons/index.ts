@@ -1,5 +1,8 @@
 import { Coord, Cube, Coords } from "./hexagons.types";
 import { HEIGHT, WIDTH } from "../components/Battlefield/Battlefield.constants";
+import { Hexes } from "../components/Hexes/Hexes.types";
+import { UnitsOnBoard } from "../components/Battle/Battle.types";
+import { getByDirection } from "./hexagons.constants";
 
 export function getCoordsFromString(coord: string): Coord {
     const [x, y] = coord.split(":").map(v => +v);
@@ -14,21 +17,21 @@ export function isSameCoord(one: Coord, two: Coord) {
     return one.x === two.x && one.y === two.y;
 }
 
-function getLeftTop(coord: Coord): Coord | null {
+export function getLeftTop(coord: Coord): Coord | null {
     if (coord.y > 0 && !(coord.x === 0 && coord.y % 2)) {
         return { x: coord.y % 2 ? coord.x - 1 : coord.x, y: coord.y - 1 };
     }
     return null;
 }
 
-function getRightTop(coord: Coord): Coord | null {
+export function getRightTop(coord: Coord): Coord | null {
     if (coord.y > 0 && !(coord.x === WIDTH - 1)) {
         return { x: coord.y % 2 ? coord.x : coord.x + 1, y: coord.y - 1 };
     }
     return null;
 }
 
-function getLeft(coord: Coord): Coord | null {
+export function getLeft(coord: Coord): Coord | null {
     if (coord.x > 0) {
         return { x: coord.x - 1, y: coord.y };
     }
@@ -36,21 +39,21 @@ function getLeft(coord: Coord): Coord | null {
     return null;
 }
 
-function getRight(coord: Coord): Coord | null {
+export function getRight(coord: Coord): Coord | null {
     if (coord.x < WIDTH - 1 && !(coord.x === WIDTH - 2 && !(coord.y % 2))) {
         return { x: coord.x + 1, y: coord.y };
     }
     return null;
 }
 
-function getRightBottom(coord: Coord): Coord | null {
+export function getRightBottom(coord: Coord): Coord | null {
     if (coord.x < WIDTH - 2 && coord.y < HEIGHT - 1) {
         return { x: coord.y % 2 ? coord.x : coord.x + 1, y: coord.y + 1 };
     }
     return null;
 }
 
-function getLeftBottom(coord: Coord): Coord | null {
+export function getLeftBottom(coord: Coord): Coord | null {
     if (coord.y < HEIGHT - 1 && !(coord.x === 0 && coord.y % 2)) {
         return { x: coord.y % 2 ? coord.x - 1 : coord.x, y: coord.y + 1 };
     }
@@ -173,4 +176,63 @@ export function getArea(coord: Coord, radius: number): Coord[] {
     }
 
     return results;
+}
+
+export function getAreaWithObstacles(from: Coord, distance: number, hexes: Hexes, unitsOnBoard: UnitsOnBoard): Coord[] {
+    const visited: Coords = {};
+    visited[getStringFromCoord(from)] = from;
+    const fringes: Coord[][] = [];
+    fringes.push([from]);
+
+    for (let step = 1; step <= distance; step++) {
+        fringes.push([]);
+        for (let j = 0; j < fringes[step - 1].length; j++) {
+            const coord: Coord = fringes[step - 1][j];
+            for (let d = 0; d < 6; d++) {
+                const neighbor = getByDirection(coord, d) as Coord;
+                if (!neighbor) continue;
+                if (!visited[getStringFromCoord(neighbor)] && !unitsOnBoard[getStringFromCoord(neighbor)]) {
+                    visited[getStringFromCoord(neighbor)] = neighbor;
+                    fringes[step].push(neighbor);
+                }
+            }
+        }
+    }
+
+    return Object.values(visited);
+}
+
+export function getPathWithObstacles(from: Coord, to: Coord, hexes: Hexes, unitsOnBoard: UnitsOnBoard): Coord[] {
+    const frontier: Coord[] = [];
+    frontier.push(from);
+    const cameFrom: Coords = {};
+    cameFrom[getStringFromCoord(from)] = from;
+
+    let current;
+
+    while ((current = frontier.shift())) {
+        for (let dir = 0; dir < 6; dir++) {
+            const neighbor = getByDirection(current, dir);
+            if (neighbor) {
+                if (unitsOnBoard[getStringFromCoord(neighbor)]) continue;
+
+                if (!cameFrom[getStringFromCoord(neighbor)]) {
+                    cameFrom[getStringFromCoord(neighbor)] = current;
+                    frontier.push(neighbor);
+                }
+            }
+        }
+    }
+
+    const route: Coord[] = [];
+
+    current = cameFrom[getStringFromCoord(to)];
+    route.push(current);
+
+    while (!isSameCoord(current, cameFrom[getStringFromCoord(current)])) {
+        current = cameFrom[getStringFromCoord(current)];
+        route.push(current);
+    }
+
+    return route.reverse().concat([to]);
 }

@@ -17,11 +17,12 @@ function* hexClickSaga(action: ActionType<typeof clickHex>) {
     const key = getStringFromCoord(hex.coord);
     const boardUnit = boardUnits[key];
 
-    if (boardUnit) {
-        yield put(selectUnit(boardUnit.id));
-    } else if (selected !== undefined && abilityKey) {
+    if (selected !== undefined && abilityKey) {
         const ability = abilitiesDictionary[abilityKey];
         yield put(ability.onHexClick(hex));
+        console.log("ta-da!");
+    } else if (boardUnit) {
+        yield put(selectUnit(boardUnit.id));
     }
 }
 

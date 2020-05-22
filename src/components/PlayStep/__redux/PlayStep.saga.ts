@@ -12,6 +12,8 @@ import { setTick } from "../../Battle/__redux/Battle.actions";
 import { setAnimation } from "../../Battle/__redux/Battle.actions";
 import { ACTION_POINTS, TICK_TIMEOUT } from "../../Battle/Battle.constants";
 import { playStepClick } from "./PlayStep.actions";
+import { Ability } from "../../Abilities/Abilities.types";
+import { tickEffects } from "../../Effects/__redux/Effects.selectors";
 
 function* playStepSaga(action: ActionType<typeof playStepClick>) {
     console.log("start step");
@@ -23,12 +25,15 @@ function* playStepSaga(action: ActionType<typeof playStepClick>) {
     for (const tick of tickActionArray) {
         const sorted = sortActionsByAbilityType(tick);
         for (const action of sorted) {
-            const ability = abilitiesDictionary[action.ability];
+            const ability = abilitiesDictionary[action.ability] as Ability;
             yield put(ability.handleEffect(action));
             yield take(actionComplete);
         }
         yield put(nextTick());
     }
+
+    const effects = yield select(tickEffects);
+    console.log("effects", effects);
 
     yield put(setTick(startTick));
 

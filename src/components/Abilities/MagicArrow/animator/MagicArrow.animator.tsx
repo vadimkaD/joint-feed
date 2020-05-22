@@ -10,7 +10,13 @@ const MagicArrowAnimator: AbilityAnimator = ({ animationRecords }) => {
     return (
         <>
             {animationRecords.map((record, index) => {
-                return <MagicArrowProjectile key={index} record={record} currentTick={currentTick} />;
+                return (
+                    <MagicArrowProjectile
+                        key={record.animation.animationId}
+                        record={record}
+                        currentTick={currentTick}
+                    />
+                );
             })}
         </>
     );

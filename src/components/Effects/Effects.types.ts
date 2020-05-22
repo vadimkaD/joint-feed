@@ -22,12 +22,13 @@ export type EffectValueHex = Partial<Hex>;
 
 export type UnitTargetAndValue = [UnitTarget, EffectValueUnit];
 export type HexTargetAndValue = [HexTarget, EffectValueHex | EffectValueUnit];
+export type TransportTargetAndValue = [HexTarget, EffectValueUnit];
 
 export interface Effect {
     effectId: string;
     sourceUnitId: string;
     abilityId: ABILITIES;
-    targetAndValue: UnitTargetAndValue | HexTargetAndValue;
+    targetAndValue: UnitTargetAndValue | HexTargetAndValue | TransportTargetAndValue;
 }
 
 export type TickEffects = {

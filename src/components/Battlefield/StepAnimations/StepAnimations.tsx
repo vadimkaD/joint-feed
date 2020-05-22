@@ -17,12 +17,9 @@ const StepAnimations: React.FunctionComponent<{}> = props => {
             {Object.keys(animationsByAbility).map((abilityKey, index) => {
                 const ability = abilitiesDictionary[abilityKey as ABILITIES];
                 const Animator = ability.abilityAnimator;
-                return (
-                    <Animator
-                        key={index}
-                        animationRecords={animationsByAbility[abilityKey as ABILITIES] as AnimationRecord[]}
-                    />
-                );
+                const records = animationsByAbility[abilityKey as ABILITIES] as AnimationRecord[];
+
+                return <Animator key={abilityKey} animationRecords={records} />;
             })}
         </>
     );

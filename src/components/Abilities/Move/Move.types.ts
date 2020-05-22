@@ -7,12 +7,6 @@ export interface MoveIconProps {
     selectedAbility: ABILITIES | null;
 }
 
-export interface MoveAnimationParams {
-    from: Coord;
-    to: Coord;
-    unitId: string;
-}
-
 export interface UnitAnimatorProps {
     from: Coord;
     to: Coord;

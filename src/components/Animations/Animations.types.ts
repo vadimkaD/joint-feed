@@ -1,11 +1,30 @@
 import { ABILITIES } from "../Abilities/Abilities.constants";
-import { AnyObject } from "../../types";
+import { Coord } from "../../hexagons/hexagons.types";
 
-export interface AbilityAnimation {
+export enum AnimationsTypes {
+    UNIT_TRANSPORT = "UNIT_TRANSPORT",
+    PROJECTILE = "PROJECTILE",
+}
+
+interface BaseAbilityAnimation {
     animationId: string;
-    params: AnyObject;
     ability: ABILITIES;
 }
+
+export interface UnitTransportAnimation extends BaseAbilityAnimation {
+    targetUnitId: string;
+    departure: Coord;
+    destination: Coord;
+    type: AnimationsTypes.UNIT_TRANSPORT;
+}
+
+export interface ProjectileAnimation extends BaseAbilityAnimation {
+    departure: Coord;
+    destination: Coord;
+    type: AnimationsTypes.PROJECTILE;
+}
+
+export type AbilityAnimation = UnitTransportAnimation | ProjectileAnimation;
 
 export interface Animations {
     [tick: number]: AbilityAnimation[];
