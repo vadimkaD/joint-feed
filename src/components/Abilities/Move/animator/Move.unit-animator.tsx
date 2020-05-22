@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UnitImageWithTransition } from "../Move.styled";
 import { UNIT_SIZE } from "../../../Battlefield/Units/Units.constants";
 import { UnitAnimatorProps } from "../Move.types";
@@ -7,18 +7,17 @@ export const UnitAnimator: React.FunctionComponent<UnitAnimatorProps> = ({ unit,
     const [translateX, setTranslateX] = useState(0);
     const [translateY, setTranslateY] = useState(0);
 
-    setTimeout(() => {
-        setTranslateX(Math.floor(to.x - UNIT_SIZE / 2 - (from.x - UNIT_SIZE / 2)));
-        setTranslateY(Math.floor(to.y - UNIT_SIZE / 2 - (from.y - UNIT_SIZE / 2)));
-    }, 0);
+    useEffect(() => {
+        const translateX = Math.floor(to.x - UNIT_SIZE / 2 - (from.x - UNIT_SIZE / 2));
+        const translateY = Math.floor(to.y - UNIT_SIZE / 2 - (from.y - UNIT_SIZE / 2));
+        setTranslateX(translateX);
+        setTranslateY(translateY);
+    }, [unit, from, to]);
+
+    const x = from.x - UNIT_SIZE / 2;
+    const y = from.y - UNIT_SIZE / 2;
 
     return (
-        <UnitImageWithTransition
-            translateX={translateX}
-            translateY={translateY}
-            xlinkHref={unit.image}
-            x={from.x - UNIT_SIZE / 2}
-            y={from.y - UNIT_SIZE / 2}
-        />
+        <UnitImageWithTransition translateX={translateX} translateY={translateY} xlinkHref={unit.image} x={x} y={y} />
     );
 };

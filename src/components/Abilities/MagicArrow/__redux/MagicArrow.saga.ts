@@ -14,7 +14,7 @@ import { getCoordOfUnitForCurrentTick } from "../../Abilities.saga";
 import { ACTION_POINTS } from "../../../Battle/Battle.constants";
 import { Effect } from "../../../Effects/Effects.types";
 import { addEffect } from "../../../Effects/__redux/Effects.actions";
-import { AbilityAnimation } from "../../../Animations/Animations.types";
+import { AnimationsTypes, ProjectileAnimation } from "../../../Animations/Animations.types";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
 import { Coord } from "../../../../hexagons/hexagons.types";
 import { isInRange } from "../../../../hexagons";
@@ -55,7 +55,6 @@ function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
 
 function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>) {
     const action = reduxAction.payload as Action;
-    console.log("action in applyEffectSaga magicArrow", action);
     const units: UnitsOnBoard = yield select(unitsOnBoard);
     const unit = Object.values(units).find(unit => unit.id === action.unitId) as BattleUnit | null;
 
@@ -79,10 +78,12 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
                     }),
                 );
 
-                const animation: AbilityAnimation = {
+                const animation: ProjectileAnimation = {
                     animationId: action.actionId,
-                    params: { from: unitCoord, to: coord },
+                    departure: unitCoord,
+                    destination: coord,
                     ability: ABILITIES.MAGIC_ARROW,
+                    type: AnimationsTypes.PROJECTILE,
                 };
 
                 yield put(
@@ -91,8 +92,6 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
                         animation,
                     }),
                 );
-
-                console.log("MagicArrow.saga [unitCoord, coord]:", [JSON.stringify(unitCoord), JSON.stringify(coord)]);
             } else {
                 console.log("FIZZLE! Not enough range", unitCoord, coord);
             }

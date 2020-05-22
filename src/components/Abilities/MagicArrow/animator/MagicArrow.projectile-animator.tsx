@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { MagicArrowAnimationParams, MagicArrowProjectileProps } from "../MagicArrow.types";
+import { MagicArrowProjectileProps } from "../MagicArrow.types";
 import { ArrowCircle } from "../MagicArrow.styled";
 import { getCenter } from "../../../Battlefield/Battlefield.utils";
 import { CAST_TIME } from "../MagicArrow.constants";
+import { ProjectileAnimation } from "../../../Animations/Animations.types";
 
 export const MagicArrowProjectile: React.FunctionComponent<MagicArrowProjectileProps> = ({ record, currentTick }) => {
     const [translateX, setTranslateX] = useState(0);
     const [translateY, setTranslateY] = useState(0);
 
-    const params = record.animation.params as MagicArrowAnimationParams;
-    const center = getCenter(params.from.x, params.from.y);
-    const coord = params.to;
-    const nextCenter = getCenter(coord.x, coord.y);
+    const { departure, destination } = record.animation as ProjectileAnimation;
+    const center = getCenter(departure.x, departure.y);
+    const nextCenter = getCenter(destination.x, destination.y);
 
     if (currentTick === record.tick) {
         setTimeout(() => {
@@ -28,6 +28,6 @@ export const MagicArrowProjectile: React.FunctionComponent<MagicArrowProjectileP
             r={15}
             translateX={translateX}
             translateY={translateY}
-        ></ArrowCircle>
+        />
     );
 };

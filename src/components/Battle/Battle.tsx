@@ -30,7 +30,7 @@ const Battle: React.FunctionComponent<{}> = props => {
             addUnit({
                 id: "Dwarf",
                 currentHp: 25,
-                coord: { x: 12, y: 3 },
+                coord: { x: 2, y: 1 },
                 owner: Owner.PLAYER,
                 currentActionPoints: ACTION_POINTS,
                 maxHp: 25,
