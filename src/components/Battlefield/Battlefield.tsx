@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BATTLEFIELD_HEIGHT, BATTLEFIELD_WIDTH, HEIGHT_ARRAY } from "./Battlefield.constants";
 import BattlefieldLine from "./BattlefieldLine";
@@ -8,12 +8,13 @@ import StepAnimations from "./StepAnimations/StepAnimations";
 import { mouseLeaveBoard } from "../Battle/__redux/Battle.actions";
 import { isAnimation as isAnimationSelector } from "../Battle/__redux/Battle.external-selectors";
 import AnimatedUnits from "./AnimatedUnits/AnimatedUnits";
+import AnimatedProjectiles from "./AnimatedProjectiles/AnimatedProjectiles";
 
 const Battlefield: React.FunctionComponent<{}> = props => {
     const dispatch = useDispatch();
     const isAnimation = useSelector(isAnimationSelector);
 
-    const onMouseLeaveBoard = (e: React.SyntheticEvent) => dispatch(mouseLeaveBoard());
+    const onMouseLeaveBoard = useCallback((e: React.SyntheticEvent) => dispatch(mouseLeaveBoard()), [dispatch]);
 
     return (
         <svg
@@ -29,6 +30,7 @@ const Battlefield: React.FunctionComponent<{}> = props => {
             ))}
             {isAnimation ? <AnimatedUnits /> : <Units />}
             {isAnimation ? null : <ActionOutlines />}
+            {isAnimation ? <AnimatedProjectiles /> : null}
             {false ? <StepAnimations /> : null}
         </svg>
     );

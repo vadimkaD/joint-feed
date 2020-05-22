@@ -84,6 +84,7 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
                     destination: coord,
                     ability: ABILITIES.MAGIC_ARROW,
                     type: AnimationsTypes.PROJECTILE,
+                    tick: action.tickStart,
                 };
 
                 yield put(

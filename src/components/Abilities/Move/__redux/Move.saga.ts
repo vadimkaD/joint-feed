@@ -149,6 +149,7 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
                         destination: coord,
                         ability: ABILITIES.MOVE,
                         type: AnimationsTypes.UNIT_TRANSPORT,
+                        tick: action.tickStart,
                     };
 
                     yield put(
