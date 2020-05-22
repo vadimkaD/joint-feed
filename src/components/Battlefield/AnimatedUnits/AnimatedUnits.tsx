@@ -9,7 +9,6 @@ import {
     AnimationsTypes,
     UnitTransportAnimation,
 } from "../../Animations/Animations.types";
-import { getCenter } from "../Battlefield.utils";
 import { tick } from "../../Battle/__redux/Battle.external-selectors";
 import AnimatedUnit from "../AnimatedUnit/AnimatedUnit";
 

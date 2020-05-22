@@ -9,6 +9,7 @@ export enum AnimationsTypes {
 interface BaseAbilityAnimation {
     animationId: string;
     ability: ABILITIES;
+    tick: number;
 }
 
 export interface UnitTransportAnimation extends BaseAbilityAnimation {
