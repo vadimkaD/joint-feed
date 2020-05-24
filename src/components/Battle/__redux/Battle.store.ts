@@ -3,6 +3,7 @@ import * as actions from "./Battle.actions";
 
 export const isAnimation = createReducer(false as boolean, handleAction => [
     handleAction(actions.setAnimation, (state, { payload }) => payload),
+    handleAction(actions.nextStep, () => false),
 ]);
 
 export const stepNumber = createReducer(1 as number, handleAction => [
