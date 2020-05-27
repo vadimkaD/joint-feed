@@ -7,15 +7,20 @@ import { tick } from "../../Battle/__redux/Battle.external-selectors";
 import { sortActionsByAbilityType } from "../../Battle/Battle.utils";
 import { abilitiesDictionary } from "../../Abilities";
 import { actionComplete, nextStep, nextTick, setAnimation, setTick } from "../../Battle/__redux/Battle.actions";
-import { ACTION_POINTS, TICK_TIMEOUT } from "../../Battle/Battle.constants";
+import { TICK_TIMEOUT } from "../../Battle/Battle.constants";
 import { playStepClick } from "./PlayStep.actions";
 import { Ability } from "../../Abilities/Abilities.types";
 import { tickEffects } from "../../Effects/__redux/Effects.selectors";
-import { Effect, EffectType, TickEffects, UnitTargetAndValue } from "../../Effects/Effects.types";
-import { updateUnit } from "../../BattleUnits/__redux/BattleUnits.actions";
+import { setUnits } from "../../BattleUnits/__redux/BattleUnits.actions";
+import { dumpAnimatedUnits } from "../../Animations/__redux/Animations.actions";
+import { battleUnits } from "../../BattleUnits/__redux/BattleUnits.selectors";
+import { Unit, TickEffects, IBattle, StepResult } from "../../../core/Battle/Battle.types";
+import { ACTION_POINTS } from "../../../core/Battle/Battle.constants";
+import { Battle } from "../../../core/Battle/Battle";
+import { hexes as hexesSelector } from "../../Hexes/__redux/Hexes.selectors";
+import { setHexes } from "../../Hexes/__redux/Hexes.actions";
 
 function* playStepSaga(action: ActionType<typeof playStepClick>) {
-    console.log("start step");
     const selectedActionsByUnits: ActionsByUnits = yield select(actionsByUnits);
     const tickActionArray = getTickActions(selectedActionsByUnits);
 
@@ -31,8 +36,9 @@ function* playStepSaga(action: ActionType<typeof playStepClick>) {
         yield put(nextTick());
     }
 
-    const effects: TickEffects = yield select(tickEffects);
-    console.log("effects", effects);
+    const units: Unit[] = yield select(battleUnits);
+
+    yield put(dumpAnimatedUnits(units));
 
     yield put(setTick(startTick));
 
@@ -43,25 +49,23 @@ function* playStepSaga(action: ActionType<typeof playStepClick>) {
     }
 
     yield put(setTick(startTick));
+    const hexes = yield select(hexesSelector);
+    const effects: TickEffects = yield select(tickEffects);
 
-    for (let i = 0; i < ACTION_POINTS; i++) {
-        const currentTick = yield select(tick);
-        const tickEffects = (effects[currentTick] || []) as Effect[];
-        for (let i = 0; i < tickEffects.length; i++) {
-            const effect = tickEffects[i];
-            const ability = abilitiesDictionary[effect.abilityId];
-            if (ability.effectType === EffectType.TRANSPORT) {
-                const [unit, val] = effect.targetAndValue as UnitTargetAndValue;
-                console.log("unit", unit);
-                console.log("val", val);
-                yield put(updateUnit({ id: unit.id, coord: val.coord }));
-            }
-        }
-        yield put(nextTick());
-    }
+    const battle: IBattle = Battle.getInstance();
 
-    const currentTick = yield select(tick);
-    yield put(nextStep(currentTick));
+    const gameState: StepResult = yield battle.applyStepEffects({
+        hexes,
+        units,
+        effects,
+    });
+
+    console.log("gameState", gameState);
+
+    yield put(setUnits(gameState.units));
+    yield put(setHexes(gameState.hexes));
+
+    yield put(nextStep((gameState.step - 1) * ACTION_POINTS));
 }
 
 export default function* googleSourceSaga() {

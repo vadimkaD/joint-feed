@@ -1,8 +1,7 @@
-import { Hexes } from "../Hexes/Hexes.types";
+import { Hexes } from "../../core/Battle/Battle.types";
+import { HEIGHT, WIDTH } from "../../core/Hexagons/hexagons.constants";
 
 export const HEX_SIZE = 40;
-export const WIDTH = 13;
-export const HEIGHT = 7;
 export const WIDTH_ARRAY = new Array(WIDTH).fill(1).map((v, i) => i);
 export const HEIGHT_ARRAY = new Array(HEIGHT).fill(1).map((v, i) => i);
 export const HEX_WIDTH = Math.sqrt(3) * HEX_SIZE;

@@ -12,10 +12,10 @@ import {
     AbilityIconWrap,
 } from "./InfoPanel.styled";
 import ForwardIcon from "@material-ui/icons/Forward";
-import { ACTION_POINTS_ARR } from "../Battle/Battle.constants";
 import { unitActions as unitActionsSelector } from "../ActionQueue/__redux/ActionQueue.selectors";
 import { selectedUnit } from "../SelectedUnit/__redux/SelectedUnit.selectors";
 import { abilities as abilitiesSelector } from "./__redux/InfoPanel.selectors";
+import { ACTION_POINTS_ARR } from "../../core/Battle/Battle.constants";
 
 const InfoPanel: FunctionComponent<{}> = props => {
     const unit = useSelector(selectedUnit);

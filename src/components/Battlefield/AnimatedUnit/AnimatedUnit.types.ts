@@ -1,7 +1,7 @@
-import { BattleUnit } from "../../BattleUnits/BattleUnits.types";
 import { UnitTransportAnimation } from "../../Animations/Animations.types";
+import { Unit } from "../../../core/Battle/Battle.types";
 
 export interface AnimatedUnitProps {
-    unit: BattleUnit;
+    unit: Unit;
     transportAnimations: UnitTransportAnimation[];
 }

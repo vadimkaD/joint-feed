@@ -1,5 +1,6 @@
 import { ABILITIES } from "../Abilities/Abilities.constants";
-import { Coord } from "../../hexagons/hexagons.types";
+import { Coord } from "../../core/Hexagons/hexagons.types";
+import { Unit } from "../../core/Battle/Battle.types";
 
 export enum AnimationsTypes {
     UNIT_TRANSPORT = "UNIT_TRANSPORT",
@@ -42,5 +43,6 @@ export interface AnimationRecord {
 export interface AnimationsState {
     Animations: {
         animations: Animations;
+        animatedUnits: Unit[];
     };
 }

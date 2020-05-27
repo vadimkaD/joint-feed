@@ -5,12 +5,12 @@ import { HEX_SIZE, WIDTH_ARRAY } from "./Battlefield.constants";
 import { Group, InteractiveHexPolygon, Text } from "./Battlefield.styled";
 import { BattlefieldLineProps } from "./Battlefield.types";
 import { getHighlightComponent } from "./Battlefield.highlights";
-import { getStringFromCoord } from "../../hexagons";
-import { Hex, Hexes } from "../Hexes/Hexes.types";
+import { getStringFromCoord } from "../../core/Hexagons";
 import { hexes as hexesSelector } from "../Hexes/__redux/Hexes.selectors";
 import { clickHex, mouseEnterHex } from "../Hexes/__redux/Hexes.actions";
 import { highlightedHexes as highlightedHexesSelector } from "../Battle/__redux/Battle.selectors";
 import { HightlightedHexes } from "../Battle/Battle.types";
+import { Hex, Hexes } from "../../core/Battle/Battle.types";
 
 const BattlefieldLine: React.FunctionComponent<BattlefieldLineProps> = props => {
     const dispatch = useDispatch();

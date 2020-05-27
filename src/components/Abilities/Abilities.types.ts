@@ -3,11 +3,9 @@ import { ActionType } from "deox";
 import { ABILITIES } from "./Abilities.constants";
 import { HightlightedHexes, UnitsOnBoard } from "../Battle/Battle.types";
 import { Action } from "../ActionQueue/ActionQueue.types";
-import { EffectType } from "../Effects/Effects.types";
 import { AtLeast } from "../../types";
 import { AnimationRecord } from "../Animations/Animations.types";
-import { Hex, Hexes } from "../Hexes/Hexes.types";
-import { BattleUnit } from "../BattleUnits/BattleUnits.types";
+import { Unit, EffectType, Hex, Hexes } from "../../core/Battle/Battle.types";
 
 export enum Target {
     UNITS = "UNITS",
@@ -68,7 +66,7 @@ export interface AbilitiesState {
 
 export type GetHighlights = (
     hexes: Hexes,
-    selectedUnit: BattleUnit,
+    selectedUnit: Unit,
     unitsOnBoard: UnitsOnBoard,
     hexUnderCursor: Hex | null,
     queue: Action[],
@@ -76,7 +74,7 @@ export type GetHighlights = (
 
 export interface AbilityEffect {
     type: EffectType;
-    effect: AtLeast<BattleUnit, "id">;
+    effect: AtLeast<Unit, "id">;
 }
 export type AbilityEffector = (action: Action, unitsOnBoard: UnitsOnBoard) => AbilityEffect[];
 

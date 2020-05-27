@@ -22,3 +22,5 @@ export const byDirection = {
 export const getByDirection = (coord: Coord, dir: DIRECTION): Coord | null => {
     return byDirection[dir](coord);
 };
+export const WIDTH = 13;
+export const HEIGHT = 7;

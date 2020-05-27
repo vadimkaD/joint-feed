@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { UnitImage } from "../AnimatedUnits/AnimatedUnits.styled";
-import { UNIT_SIZE } from "../Units/Units.constants";
+import { FORM_FACTORS, UNIT_IMAGES, UNIT_SIZE } from "../Units/Units.constants";
 import { getCenter } from "../Battlefield.utils";
 import { AnimatedUnitProps } from "./AnimatedUnit.types";
 
@@ -22,7 +22,14 @@ const AnimatedUnit: React.FunctionComponent<AnimatedUnitProps> = ({ unit, transp
         }
     }, [unit, unitAnimations]);
 
-    return <UnitImage key={unit.id} xlinkHref={unit.image} x={x - UNIT_SIZE / 2} y={y - UNIT_SIZE / 2} />;
+    return (
+        <UnitImage
+            key={unit.id}
+            xlinkHref={UNIT_IMAGES[unit.formFactor as FORM_FACTORS]}
+            x={x - UNIT_SIZE / 2}
+            y={y - UNIT_SIZE / 2}
+        />
+    );
 };
 
 export default AnimatedUnit;

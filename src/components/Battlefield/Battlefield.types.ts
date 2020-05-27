@@ -1,5 +1,5 @@
 import React from "react";
-import { Coord } from "../../hexagons/hexagons.types";
+import { Coord } from "../../core/Hexagons/hexagons.types";
 
 export interface BattlefieldLineProps {
     lineNumber: number;

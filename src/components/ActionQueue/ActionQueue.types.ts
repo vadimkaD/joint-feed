@@ -1,6 +1,6 @@
 import { ABILITIES } from "../Abilities/Abilities.constants";
-import { UnitTarget } from "../Effects/Effects.types";
-import { Coord } from "../../hexagons/hexagons.types";
+import { Coord } from "../../core/Hexagons/hexagons.types";
+import { UnitTarget } from "../../core/Battle/Battle.types";
 
 export type ActionTarget = Coord[] | UnitTarget[];
 

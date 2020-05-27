@@ -1,9 +1,9 @@
 import { Ability } from "../Abilities/Abilities.types";
 import { Action } from "../ActionQueue/ActionQueue.types";
-import { BattleUnit } from "../BattleUnits/BattleUnits.types";
+import { Unit } from "../../core/Battle/Battle.types";
 
 export interface UnitProps {
-    unit: BattleUnit | null;
+    unit: Unit | null;
 }
 
 export interface InfoPanelProps extends UnitProps {

@@ -2,12 +2,12 @@ import { abilitiesDictionary } from "./index";
 import { Action } from "../ActionQueue/ActionQueue.types";
 import { UnitsOnBoard } from "../Battle/Battle.types";
 import { AbilityEffect } from "./Abilities.types";
-import { BattleUnit } from "../BattleUnits/BattleUnits.types";
+import { Unit } from "../../core/Battle/Battle.types";
 
 export const getEffectsForSelectedUnit = (
     queue: Action[],
     unitsOnBoard: UnitsOnBoard,
-    selectedUnit: BattleUnit,
+    selectedUnit: Unit,
 ): AbilityEffect[] => {
     return queue
         .map(action => {
@@ -18,12 +18,12 @@ export const getEffectsForSelectedUnit = (
         .filter(effect => effect.effect.id === selectedUnit.id);
 };
 
-export const getEffectedUnit = (effects: AbilityEffect[], unit: BattleUnit): BattleUnit => {
+export const getEffectedUnit = (effects: AbilityEffect[], unit: Unit): Unit => {
     return effects.reduce(
         (total, effect) => {
             Object.assign(total, effect.effect);
             return total;
         },
         { ...unit },
-    ) as BattleUnit;
+    ) as Unit;
 };

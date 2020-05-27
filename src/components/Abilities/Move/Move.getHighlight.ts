@@ -8,7 +8,7 @@ import {
     getPathWithObstacles,
     getStringFromCoord,
     isSameCoord,
-} from "../../../hexagons";
+} from "../../../core/Hexagons";
 import { getHighlightsForRoute } from "./Move.utils";
 
 export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, hexUnderCursor, queue) => {

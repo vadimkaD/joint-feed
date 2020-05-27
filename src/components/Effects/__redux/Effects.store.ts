@@ -1,7 +1,7 @@
 import { createReducer } from "deox";
-import { TickEffects } from "../Effects.types";
 import { addEffect } from "./Effects.actions";
 import { nextStep } from "../../Battle/__redux/Battle.actions";
+import { TickEffects } from "../../../core/Battle/Battle.types";
 
 export const tickEffects = createReducer({} as TickEffects, handleAction => [
     handleAction(addEffect, (state, { payload }) => {

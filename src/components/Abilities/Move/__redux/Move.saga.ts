@@ -10,12 +10,10 @@ import { queue } from "../../../ActionQueue/__redux/ActionQueue.external-selecto
 import { getEffectedUnit, getEffectsForSelectedUnit } from "../../Abilities.utils";
 import { unitsOnBoard } from "../../../Battle/__redux/Battle.selectors";
 import { Action } from "../../../ActionQueue/ActionQueue.types";
-import { Effect, EffectType, UnitTargetAndValue } from "../../../Effects/Effects.types";
 import { tick } from "../../../Battle/__redux/Battle.external-selectors";
 import { CAST_RANGE, CAST_TIME, DELAY } from "../Move.constants";
 import { addEffect } from "../../../Effects/__redux/Effects.actions";
 import { getCoordOfUnitForCurrentTick } from "../../Abilities.saga";
-import { ACTION_POINTS } from "../../../Battle/Battle.constants";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
 import { AnimationsTypes, UnitTransportAnimation } from "../../../Animations/Animations.types";
 import {
@@ -26,9 +24,8 @@ import {
     isInRange,
     isSameCoord,
     offsetDistance,
-} from "../../../../hexagons";
-import { Coord } from "../../../../hexagons/hexagons.types";
-import { BattleUnit } from "../../../BattleUnits/BattleUnits.types";
+} from "../../../../core/Hexagons";
+import { Coord } from "../../../../core/Hexagons/hexagons.types";
 import { updateUnit } from "../../../BattleUnits/__redux/BattleUnits.actions";
 import { selectedUnit as unit } from "../../../SelectedUnit/__redux/SelectedUnit.selectors";
 import { selectAbility } from "../../../SelectedAbility/__redux/SelectedAbility.actions";
@@ -36,10 +33,12 @@ import { selectUnit } from "../../../SelectedUnit/__redux/SelectedUnit.actions";
 import { hexes as hexesSelector } from "../../../Hexes/__redux/Hexes.selectors";
 import { getEffectsByTick } from "../../../Effects/__redux/Effects.selectors";
 import { abilitiesDictionary } from "../../index";
+import { Unit, Effect, EffectType, UnitTargetAndValue } from "../../../../core/Battle/Battle.types";
+import { ACTION_POINTS } from "../../../../core/Battle/Battle.constants";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;
-    const selectedUnit: BattleUnit = { ...(yield select(unit)) };
+    const selectedUnit: Unit = { ...(yield select(unit)) };
     const actionQueue: Action[] = yield select(queue);
     const preparedUnitsOnBoard = yield select(unitsOnBoard);
     const effects = getEffectsForSelectedUnit(actionQueue, preparedUnitsOnBoard, selectedUnit);
@@ -97,7 +96,7 @@ function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
 function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>) {
     const action = reduxAction.payload as Action;
     const units: UnitsOnBoard = yield select(unitsOnBoard);
-    const unit = Object.values(units).find(unit => unit.id === action.unitId) as BattleUnit | null;
+    const unit = Object.values(units).find(unit => unit.id === action.unitId) as Unit | null;
     if (unit) {
         const unitCoord = yield getCoordOfUnitForCurrentTick(unit);
 

@@ -1,7 +1,7 @@
 import { Action } from "../../ActionQueue/ActionQueue.types";
 import { AnimationsByAbility } from "../../Animations/Animations.types";
 import { UnitsOnBoard } from "../../Battle/Battle.types";
-import { Hexes } from "../../Hexes/Hexes.types";
+import { Hexes } from "../../../core/Battle/Battle.types";
 
 export interface StepAnimationsProps {
     tick: number;

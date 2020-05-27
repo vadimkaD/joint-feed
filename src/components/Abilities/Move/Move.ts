@@ -6,8 +6,8 @@ import { handleEffect, onHexClick } from "./__redux/Move.actions";
 import MoveOutline from "./Move.outline";
 import { moveEffector } from "./Move.effector";
 import MoveAnimator from "./animator/Move.animator";
-import { EffectType } from "../../Effects/Effects.types";
 import { CAST_RANGE, CAST_TIME, DELAY } from "./Move.constants";
+import { EffectType } from "../../../core/Battle/Battle.types";
 
 export const moveAbility: Ability = {
     id: ABILITIES.MOVE,

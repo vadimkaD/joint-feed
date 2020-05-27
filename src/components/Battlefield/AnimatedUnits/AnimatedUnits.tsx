@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { battleUnits as battleUnitsSelector } from "../../BattleUnits/__redux/BattleUnits.selectors";
-import { BattleUnit } from "../../BattleUnits/BattleUnits.types";
 import { animations as animationsSelector } from "../../Animations/__redux/Animations.selectors";
 import {
     AbilityAnimation,
@@ -11,9 +10,10 @@ import {
 } from "../../Animations/Animations.types";
 import { tick } from "../../Battle/__redux/Battle.external-selectors";
 import AnimatedUnit from "../AnimatedUnit/AnimatedUnit";
+import { Unit } from "../../../core/Battle/Battle.types";
 
 const AnimatedUnits: React.FunctionComponent<{}> = () => {
-    const battleUnits: BattleUnit[] = useSelector(battleUnitsSelector);
+    const battleUnits: Unit[] = useSelector(battleUnitsSelector);
     const animations: Animations = useSelector(animationsSelector);
     const currentTick: number = useSelector(tick);
     const tickAnimations = useMemo<AbilityAnimation[]>(() => animations[currentTick] || [], [animations, currentTick]);

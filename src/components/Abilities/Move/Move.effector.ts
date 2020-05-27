@@ -1,12 +1,11 @@
 import { AbilityEffect, AbilityEffector } from "../Abilities.types";
-import { EffectType } from "../../Effects/Effects.types";
-import { Coord } from "../../../hexagons/hexagons.types";
-import { BattleUnit } from "../../BattleUnits/BattleUnits.types";
+import { Coord } from "../../../core/Hexagons/hexagons.types";
+import { Unit, EffectType } from "../../../core/Battle/Battle.types";
 
 export const moveEffector: AbilityEffector = (action, unitsOnBoard) => {
     const effects: AbilityEffect[] = [];
 
-    const unit = Object.values(unitsOnBoard).find(unit => unit.id === action.unitId) as BattleUnit | null;
+    const unit = Object.values(unitsOnBoard).find(unit => unit.id === action.unitId) as Unit | null;
 
     if (unit) {
         const coord = action.target[0] as Coord | undefined;

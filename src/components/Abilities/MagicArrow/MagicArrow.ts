@@ -5,8 +5,8 @@ import { getHighlights } from "./MagicArrow.getHighlight";
 import { CAST_RANGE, CAST_TIME, DELAY } from "./MagicArrow.constants";
 import { handleEffect, onHexClick } from "./__redux/MagicArrow.actions";
 import MagicArrowOutline from "./MagicArrow.outline";
-import { EffectType } from "../../Effects/Effects.types";
 import MagicArrowAnimator from "./animator/MagicArrow.animator";
+import { EffectType } from "../../../core/Battle/Battle.types";
 
 export const magicArrowAbility: Ability = {
     id: ABILITIES.MAGIC_ARROW,
@@ -21,6 +21,6 @@ export const magicArrowAbility: Ability = {
     actionOutline: MagicArrowOutline,
     effector: () => [],
     abilityAnimator: MagicArrowAnimator,
-    effectType: EffectType.DAMAGE_AND_FIELD_EFFECT,
+    effectType: EffectType.DAMAGE_AND_HEX_EFFECT,
     handleEffect: handleEffect,
 };
