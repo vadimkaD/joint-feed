@@ -4,7 +4,7 @@ import { getCenter, getHexCoords, getPointsFromCoords } from "../../Battlefield/
 import { HEX_SIZE } from "../../Battlefield/Battlefield.constants";
 import { OutlinePolygon } from "../Abilities.styled";
 import { MagicArrow } from "./MagicArrow.highlight";
-import { Coord } from "../../../core/Hexagons/hexagons.types";
+import { Coord } from "../../../core/Battle/Hexagon.types";
 
 const MagicArrowOutline: AbilityActionOutline = ({ action, playerUnitsOnBoard, isLastInChain }) => {
     const target = action.target[0] as Coord | undefined;

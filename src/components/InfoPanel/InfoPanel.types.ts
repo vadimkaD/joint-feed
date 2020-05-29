@@ -1,6 +1,6 @@
-import { Ability } from "../Abilities/Abilities.types";
-import { Action } from "../ActionQueue/ActionQueue.types";
-import { Unit } from "../../core/Battle/Battle.types";
+import { Unit } from "../../core/Battle/Unit.types";
+import { Action } from "../../core/Actions/Actions.types";
+import { Ability } from "../../core/Abilities/Abilities.types";
 
 export interface UnitProps {
     unit: Unit | null;

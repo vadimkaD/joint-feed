@@ -3,7 +3,7 @@ import { IconPanel, UnitIcon } from "./UnitIconPanel.styled";
 import { unitsOnBoard as unitsOnBoardSelector } from "../Battle/__redux/Battle.selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUnit } from "../SelectedUnit/__redux/SelectedUnit.actions";
-import { Owner } from "../../core/Battle/Battle.types";
+import { Owner } from "../../core/Battle/Unit.types";
 
 const UnitIconPanel: FunctionComponent<{}> = props => {
     const dispatch = useDispatch();

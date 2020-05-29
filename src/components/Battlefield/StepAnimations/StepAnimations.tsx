@@ -4,7 +4,7 @@ import { isAnimation as isAnimationSelector } from "../../Battle/__redux/Battle.
 import { abilitiesDictionary } from "../../Abilities";
 import { animationsByAbility as animationsByAbilitySelector } from "../../Animations/__redux/Animations.selectors";
 import { AnimationRecord } from "../../Animations/Animations.types";
-import { ABILITIES } from "../../Abilities/Abilities.constants";
+import { ABILITIES } from "../../../core/Abilities/Abilities.constants";
 
 const StepAnimations: React.FunctionComponent<{}> = props => {
     const isAnimation = useSelector(isAnimationSelector);

@@ -1,5 +1,5 @@
 import { UnitTransportAnimation } from "../../Animations/Animations.types";
-import { Unit } from "../../../core/Battle/Battle.types";
+import { Unit } from "../../../core/Battle/Unit.types";
 
 export interface AnimatedUnitProps {
     unit: Unit;

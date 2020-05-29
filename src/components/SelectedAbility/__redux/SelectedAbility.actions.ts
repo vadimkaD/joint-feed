@@ -1,5 +1,5 @@
 import { createAction } from "deox";
-import { ABILITIES } from "../../Abilities/Abilities.constants";
+import { ABILITIES } from "../../../core/Abilities/Abilities.constants";
 
 const namespace = "[SelectedAbility]";
 

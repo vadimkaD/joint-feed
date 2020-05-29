@@ -1,9 +1,9 @@
 import { select } from "redux-saga/effects";
 import { tick } from "../Battle/__redux/Battle.external-selectors";
 import { tickEffects } from "../Effects/__redux/Effects.selectors";
-import { abilitiesDictionary } from "./index";
-import { Coord } from "../../core/Hexagons/hexagons.types";
-import { Unit, Effect, EffectType, TickEffects, UnitTargetAndValue } from "../../core/Battle/Battle.types";
+import { Effect, EffectType, TickEffects, UnitTargetAndValue } from "../../core/Battle/Battle.types";
+import { Unit } from "../../core/Battle/Unit.types";
+import { Coord } from "../../core/Battle/Hexagon.types";
 
 export function* getCoordOfUnitForCurrentTick(unit: Unit) {
     const tickNumber: number = yield select(tick);
@@ -15,8 +15,7 @@ export function* getCoordOfUnitForCurrentTick(unit: Unit) {
         .map((tick: number) =>
             effects[tick]
                 .filter(effect => {
-                    const ability = abilitiesDictionary[effect.abilityId];
-                    return ability.effectType === EffectType.TRANSPORT;
+                    return effect.type === EffectType.TRANSPORT;
                 })
                 .filter(effect => {
                     const [target] = effect.targetAndValue as UnitTargetAndValue;

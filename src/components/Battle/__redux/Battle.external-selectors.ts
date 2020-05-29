@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 import { battleUnits } from "../../BattleUnits/__redux/BattleUnits.selectors";
 import { BattleState } from "../Battle.types";
 import { BattleUnitsState } from "../../BattleUnits/BattleUnits.types";
-import { Unit } from "../../../core/Battle/Battle.types";
+import { Unit } from "../../../core/Battle/Unit.types";
 
 export const tick = (state: BattleState): number => state.Battle.tickNumber;
 export const stepNumber = (state: BattleState): number => state.Battle.stepNumber;

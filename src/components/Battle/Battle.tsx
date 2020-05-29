@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import BattleView from "./Battle.view";
-import { Owner } from "./Battle.types";
 import { addUnit } from "../BattleUnits/__redux/BattleUnits.actions";
-import { ABILITIES } from "../Abilities/Abilities.constants";
 import { ACTION_POINTS } from "../../core/Battle/Battle.constants";
 import { FORM_FACTORS } from "../Battlefield/Units/Units.constants";
+import { Owner } from "../../core/Battle/Unit.types";
+import { ABILITIES } from "../../core/Abilities/Abilities.constants";
 
 const Battle: React.FunctionComponent<{}> = props => {
     const dispatch = useDispatch();

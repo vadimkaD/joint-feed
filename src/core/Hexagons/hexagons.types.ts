@@ -1,7 +1,4 @@
-export type Coord = {
-    x: number;
-    y: number;
-};
+import { Coord } from "../Battle/Hexagon.types";
 
 export interface Cube {
     x: number;
@@ -11,4 +8,8 @@ export interface Cube {
 
 export interface Coords {
     [coordinates: string]: Coord;
+}
+
+export interface Obstacles {
+    [coordinates: string]: boolean;
 }

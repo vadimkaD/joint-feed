@@ -1,7 +1,7 @@
 import { HightlightedHexes } from "../../Battle/Battle.types";
-import { Highlight } from "../../Battlefield/Battlefield.constants";
 import { getStringFromCoord } from "../../../core/Hexagons";
-import { Coord } from "../../../core/Hexagons/hexagons.types";
+import { Coord } from "../../../core/Battle/Hexagon.types";
+import { Highlight } from "../../Battlefield/Battlefield.constants";
 
 export function getHighlightsForRoute(route: Coord[]): HightlightedHexes {
     const highlights: HightlightedHexes = {};

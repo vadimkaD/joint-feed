@@ -2,25 +2,25 @@ import { all, put, select, takeEvery } from "redux-saga/effects";
 import { ActionType, getType } from "deox";
 import { v4 as uuidv4 } from "uuid";
 import * as actions from "./MagicArrow.actions";
-import { UnitsOnBoard } from "../../../Battle/Battle.types";
 import { addAction } from "../../../ActionQueue/__redux/ActionQueue.actions";
-import { ABILITIES } from "../../Abilities.constants";
 import { actionComplete } from "../../../Battle/__redux/Battle.actions";
 import { CAST_RANGE, CAST_TIME, DELAY } from "../MagicArrow.constants";
-import { Action } from "../../../ActionQueue/ActionQueue.types";
 import { unitsOnBoard } from "../../../Battle/__redux/Battle.selectors";
 import { tick } from "../../../Battle/__redux/Battle.external-selectors";
 import { getCoordOfUnitForCurrentTick } from "../../Abilities.saga";
 import { addEffect } from "../../../Effects/__redux/Effects.actions";
 import { AnimationsTypes, ProjectileAnimation } from "../../../Animations/Animations.types";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
-import { Coord } from "../../../../core/Hexagons/hexagons.types";
 import { isInRange } from "../../../../core/Hexagons";
 import { updateUnit } from "../../../BattleUnits/__redux/BattleUnits.actions";
 import { selectedUnit as unit } from "../../../SelectedUnit/__redux/SelectedUnit.selectors";
 import { selectAbility } from "../../../SelectedAbility/__redux/SelectedAbility.actions";
-import { Unit, Effect } from "../../../../core/Battle/Battle.types";
+import { Effect, EffectType } from "../../../../core/Battle/Battle.types";
 import { ACTION_POINTS } from "../../../../core/Battle/Battle.constants";
+import { Unit, UnitsOnBoard } from "../../../../core/Battle/Unit.types";
+import { Coord } from "../../../../core/Battle/Hexagon.types";
+import { Action } from "../../../../core/Actions/Actions.types";
+import { ABILITIES } from "../../../../core/Abilities/Abilities.constants";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;
@@ -64,6 +64,7 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
         if (coord) {
             if (isInRange(unitCoord, coord, CAST_RANGE)) {
                 const effect: Effect = {
+                    type: EffectType.DAMAGE_AND_HEX_EFFECT,
                     sourceUnitId: unit.id,
                     effectId: action.actionId,
                     abilityId: ABILITIES.MAGIC_ARROW,

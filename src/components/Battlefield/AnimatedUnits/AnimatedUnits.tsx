@@ -10,7 +10,7 @@ import {
 } from "../../Animations/Animations.types";
 import { tick } from "../../Battle/__redux/Battle.external-selectors";
 import AnimatedUnit from "../AnimatedUnit/AnimatedUnit";
-import { Unit } from "../../../core/Battle/Battle.types";
+import { Unit } from "../../../core/Battle/Unit.types";
 
 const AnimatedUnits: React.FunctionComponent<{}> = () => {
     const battleUnits: Unit[] = useSelector(battleUnitsSelector);

@@ -1,9 +1,11 @@
-import { Coord } from "../Hexagons/hexagons.types";
-import { ABILITIES } from "../../components/Abilities/Abilities.constants";
+import { Unit } from "./Unit.types";
+import { Coord } from "./Hexagon.types";
+import { ABILITIES } from "../Abilities/Abilities.constants";
 
 export interface IBattle {
     applyTickEffects(result: TickParams): Promise<TickResult>;
     applyStepEffects(result: StepParams): Promise<StepResult>;
+    reset(): void;
 }
 
 export interface Hex {
@@ -13,24 +15,6 @@ export interface Hex {
 
 export interface Hexes {
     [coordinates: string]: Hex;
-}
-
-export enum Owner {
-    PLAYER = "PLAYER",
-    ENEMY = "ENEMY",
-}
-
-export interface Unit {
-    coord: Coord;
-    id: string;
-    owner: Owner;
-    name: string;
-    damage: number;
-    maxHp: number;
-    currentHp: number;
-    currentActionPoints: number;
-    abilities: ABILITIES[];
-    formFactor: string;
 }
 
 export interface TickResult {
@@ -86,6 +70,7 @@ export interface Effect {
     effectId: string;
     sourceUnitId: string;
     abilityId: ABILITIES;
+    type: EffectType;
     targetAndValue: UnitTargetAndValue | TransportTargetAndValue | ProjectileTargetAndValue;
 }
 

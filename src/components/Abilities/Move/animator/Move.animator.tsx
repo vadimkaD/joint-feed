@@ -6,7 +6,7 @@ import { UnitAnimator } from "./Move.unit-animator";
 import { tick } from "../../../Battle/__redux/Battle.external-selectors";
 import { UnitTransportAnimation } from "../../../Animations/Animations.types";
 import { animatedUnits as animatedUnitsSelector } from "../../../Animations/__redux/Animations.selectors";
-import { Unit } from "../../../../core/Battle/Battle.types";
+import { Unit } from "../../../../core/Battle/Unit.types";
 
 const MoveAnimator: AbilityAnimator = ({ animationRecords }) => {
     const animatedUnits = useSelector(animatedUnitsSelector);

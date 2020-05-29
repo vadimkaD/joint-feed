@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
 import { useSelector } from "react-redux";
-import { Action } from "../../ActionQueue/ActionQueue.types";
 import { abilitiesDictionary } from "../../Abilities";
 import { findLastIndex } from "../../../utils/findLastIndex";
 import { playerActions as playerActionsSelector } from "../../ActionQueue/__redux/ActionQueue.selectors";
 import { playerUnitsOnBoard as playerUnitsOnBoardSelector } from "../../Battle/__redux/Battle.selectors";
+import { Action } from "../../../core/Actions/Actions.types";
 
 const ActionOutlines: FunctionComponent<{}> = props => {
     const playerActions = useSelector(playerActionsSelector);

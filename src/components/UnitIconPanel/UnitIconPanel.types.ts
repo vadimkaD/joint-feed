@@ -1,5 +1,4 @@
-import { UnitsOnBoard } from "../Battle/Battle.types";
-import { Unit } from "../../core/Battle/Battle.types";
+import { Unit, UnitsOnBoard } from "../../core/Battle/Unit.types";
 
 export interface UnitIconProps {
     unit: Unit;

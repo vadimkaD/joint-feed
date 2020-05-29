@@ -6,8 +6,8 @@ import { Move } from "./Move.highlight";
 import { FORM_FACTORS, UNIT_IMAGES, UNIT_SIZE } from "../../Battlefield/Units/Units.constants";
 import { UnitImage } from "../../Battlefield/Units/Units.styled";
 import { OutlinePolygon } from "../Abilities.styled";
-import { Coord } from "../../../core/Hexagons/hexagons.types";
-import { Unit } from "../../../core/Battle/Battle.types";
+import { Unit } from "../../../core/Battle/Unit.types";
+import { Coord } from "../../../core/Battle/Hexagon.types";
 
 const MoveOutline: AbilityActionOutline = ({ action, playerUnitsOnBoard, isLastInChain }) => {
     const target = action.target[0] as Coord | undefined;

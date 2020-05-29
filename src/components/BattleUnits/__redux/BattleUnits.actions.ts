@@ -1,5 +1,5 @@
 import { createAction } from "deox";
-import { Unit } from "../../../core/Battle/Battle.types";
+import { Unit } from "../../../core/Battle/Unit.types";
 
 const namespace = "[BattleUnits]";
 

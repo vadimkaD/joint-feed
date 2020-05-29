@@ -1,10 +1,6 @@
+import { Hex, Hexes } from "../../core/Battle/Battle.types";
+import { Unit } from "../../core/Battle/Unit.types";
 import { Highlight } from "../Battlefield/Battlefield.constants";
-import { Unit, Hex, Hexes } from "../../core/Battle/Battle.types";
-
-export enum Owner {
-    PLAYER = "PLAYER",
-    ENEMY = "ENEMY",
-}
 
 export type BattleState = {
     Battle: {
@@ -16,10 +12,6 @@ export type BattleState = {
         stepNumber: number;
     };
 };
-
-export interface UnitsOnBoard {
-    [coordinates: string]: Unit;
-}
 
 export interface HightlightedHexes {
     [coordinates: string]: Highlight;

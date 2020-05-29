@@ -1,11 +1,9 @@
 import { createSelector } from "reselect";
 
-import { BattleState, HightlightedHexes, Owner, UnitsOnBoard } from "../Battle.types";
-import { Highlight } from "../../Battlefield/Battlefield.constants";
-import { ABILITIES } from "../../Abilities/Abilities.constants";
+import { BattleState, HightlightedHexes } from "../Battle.types";
 import { abilitiesDictionary } from "../../Abilities";
 import { isAnimation } from "./Battle.external-selectors";
-import { Action, ActionQueueState } from "../../ActionQueue/ActionQueue.types";
+import { ActionQueueState } from "../../ActionQueue/ActionQueue.types";
 import { queue } from "../../ActionQueue/__redux/ActionQueue.external-selectors";
 import { getStringFromCoord } from "../../../core/Hexagons";
 import { HexesState } from "../../Hexes/Hexes.types";
@@ -16,7 +14,11 @@ import { selectedUnit } from "../../SelectedUnit/__redux/SelectedUnit.selectors"
 import { SelectedUnitState } from "../../SelectedUnit/SelectedUnit.types";
 import { selectedAbility } from "../../SelectedAbility/__redux/SelectedAbility.selectors";
 import { SelectedAbilityState } from "../../SelectedAbility/SelectedAbility.types";
-import { Unit, Hex, Hexes } from "../../../core/Battle/Battle.types";
+import { Hex, Hexes } from "../../../core/Battle/Battle.types";
+import { Owner, Unit, UnitsOnBoard } from "../../../core/Battle/Unit.types";
+import { Action } from "../../../core/Actions/Actions.types";
+import { ABILITIES } from "../../../core/Abilities/Abilities.constants";
+import { Highlight } from "../../Battlefield/Battlefield.constants";
 
 export const unitsOnBoard = createSelector<BattleUnitsState, Unit[], UnitsOnBoard>(battleUnits, units => {
     return units.reduce((onBoard: UnitsOnBoard, unit) => {

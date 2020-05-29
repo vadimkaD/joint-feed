@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
 import { useSelector } from "react-redux";
-import { UnitsOnBoard } from "../../Battle/Battle.types";
 import { getCenter } from "../Battlefield.utils";
 import { UnitImage } from "./Units.styled";
 import { FORM_FACTORS, UNIT_IMAGES, UNIT_SIZE } from "./Units.constants";
 import { unitsOnBoard as unitsOnBoardSelector } from "../../Battle/__redux/Battle.selectors";
+import { UnitsOnBoard } from "../../../core/Battle/Unit.types";
 
 const Units: FunctionComponent<{}> = props => {
     const unitsOnBoard: UnitsOnBoard = useSelector(unitsOnBoardSelector);

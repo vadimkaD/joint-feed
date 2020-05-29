@@ -1,5 +1,5 @@
 import { BORDER_SIZE, CENTER_STEP, HEX_WIDTH } from "./Battlefield.constants";
-import { Coord } from "../../core/Hexagons/hexagons.types";
+import { Coord } from "../../core/Battle/Hexagon.types";
 
 export function getCenter(hexNumber: number, lineNumber: number): Coord {
     return {

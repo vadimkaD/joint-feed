@@ -1,6 +1,6 @@
 import { createAction } from "deox";
 import { AnimationRecord } from "../Animations.types";
-import { Unit } from "../../../core/Battle/Battle.types";
+import { Unit } from "../../../core/Battle/Unit.types";
 
 const namespace = "[Animations]";
 

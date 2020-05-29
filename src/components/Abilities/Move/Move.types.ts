@@ -1,6 +1,6 @@
-import { ABILITIES } from "../Abilities.constants";
-import { Coord } from "../../../core/Hexagons/hexagons.types";
-import { Unit } from "../../../core/Battle/Battle.types";
+import { Unit } from "../../../core/Battle/Unit.types";
+import { Coord } from "../../../core/Battle/Hexagon.types";
+import { ABILITIES } from "../../../core/Abilities/Abilities.constants";
 
 export interface MoveIconProps {
     selectAbility: (ability: ABILITIES | null) => void;

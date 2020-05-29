@@ -1,6 +1,6 @@
-import { Action } from "./ActionQueue.types";
 import { ActionsByUnits } from "../Battlefield/StepAnimations/StepAnimations.types";
 import { ACTION_POINTS } from "../../core/Battle/Battle.constants";
+import { Action } from "../../core/Actions/Actions.types";
 
 export function getTickActions(actionsByUnits: ActionsByUnits): Action[][] {
     const allActions = Object.values(actionsByUnits);
