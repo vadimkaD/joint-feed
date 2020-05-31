@@ -1,6 +1,6 @@
 import { Unit } from "./Unit.types";
 import { Coord } from "./Hexagon.types";
-import { ABILITIES } from "../Abilities/Abilities.constants";
+import { ABILITIES } from "./Abilities.constants";
 
 export interface IBattle {
     applyTickEffects(result: TickParams): Promise<TickResult>;
@@ -66,12 +66,14 @@ export type UnitTargetAndValue = [UnitTarget, EffectValueUnit];
 export type TransportTargetAndValue = [UnitTarget, TransportEffectValue];
 export type ProjectileTargetAndValue = [HexTarget, EffectValueUnit];
 
+export type TargetAndValue = UnitTargetAndValue | TransportTargetAndValue | ProjectileTargetAndValue;
+
 export interface Effect {
     effectId: string;
     sourceUnitId: string;
-    abilityId: ABILITIES;
+    ability: ABILITIES;
     type: EffectType;
-    targetAndValue: UnitTargetAndValue | TransportTargetAndValue | ProjectileTargetAndValue;
+    targetAndValue: TargetAndValue;
 }
 
 export type TickEffects = {

@@ -1,5 +1,5 @@
 import { Coord } from "./Hexagon.types";
-import { ABILITIES } from "../Abilities/Abilities.constants";
+import { ABILITIES } from "./Abilities.constants";
 
 export interface Unit {
     coord: Coord;

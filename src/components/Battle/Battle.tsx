@@ -6,7 +6,7 @@ import { addUnit } from "../BattleUnits/__redux/BattleUnits.actions";
 import { ACTION_POINTS } from "../../core/Battle/Battle.constants";
 import { FORM_FACTORS } from "../Battlefield/Units/Units.constants";
 import { Owner } from "../../core/Battle/Unit.types";
-import { ABILITIES } from "../../core/Abilities/Abilities.constants";
+import { ABILITIES } from "../../core/Battle/Abilities.constants";
 
 const Battle: React.FunctionComponent<{}> = props => {
     const dispatch = useDispatch();

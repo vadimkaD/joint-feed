@@ -3,7 +3,7 @@ import { getHighlights } from "./MagicArrow.getHighlight";
 import { handleEffect, onHexClick } from "./__redux/MagicArrow.actions";
 import MagicArrowOutline from "./MagicArrow.outline";
 import MagicArrowAnimator from "./animator/MagicArrow.animator";
-import { ABILITIES } from "../../../core/Abilities/Abilities.constants";
+import { ABILITIES } from "../../../core/Battle/Abilities.constants";
 import { UIAbility } from "../Abilities.types";
 
 export const magicArrowAbility: UIAbility = {

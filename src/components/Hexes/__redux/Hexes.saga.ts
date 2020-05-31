@@ -7,7 +7,7 @@ import { clickHex } from "./Hexes.actions";
 import { selectedUnit } from "../../SelectedUnit/__redux/SelectedUnit.selectors";
 import { selectUnit } from "../../SelectedUnit/__redux/SelectedUnit.actions";
 import { selectedAbility } from "../../SelectedAbility/__redux/SelectedAbility.selectors";
-import { ABILITIES } from "../../../core/Abilities/Abilities.constants";
+import { ABILITIES } from "../../../core/Battle/Abilities.constants";
 
 function* hexClickSaga(action: ActionType<typeof clickHex>) {
     const { payload: hex } = action;

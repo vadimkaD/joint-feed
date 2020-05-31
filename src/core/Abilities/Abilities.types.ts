@@ -1,7 +1,7 @@
-import { Effect, Hexes } from "../Battle/Battle.types";
-import { Action, ActionTarget } from "../Actions/Actions.types";
+import { Effect, EffectType, Hex, Hexes, UnitTarget } from "../Battle/Battle.types";
+import { Action } from "../Actions/Actions.types";
 import { Unit } from "../Battle/Unit.types";
-import { ABILITIES } from "./Abilities.constants";
+import { ABILITIES } from "../Battle/Abilities.constants";
 import { Coord } from "../Battle/Hexagon.types";
 
 export enum Target {
@@ -21,9 +21,12 @@ export interface Ability {
     target: Target;
     castRange: number;
     castType: AbilityType;
+    effectType: EffectType;
     getSelectionArea: (sourceUnit: Unit, hexes: Hexes, units: Unit[], queue: Action[]) => Coord[];
-    getAction: (target: ActionTarget) => Action;
-    getEffect: (a: Action, units: Unit[], hexes: Hexes, tick: number) => Effect | null;
+    canCast: (unit: Unit, targetHex: Hex, units: Unit[], hexes: Hexes) => boolean;
+    getActions: (unit: Unit, targetHex: Hex, units: Unit[], hexes: Hexes, queue: Action[], tick: number) => Action[];
+    canApplyEffect: (unit: Unit, action: Action) => boolean;
+    getEffect: (a: Action, units: Unit[], hexes: Hexes, tick: number) => Effect;
 }
 
 export type Abilities = {

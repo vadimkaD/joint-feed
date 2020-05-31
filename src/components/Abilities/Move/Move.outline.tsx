@@ -10,7 +10,7 @@ import { Unit } from "../../../core/Battle/Unit.types";
 import { Coord } from "../../../core/Battle/Hexagon.types";
 
 const MoveOutline: AbilityActionOutline = ({ action, playerUnitsOnBoard, isLastInChain }) => {
-    const target = action.target[0] as Coord | undefined;
+    const target = action.target[0].coord;
     if (target) {
         const center = getCenter(target.x, target.y);
         const points = getPointsFromCoords(getHexCoords(center, HEX_SIZE));

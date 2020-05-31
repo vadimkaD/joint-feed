@@ -10,6 +10,7 @@ import { getHighlightsForRoute } from "./Move.utils";
 import { Obstacles } from "../../../core/Hexagons/hexagons.types";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
 import { GetHighlights } from "../Abilities.types";
+import { getUnitUpdatedByTransportPrediction } from "../../../core/Abilities";
 
 export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, hexUnderCursor, queue) => {
     const highlights: HightlightedHexes = {};
@@ -19,7 +20,9 @@ export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, 
         return obj;
     }, {} as Obstacles);
 
-    const coords = getAreaWithObstacles(selectedUnit.coord, selectedUnit.currentActionPoints, hexes, obstacles);
+    const updUnit = getUnitUpdatedByTransportPrediction(selectedUnit, queue);
+
+    const coords = getAreaWithObstacles(updUnit.coord, selectedUnit.currentActionPoints, hexes, obstacles);
     const areaObj = coordArrToObj(coords);
 
     if (
@@ -27,7 +30,7 @@ export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, 
         !unitsOnBoard[getStringFromCoord(hexUnderCursor.coord)] &&
         areaObj[getStringFromCoord(hexUnderCursor.coord)]
     ) {
-        const route = getPathWithObstacles(selectedUnit.coord, hexUnderCursor.coord, hexes, obstacles);
+        const route = getPathWithObstacles(updUnit.coord, hexUnderCursor.coord, hexes, obstacles);
         Object.assign(highlights, getHighlightsForRoute(route));
     }
 

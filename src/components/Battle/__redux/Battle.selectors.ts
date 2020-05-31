@@ -17,7 +17,7 @@ import { SelectedAbilityState } from "../../SelectedAbility/SelectedAbility.type
 import { Hex, Hexes } from "../../../core/Battle/Battle.types";
 import { Owner, Unit, UnitsOnBoard } from "../../../core/Battle/Unit.types";
 import { Action } from "../../../core/Actions/Actions.types";
-import { ABILITIES } from "../../../core/Abilities/Abilities.constants";
+import { ABILITIES } from "../../../core/Battle/Abilities.constants";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
 
 export const unitsOnBoard = createSelector<BattleUnitsState, Unit[], UnitsOnBoard>(battleUnits, units => {

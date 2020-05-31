@@ -7,7 +7,7 @@ import { MagicArrow } from "./MagicArrow.highlight";
 import { Coord } from "../../../core/Battle/Hexagon.types";
 
 const MagicArrowOutline: AbilityActionOutline = ({ action, playerUnitsOnBoard, isLastInChain }) => {
-    const target = action.target[0] as Coord | undefined;
+    const target: Coord = action.target[0].coord;
     if (target) {
         const center = getCenter(target.x, target.y);
         const points = getPointsFromCoords(getHexCoords(center, HEX_SIZE));

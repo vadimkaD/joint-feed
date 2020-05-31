@@ -19,8 +19,8 @@ import { Effect, EffectType } from "../../../../core/Battle/Battle.types";
 import { ACTION_POINTS } from "../../../../core/Battle/Battle.constants";
 import { Unit, UnitsOnBoard } from "../../../../core/Battle/Unit.types";
 import { Coord } from "../../../../core/Battle/Hexagon.types";
-import { Action } from "../../../../core/Actions/Actions.types";
-import { ABILITIES } from "../../../../core/Abilities/Abilities.constants";
+import { Action, AtLeastOneProjectileActionTarget } from "../../../../core/Actions/Actions.types";
+import { ABILITIES } from "../../../../core/Battle/Abilities.constants";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;
@@ -36,12 +36,14 @@ function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
 
     const actionId = uuidv4();
     for (let i = 0; i < CAST_TIME; i++) {
+        const target: AtLeastOneProjectileActionTarget = [{ coord: hex.coord }];
+
         yield put(
             addAction({
                 tickStart: tickNumber + (ACTION_POINTS - selectedUnit.currentActionPoints),
                 actionId: actionId,
                 unitId: selectedUnit.id,
-                target: [hex.coord],
+                target,
                 ability: ABILITIES.MAGIC_ARROW,
             }),
         );
@@ -60,14 +62,14 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
     if (unit) {
         const unitCoord = yield getCoordOfUnitForCurrentTick(unit);
 
-        const coord = action.target[0] as Coord | undefined;
+        const coord: Coord = action.target[0].coord;
         if (coord) {
             if (isInRange(unitCoord, coord, CAST_RANGE)) {
                 const effect: Effect = {
                     type: EffectType.DAMAGE_AND_HEX_EFFECT,
                     sourceUnitId: unit.id,
                     effectId: action.actionId,
-                    abilityId: ABILITIES.MAGIC_ARROW,
+                    ability: ABILITIES.MAGIC_ARROW,
                     targetAndValue: [{ coord: coord }, { currentHp: -unit.damage }],
                 };
 

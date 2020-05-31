@@ -2,6 +2,7 @@ import { Cube, Coords, Obstacles } from "./hexagons.types";
 import { getByDirection, HEIGHT, WIDTH } from "./hexagons.constants";
 import { Hexes } from "../Battle/Battle.types";
 import { Coord } from "../Battle/Hexagon.types";
+import { Unit } from "../Battle/Unit.types";
 
 export function getCoordsFromString(coord: string): Coord {
     const [x, y] = coord.split(":").map(v => +v);
@@ -234,4 +235,13 @@ export function getPathWithObstacles(from: Coord, to: Coord, hexes: Hexes, obsta
     }
 
     return route.reverse().concat([to]);
+}
+
+export function getAsObstacles({ units = [], hexes = {} }: { units: Unit[]; hexes: Hexes }): Obstacles {
+    const obstacles: Obstacles = {};
+
+    units.forEach(unit => (obstacles[getStringFromCoord(unit.coord)] = true));
+    Object.keys(hexes).forEach(key => (obstacles[key] = !!hexes[key].isEmpty));
+
+    return obstacles;
 }
