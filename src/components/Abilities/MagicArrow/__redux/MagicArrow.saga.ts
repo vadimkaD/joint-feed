@@ -9,7 +9,6 @@ import { unitsOnBoard } from "../../../Battle/__redux/Battle.selectors";
 import { tick } from "../../../Battle/__redux/Battle.external-selectors";
 import { getCoordOfUnitForCurrentTick } from "../../Abilities.saga";
 import { addEffect } from "../../../Effects/__redux/Effects.actions";
-import { AnimationsTypes, ProjectileAnimation } from "../../../Animations/Animations.types";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
 import { isInRange } from "../../../../core/Hexagons";
 import { updateUnit } from "../../../BattleUnits/__redux/BattleUnits.actions";
@@ -21,6 +20,7 @@ import { Unit, UnitsOnBoard } from "../../../../core/Battle/Unit.types";
 import { Coord } from "../../../../core/Battle/Hexagon.types";
 import { Action, AtLeastOneProjectileActionTarget } from "../../../../core/Actions/Actions.types";
 import { ABILITIES } from "../../../../core/Battle/Abilities.constants";
+import { AnimationsTypes, ProjectileAnimation } from "../../../../core/Animations/Animations.types";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;

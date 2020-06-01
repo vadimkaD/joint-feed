@@ -240,8 +240,8 @@ export function getPathWithObstacles(from: Coord, to: Coord, hexes: Hexes, obsta
 export function getAsObstacles({ units = [], hexes = {} }: { units: Unit[]; hexes: Hexes }): Obstacles {
     const obstacles: Obstacles = {};
 
-    units.forEach(unit => (obstacles[getStringFromCoord(unit.coord)] = true));
     Object.keys(hexes).forEach(key => (obstacles[key] = !!hexes[key].isEmpty));
+    units.forEach(unit => (obstacles[getStringFromCoord(unit.coord)] = true));
 
     return obstacles;
 }

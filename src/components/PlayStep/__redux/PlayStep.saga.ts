@@ -3,7 +3,7 @@ import { ActionsByUnits } from "../../Battlefield/StepAnimations/StepAnimations.
 import { all, delay, put, select, take, takeEvery } from "redux-saga/effects";
 import { actionsByUnits } from "../../Battlefield/StepAnimations/__redux/StepAnimations.selectors";
 import { getTickActions } from "../../ActionQueue/ActionQueue.utils";
-import { tick } from "../../Battle/__redux/Battle.external-selectors";
+import { stepNumber, tick } from "../../Battle/__redux/Battle.external-selectors";
 import { abilitiesDictionary } from "../../Abilities";
 import { actionComplete, nextStep, nextTick, setAnimation, setTick } from "../../Battle/__redux/Battle.actions";
 import { TICK_TIMEOUT } from "../../Battle/Battle.constants";
@@ -51,6 +51,7 @@ function* playStepSaga(action: ActionType<typeof playStepClick>) {
     yield put(setTick(startTick));
     const hexes = yield select(hexesSelector);
     const effects: TickEffects = yield select(tickEffects);
+    const step: number = yield select(stepNumber);
 
     const battle: IBattle = Battle.getInstance();
 
@@ -58,6 +59,7 @@ function* playStepSaga(action: ActionType<typeof playStepClick>) {
         hexes,
         units,
         effects,
+        step,
     });
 
     console.log("gameState", gameState);

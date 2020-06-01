@@ -12,7 +12,6 @@ import { ACTION_POINTS } from "./Battle.constants";
 
 export class Battle implements IBattle {
     private static instance: IBattle;
-    private step = 1;
 
     static getInstance(): IBattle {
         if (Battle.instance) {
@@ -21,10 +20,6 @@ export class Battle implements IBattle {
 
         Battle.instance = new Battle();
         return Battle.instance;
-    }
-
-    reset() {
-        this.step = 1;
     }
 
     async applyTickEffects(params: TickParams): Promise<TickResult> {
@@ -57,15 +52,15 @@ export class Battle implements IBattle {
     }
 
     async applyStepEffects(params: StepParams): Promise<StepResult> {
-        const { effects, hexes, units } = params;
+        const { effects, hexes, units, step } = params;
         const newResult: StepResult = {
             hexes,
-            step: this.step + 1,
+            step: step + 1,
             units,
         };
 
         for (let i = 1; i <= ACTION_POINTS; i++) {
-            const tick = (this.step - 1) * ACTION_POINTS + i;
+            const tick = (step - 1) * ACTION_POINTS + i;
             const tickEffects = (effects[tick] || []) as Effect[];
             const result = await this.applyTickEffects({
                 tick,
@@ -78,8 +73,6 @@ export class Battle implements IBattle {
         }
 
         newResult.units.forEach(unit => (unit.currentActionPoints = ACTION_POINTS));
-
-        this.step += 1;
 
         return Promise.resolve(newResult);
     }

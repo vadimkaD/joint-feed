@@ -5,7 +5,6 @@ import { ABILITIES } from "./Abilities.constants";
 export interface IBattle {
     applyTickEffects(result: TickParams): Promise<TickResult>;
     applyStepEffects(result: StepParams): Promise<StepResult>;
-    reset(): void;
 }
 
 export interface Hex {
@@ -37,6 +36,7 @@ export interface StepResult {
 }
 
 export interface StepParams {
+    step: number;
     hexes: Hexes;
     units: Unit[];
     effects: TickEffects;

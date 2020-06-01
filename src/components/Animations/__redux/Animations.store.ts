@@ -1,8 +1,8 @@
 import { createReducer } from "deox";
-import { Animations } from "../Animations.types";
 import { addAnimation, dumpAnimatedUnits } from "./Animations.actions";
 import { nextStep } from "../../Battle/__redux/Battle.actions";
 import { Unit } from "../../../core/Battle/Unit.types";
+import { Animations } from "../../../core/Animations/Animations.types";
 
 export const animations = createReducer({} as Animations, handleAction => [
     handleAction(addAnimation, (state, { payload }) => {

@@ -2,15 +2,15 @@ import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { battleUnits as battleUnitsSelector } from "../../BattleUnits/__redux/BattleUnits.selectors";
 import { animations as animationsSelector } from "../../Animations/__redux/Animations.selectors";
+import { tick } from "../../Battle/__redux/Battle.external-selectors";
+import AnimatedUnit from "../AnimatedUnit/AnimatedUnit";
+import { Unit } from "../../../core/Battle/Unit.types";
 import {
     AbilityAnimation,
     Animations,
     AnimationsTypes,
     UnitTransportAnimation,
-} from "../../Animations/Animations.types";
-import { tick } from "../../Battle/__redux/Battle.external-selectors";
-import AnimatedUnit from "../AnimatedUnit/AnimatedUnit";
-import { Unit } from "../../../core/Battle/Unit.types";
+} from "../../../core/Animations/Animations.types";
 
 const AnimatedUnits: React.FunctionComponent<{}> = () => {
     const battleUnits: Unit[] = useSelector(battleUnitsSelector);

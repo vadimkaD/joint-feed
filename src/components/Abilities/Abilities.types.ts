@@ -1,11 +1,11 @@
 import React from "react";
-import { AnimationRecord } from "../Animations/Animations.types";
 import { Unit, UnitsOnBoard } from "../../core/Battle/Unit.types";
 import { Action } from "../../core/Actions/Actions.types";
 import { ABILITIES } from "../../core/Battle/Abilities.constants";
 import { Hex, Hexes } from "../../core/Battle/Battle.types";
 import { HightlightedHexes } from "../Battle/Battle.types";
 import { ActionType } from "deox";
+import { AnimationRecord } from "../../core/Animations/Animations.types";
 
 export interface AbilityActionOutlineProps {
     action: Action;

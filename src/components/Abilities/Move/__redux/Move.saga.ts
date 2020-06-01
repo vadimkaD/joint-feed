@@ -1,31 +1,33 @@
 import { all, put, select, takeEvery } from "redux-saga/effects";
 import { ActionType, getType } from "deox";
-import { v4 as uuidv4 } from "uuid";
 import * as actions from "./Move.actions";
 import { addAction } from "../../../ActionQueue/__redux/ActionQueue.actions";
 import { actionComplete } from "../../../Battle/__redux/Battle.actions";
 import { unitsOnBoard } from "../../../Battle/__redux/Battle.selectors";
 import { battleUnits } from "../../../BattleUnits/__redux/BattleUnits.selectors";
 import { tick } from "../../../Battle/__redux/Battle.external-selectors";
-import { CAST_RANGE, CAST_TIME, DELAY } from "../Move.constants";
+import { CAST_TIME, DELAY } from "../Move.constants";
 import { addEffect } from "../../../Effects/__redux/Effects.actions";
-import { getCoordOfUnitForCurrentTick } from "../../Abilities.saga";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
-import { AnimationsTypes, UnitTransportAnimation } from "../../../Animations/Animations.types";
-import { getStringFromCoord, isInRange, isSameCoord } from "../../../../core/Hexagons";
+import { getStringFromCoord } from "../../../../core/Hexagons";
 import { updateUnit } from "../../../BattleUnits/__redux/BattleUnits.actions";
 import { selectedUnit as unit } from "../../../SelectedUnit/__redux/SelectedUnit.selectors";
 import { selectAbility } from "../../../SelectedAbility/__redux/SelectedAbility.actions";
 import { selectUnit } from "../../../SelectedUnit/__redux/SelectedUnit.actions";
 import { hexes as hexesSelector } from "../../../Hexes/__redux/Hexes.selectors";
-import { getEffectsByTick } from "../../../Effects/__redux/Effects.selectors";
-import { Effect, EffectType, UnitTargetAndValue } from "../../../../core/Battle/Battle.types";
-import { Unit, UnitsOnBoard } from "../../../../core/Battle/Unit.types";
-import { Coord } from "../../../../core/Battle/Hexagon.types";
+import { getEffectsByTick, tickEffects } from "../../../Effects/__redux/Effects.selectors";
+import { Effect } from "../../../../core/Battle/Battle.types";
+import { Unit } from "../../../../core/Battle/Unit.types";
 import { Action } from "../../../../core/Actions/Actions.types";
-import { ABILITIES } from "../../../../core/Battle/Abilities.constants";
-import { abilities, getUnitUpdatedByTransportPrediction } from "../../../../core/Abilities";
+
+import {
+    abilities,
+    getTransportEffectedUnit,
+    getUnitUpdatedByTransportPrediction,
+    isOccupationPredicted,
+} from "../../../../core/Abilities";
 import { queue as queueSelector } from "../../../ActionQueue/__redux/ActionQueue.external-selectors";
+import { AnimationsTypes, UnitTransportAnimation } from "../../../../core/Animations/Animations.types";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;
@@ -67,43 +69,25 @@ function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
 
 function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>) {
     const action = reduxAction.payload as Action;
-    const units: UnitsOnBoard = yield select(unitsOnBoard);
-    const unit = Object.values(units).find(unit => unit.id === action.unitId) as Unit | null;
+    const units: Unit[] = yield select(battleUnits);
+    const hexes = yield select(hexesSelector);
+    const unit = units.find(unit => unit.id === action.unitId) as Unit | null;
+    const moveAbility = abilities.MOVE;
     if (unit) {
-        const unitCoord = yield getCoordOfUnitForCurrentTick(unit);
-
-        const coord = action.target[0].coord;
+        const allEffects = yield select(tickEffects);
         const currentTick = yield select(tick);
         const effects = yield select(getEffectsByTick(currentTick));
+        const affectedUnit = getTransportEffectedUnit(unit, allEffects, currentTick);
+
+        const coord = action.target[0].coord;
 
         if (coord) {
-            if (isInRange(unitCoord, coord, CAST_RANGE)) {
-                const effect: Effect = {
-                    type: EffectType.TRANSPORT,
-                    sourceUnitId: unit.id,
-                    effectId: action.actionId,
-                    ability: ABILITIES.MOVE,
-                    targetAndValue: [{ id: unit.id }, { coord }],
-                };
+            if (moveAbility.canCreateEffect(affectedUnit, action)) {
+                const effect: Effect = moveAbility.getEffect(action, units, hexes, currentTick);
 
-                let alreadyOccupied = false;
+                const occupied = isOccupationPredicted(effects, coord);
 
-                if (effects) {
-                    const transportEffects = effects.filter((effect: Effect) => {
-                        return effect.type === EffectType.TRANSPORT;
-                    });
-
-                    alreadyOccupied = transportEffects.reduce((occupied: boolean, effect: Effect) => {
-                        if (occupied) return occupied;
-                        const [, value] = effect.targetAndValue as UnitTargetAndValue;
-                        if (value.coord) {
-                            return isSameCoord(value.coord, coord);
-                        }
-                        return false;
-                    }, alreadyOccupied);
-                }
-
-                if (alreadyOccupied) {
+                if (occupied) {
                     console.log("FIZZLE! Already occupied");
                 } else {
                     yield put(
@@ -113,15 +97,12 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
                         }),
                     );
 
-                    const animation: UnitTransportAnimation = {
-                        animationId: action.actionId,
+                    const animation = moveAbility.getAnimation({
+                        action,
                         targetUnitId: unit.id,
-                        departure: unitCoord,
+                        departure: affectedUnit.coord,
                         destination: coord,
-                        ability: ABILITIES.MOVE,
-                        type: AnimationsTypes.UNIT_TRANSPORT,
-                        tick: action.tickStart,
-                    };
+                    });
 
                     yield put(
                         addAnimation({
@@ -131,7 +112,7 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
                     );
                 }
             } else {
-                console.log("FIZZLE! Not enough range", unitCoord, coord);
+                console.log("FIZZLE! Not enough range", affectedUnit.coord, coord);
             }
         }
     }

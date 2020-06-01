@@ -2,6 +2,7 @@ import { HightlightedHexes } from "../../Battle/Battle.types";
 import {
     coordArrToObj,
     getAreaWithObstacles,
+    getAsObstacles,
     getPathWithObstacles,
     getStringFromCoord,
     isSameCoord,
@@ -15,10 +16,7 @@ import { getUnitUpdatedByTransportPrediction } from "../../../core/Abilities";
 export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, hexUnderCursor, queue) => {
     const highlights: HightlightedHexes = {};
 
-    const obstacles: Obstacles = Object.keys(unitsOnBoard).reduce((obj, key) => {
-        obj[key] = true;
-        return obj;
-    }, {} as Obstacles);
+    const obstacles: Obstacles = getAsObstacles({ hexes, units: Object.values(unitsOnBoard) });
 
     const updUnit = getUnitUpdatedByTransportPrediction(selectedUnit, queue);
 

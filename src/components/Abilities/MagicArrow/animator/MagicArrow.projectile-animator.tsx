@@ -3,7 +3,7 @@ import { MagicArrowProjectileProps } from "../MagicArrow.types";
 import { ArrowCircle } from "../MagicArrow.styled";
 import { getCenter } from "../../../Battlefield/Battlefield.utils";
 import { CAST_TIME } from "../MagicArrow.constants";
-import { ProjectileAnimation } from "../../../Animations/Animations.types";
+import { ProjectileAnimation } from "../../../../core/Animations/Animations.types";
 
 export const MagicArrowProjectile: React.FunctionComponent<MagicArrowProjectileProps> = ({ record, currentTick }) => {
     const [translateX, setTranslateX] = useState(0);

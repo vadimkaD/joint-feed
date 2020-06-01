@@ -12,8 +12,10 @@ import {
     getAsObstacles,
     getPathWithObstacles,
     getStringFromCoord,
+    isInRange,
     isSameCoord,
 } from "../../../Hexagons";
+import { AnimationsTypes, TransportAnimationProps } from "../../../Animations/Animations.types";
 
 export const Move: Ability = {
     canCast: function(unit: Unit, targetHex: Hex, units: Unit[], hexes: Hexes) {
@@ -68,8 +70,9 @@ export const Move: Ability = {
         return actions;
     },
 
-    canApplyEffect: function() {
-        return false;
+    canCreateEffect: function(unit: Unit, action: Action) {
+        const coord = action.target[0].coord;
+        return isInRange(unit.coord, coord, CAST_RANGE);
     },
 
     getEffect: function(action: Action, units: Unit[], hexes: Hexes, tick: number) {
@@ -86,6 +89,21 @@ export const Move: Ability = {
     getSelectionArea: function(unit: Unit, hexes: Hexes, units: Unit[], queue: Action[]) {
         return [];
     },
+
+    getAnimation: function(props: TransportAnimationProps) {
+        const { action, departure, destination, targetUnitId } = props;
+
+        return {
+            animationId: action.actionId,
+            targetUnitId: targetUnitId,
+            departure: departure,
+            destination: destination,
+            ability: ABILITIES.MOVE,
+            type: AnimationsTypes.UNIT_TRANSPORT,
+            tick: action.tickStart,
+        };
+    },
+
     castRange: CAST_RANGE,
     castTime: CAST_TIME,
     castType: AbilityType.CAST,
