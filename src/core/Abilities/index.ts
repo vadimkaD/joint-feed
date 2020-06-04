@@ -6,10 +6,11 @@ import { Action, AtLeastOneTransportActionTarget } from "../Actions/Actions.type
 import { Effect, EffectType, TickEffects, UnitTargetAndValue } from "../Battle/Battle.types";
 import { Coord } from "../Battle/Hexagon.types";
 import { isSameCoord } from "../Hexagons";
+import { MagicArrow } from "./abilities/MagicArrow/MagicArrow";
 
 export const abilities: Abilities = {
     [ABILITIES.MOVE]: Move,
-    [ABILITIES.MAGIC_ARROW]: Move,
+    [ABILITIES.MAGIC_ARROW]: MagicArrow,
 };
 
 export function getUnitUpdatedByTransportPrediction(unit: Unit, queue: Action[]): Unit {

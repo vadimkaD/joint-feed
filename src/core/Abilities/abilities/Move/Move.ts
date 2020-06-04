@@ -16,6 +16,8 @@ import {
     isSameCoord,
 } from "../../../Hexagons";
 import { AnimationsTypes, TransportAnimationProps } from "../../../Animations/Animations.types";
+import { Obstacles } from "../../../Hexagons/hexagons.types";
+import { getUnitUpdatedByTransportPrediction } from "../../index";
 
 export const Move: Ability = {
     canCast: function(unit: Unit, targetHex: Hex, units: Unit[], hexes: Hexes) {
@@ -75,7 +77,7 @@ export const Move: Ability = {
         return isInRange(unit.coord, coord, CAST_RANGE);
     },
 
-    getEffect: function(action: Action, units: Unit[], hexes: Hexes, tick: number) {
+    getEffect: function(action: Action, unit: Unit, units: Unit[], hexes: Hexes, tick: number) {
         const effect: Effect = {
             effectId: uuidv4(),
             sourceUnitId: action.unitId,
@@ -87,11 +89,15 @@ export const Move: Ability = {
         return effect;
     },
     getSelectionArea: function(unit: Unit, hexes: Hexes, units: Unit[], queue: Action[]) {
-        return [];
+        const obstacles: Obstacles = getAsObstacles({ hexes, units });
+
+        const updUnit = getUnitUpdatedByTransportPrediction(unit, queue);
+
+        return getAreaWithObstacles(updUnit.coord, unit.currentActionPoints, hexes, obstacles);
     },
 
-    getAnimation: function(props: TransportAnimationProps) {
-        const { action, departure, destination, targetUnitId } = props;
+    getAnimation: function(props) {
+        const { action, departure, destination, targetUnitId } = props as TransportAnimationProps;
 
         return {
             animationId: action.actionId,
@@ -100,7 +106,7 @@ export const Move: Ability = {
             destination: destination,
             ability: ABILITIES.MOVE,
             type: AnimationsTypes.UNIT_TRANSPORT,
-            tick: action.tickStart,
+            tick: action.tickStart + DELAY,
         };
     },
 

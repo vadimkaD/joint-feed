@@ -27,7 +27,7 @@ export interface Ability {
     canCast: (unit: Unit, targetHex: Hex, units: Unit[], hexes: Hexes) => boolean;
     getActions: (unit: Unit, targetHex: Hex, units: Unit[], hexes: Hexes, queue: Action[], tick: number) => Action[];
     canCreateEffect: (unit: Unit, action: Action) => boolean;
-    getEffect: (a: Action, units: Unit[], hexes: Hexes, tick: number) => Effect;
+    getEffect: (a: Action, unit: Unit, units: Unit[], hexes: Hexes, tick: number) => Effect;
     getAnimation: (props: AnimationProps) => AbilityAnimation;
 }
 

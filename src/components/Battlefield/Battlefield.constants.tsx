@@ -14,7 +14,11 @@ const defaultHexes: Hexes = {};
 
 for (let i = 0; i < WIDTH; i++) {
     for (let j = 0; j < HEIGHT; j++) {
-        defaultHexes[`${i}:${j}`] = { coord: { x: i, y: j }, isEmpty: !!(i === WIDTH - 1 && !(j % 2)) };
+        defaultHexes[`${i}:${j}`] = {
+            coord: { x: i, y: j },
+            isEmpty:
+                !!(i === WIDTH - 1 && !(j % 2)) || ((i === 1 || i === 2 || i === 3 || i === 4 || i === 5) && j === 4),
+        };
     }
 }
 

@@ -11,6 +11,7 @@ interface BaseAbilityAnimation {
     animationId: string;
     ability: ABILITIES;
     tick: number;
+    type: AnimationsTypes;
 }
 
 export interface UnitTransportAnimation extends BaseAbilityAnimation {
@@ -51,4 +52,9 @@ export interface TransportAnimationProps extends BaseAnimationProps {
     targetUnitId: string;
 }
 
-export type AnimationProps = TransportAnimationProps;
+export interface ProjectileAnimationProps extends BaseAnimationProps {
+    destination: Coord;
+    departure: Coord;
+}
+
+export type AnimationProps = TransportAnimationProps | ProjectileAnimationProps;

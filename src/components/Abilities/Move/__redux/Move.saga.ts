@@ -6,7 +6,6 @@ import { actionComplete } from "../../../Battle/__redux/Battle.actions";
 import { unitsOnBoard } from "../../../Battle/__redux/Battle.selectors";
 import { battleUnits } from "../../../BattleUnits/__redux/BattleUnits.selectors";
 import { tick } from "../../../Battle/__redux/Battle.external-selectors";
-import { CAST_TIME, DELAY } from "../Move.constants";
 import { addEffect } from "../../../Effects/__redux/Effects.actions";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
 import { getStringFromCoord } from "../../../../core/Hexagons";
@@ -27,7 +26,7 @@ import {
     isOccupationPredicted,
 } from "../../../../core/Abilities";
 import { queue as queueSelector } from "../../../ActionQueue/__redux/ActionQueue.external-selectors";
-import { AnimationsTypes, UnitTransportAnimation } from "../../../../core/Animations/Animations.types";
+import { UnitTransportAnimation } from "../../../../core/Animations/Animations.types";
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;
@@ -60,7 +59,7 @@ function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
 
     for (const a of movingActions) {
         yield put(addAction(a));
-        selectedUnit.currentActionPoints = selectedUnit.currentActionPoints - CAST_TIME;
+        selectedUnit.currentActionPoints = selectedUnit.currentActionPoints - moveAbility.castTime;
         yield put(updateUnit(selectedUnit));
     }
 
@@ -73,49 +72,50 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
     const hexes = yield select(hexesSelector);
     const unit = units.find(unit => unit.id === action.unitId) as Unit | null;
     const moveAbility = abilities.MOVE;
-    if (unit) {
-        const allEffects = yield select(tickEffects);
-        const currentTick = yield select(tick);
-        const effects = yield select(getEffectsByTick(currentTick));
-        const affectedUnit = getTransportEffectedUnit(unit, allEffects, currentTick);
 
-        const coord = action.target[0].coord;
+    if (!unit) return;
 
-        if (coord) {
-            if (moveAbility.canCreateEffect(affectedUnit, action)) {
-                const effect: Effect = moveAbility.getEffect(action, units, hexes, currentTick);
+    const allEffects = yield select(tickEffects);
+    const currentTick = yield select(tick);
+    const effects = yield select(getEffectsByTick(currentTick));
+    const affectedUnit = getTransportEffectedUnit(unit, allEffects, currentTick);
 
-                const occupied = isOccupationPredicted(effects, coord);
+    const coord = action.target[0].coord;
 
-                if (occupied) {
-                    console.log("FIZZLE! Already occupied");
-                } else {
-                    yield put(
-                        addEffect({
-                            tick: action.tickStart + DELAY,
-                            effect: effect,
-                        }),
-                    );
-
-                    const animation = moveAbility.getAnimation({
-                        action,
-                        targetUnitId: unit.id,
-                        departure: affectedUnit.coord,
-                        destination: coord,
-                    });
-
-                    yield put(
-                        addAnimation({
-                            tick: action.tickStart,
-                            animation,
-                        }),
-                    );
-                }
-            } else {
-                console.log("FIZZLE! Not enough range", affectedUnit.coord, coord);
-            }
-        }
+    if (!moveAbility.canCreateEffect(affectedUnit, action)) {
+        console.log("cant apply Move effect", affectedUnit.coord, coord);
+        return;
     }
+
+    const occupied = isOccupationPredicted(effects, coord);
+
+    if (occupied) {
+        console.log("FIZZLE! Already occupied");
+        return;
+    }
+
+    const effect: Effect = moveAbility.getEffect(action, unit, units, hexes, currentTick);
+
+    yield put(
+        addEffect({
+            tick: action.tickStart + moveAbility.delay,
+            effect: effect,
+        }),
+    );
+
+    const animation = moveAbility.getAnimation({
+        action,
+        targetUnitId: unit.id,
+        departure: affectedUnit.coord,
+        destination: coord,
+    }) as UnitTransportAnimation;
+
+    yield put(
+        addAnimation({
+            tick: action.tickStart,
+            animation,
+        }),
+    );
 
     yield put(actionComplete());
 }

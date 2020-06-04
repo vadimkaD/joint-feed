@@ -23,11 +23,6 @@ export type AbilityAnimator = React.FunctionComponent<AbilityAnimatorProps>;
 
 export type AbilityKeys = keyof typeof ABILITIES;
 
-export interface AbilityIconProps {
-    selectAbility: (ability: ABILITIES | null) => void;
-    selectedAbility: ABILITIES | null;
-}
-
 export interface TransitionProps {
     translateX: number;
     translateY: number;

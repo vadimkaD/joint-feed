@@ -20,6 +20,7 @@
     "@types/styled-components": "^4.4.3",
     "@types/uuid": "^7.0.3",
     "@types/webpack-env": "^1.15.1",
+    "@welldone-software/why-did-you-render": "^4.2.5",
     "deox": "^3.2.1",
     "lodash": "^4.17.15",
     "react": "^16.12.0",

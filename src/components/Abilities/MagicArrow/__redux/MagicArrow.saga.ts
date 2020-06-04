@@ -1,55 +1,52 @@
 import { all, put, select, takeEvery } from "redux-saga/effects";
 import { ActionType, getType } from "deox";
-import { v4 as uuidv4 } from "uuid";
 import * as actions from "./MagicArrow.actions";
 import { addAction } from "../../../ActionQueue/__redux/ActionQueue.actions";
 import { actionComplete } from "../../../Battle/__redux/Battle.actions";
-import { CAST_RANGE, CAST_TIME, DELAY } from "../MagicArrow.constants";
 import { unitsOnBoard } from "../../../Battle/__redux/Battle.selectors";
 import { tick } from "../../../Battle/__redux/Battle.external-selectors";
-import { getCoordOfUnitForCurrentTick } from "../../Abilities.saga";
 import { addEffect } from "../../../Effects/__redux/Effects.actions";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
-import { isInRange } from "../../../../core/Hexagons";
 import { updateUnit } from "../../../BattleUnits/__redux/BattleUnits.actions";
 import { selectedUnit as unit } from "../../../SelectedUnit/__redux/SelectedUnit.selectors";
 import { selectAbility } from "../../../SelectedAbility/__redux/SelectedAbility.actions";
-import { Effect, EffectType } from "../../../../core/Battle/Battle.types";
-import { ACTION_POINTS } from "../../../../core/Battle/Battle.constants";
+import { Effect } from "../../../../core/Battle/Battle.types";
 import { Unit, UnitsOnBoard } from "../../../../core/Battle/Unit.types";
 import { Coord } from "../../../../core/Battle/Hexagon.types";
-import { Action, AtLeastOneProjectileActionTarget } from "../../../../core/Actions/Actions.types";
-import { ABILITIES } from "../../../../core/Battle/Abilities.constants";
-import { AnimationsTypes, ProjectileAnimation } from "../../../../core/Animations/Animations.types";
+import { Action } from "../../../../core/Actions/Actions.types";
+import { ProjectileAnimation } from "../../../../core/Animations/Animations.types";
+import { abilities, getTransportEffectedUnit, getUnitUpdatedByTransportPrediction } from "../../../../core/Abilities";
+import { battleUnits } from "../../../BattleUnits/__redux/BattleUnits.selectors";
+import { hexes as hexesSelector } from "../../../Hexes/__redux/Hexes.selectors";
+import { queue as queueSelector } from "../../../ActionQueue/__redux/ActionQueue.external-selectors";
+import { tickEffects } from "../../../Effects/__redux/Effects.selectors";
+
+const maAbility = abilities.MAGIC_ARROW;
 
 function* hexClickSaga(action: ActionType<typeof actions.onHexClick>) {
     const { payload: hex } = action;
     console.log("hexClickSaga", hex);
     const selectedUnit: Unit = { ...(yield select(unit)) };
+    const units = yield select(battleUnits);
+    const hexes = yield select(hexesSelector);
+    const queue = yield select(queueSelector);
 
-    if (selectedUnit.currentActionPoints < CAST_TIME) {
-        console.log("You cant cast it - not enough points");
+    const updatedUnit = getUnitUpdatedByTransportPrediction(selectedUnit, queue);
+
+    if (!maAbility.canCast(updatedUnit, hex, units, hexes)) {
+        console.log("You cant cast MagiArrow");
         return;
     }
 
     const tickNumber: number = yield select(tick);
 
-    const actionId = uuidv4();
-    for (let i = 0; i < CAST_TIME; i++) {
-        const target: AtLeastOneProjectileActionTarget = [{ coord: hex.coord }];
+    const maActions = maAbility.getActions(updatedUnit, hex, units, hexes, queue, tickNumber);
 
-        yield put(
-            addAction({
-                tickStart: tickNumber + (ACTION_POINTS - selectedUnit.currentActionPoints),
-                actionId: actionId,
-                unitId: selectedUnit.id,
-                target,
-                ability: ABILITIES.MAGIC_ARROW,
-            }),
-        );
+    for (const a of maActions) {
+        yield put(addAction(a));
     }
 
-    selectedUnit.currentActionPoints = selectedUnit.currentActionPoints - CAST_TIME;
+    selectedUnit.currentActionPoints = selectedUnit.currentActionPoints - maAbility.castTime;
     yield put(updateUnit(selectedUnit));
     yield put(selectAbility(null));
 }
@@ -59,47 +56,41 @@ function* handleEffectSaga(reduxAction: ActionType<typeof actions.handleEffect>)
     const units: UnitsOnBoard = yield select(unitsOnBoard);
     const unit = Object.values(units).find(unit => unit.id === action.unitId) as Unit | null;
 
-    if (unit) {
-        const unitCoord = yield getCoordOfUnitForCurrentTick(unit);
+    if (!unit) return;
 
-        const coord: Coord = action.target[0].coord;
-        if (coord) {
-            if (isInRange(unitCoord, coord, CAST_RANGE)) {
-                const effect: Effect = {
-                    type: EffectType.DAMAGE_AND_HEX_EFFECT,
-                    sourceUnitId: unit.id,
-                    effectId: action.actionId,
-                    ability: ABILITIES.MAGIC_ARROW,
-                    targetAndValue: [{ coord: coord }, { currentHp: -unit.damage }],
-                };
+    const allEffects = yield select(tickEffects);
+    const currentTick = yield select(tick);
+    const hexes = yield select(hexesSelector);
+    const affectedUnit = getTransportEffectedUnit(unit, allEffects, currentTick);
 
-                yield put(
-                    addEffect({
-                        tick: action.tickStart + DELAY,
-                        effect: effect,
-                    }),
-                );
+    const coord: Coord = action.target[0].coord;
 
-                const animation: ProjectileAnimation = {
-                    animationId: action.actionId,
-                    departure: unitCoord,
-                    destination: coord,
-                    ability: ABILITIES.MAGIC_ARROW,
-                    type: AnimationsTypes.PROJECTILE,
-                    tick: action.tickStart,
-                };
-
-                yield put(
-                    addAnimation({
-                        tick: action.tickStart,
-                        animation,
-                    }),
-                );
-            } else {
-                console.log("FIZZLE! Not enough range", unitCoord, coord);
-            }
-        }
+    if (!maAbility.canCreateEffect(affectedUnit, action)) {
+        console.log("FIZZLE! Cant create Magic Arrow effect", affectedUnit, coord);
+        return;
     }
+
+    const effect: Effect = maAbility.getEffect(action, unit, Object.values(units), hexes, currentTick);
+
+    yield put(
+        addEffect({
+            tick: action.tickStart + maAbility.delay,
+            effect: effect,
+        }),
+    );
+
+    const animation = maAbility.getAnimation({
+        action,
+        departure: affectedUnit.coord,
+        destination: coord,
+    }) as ProjectileAnimation;
+
+    yield put(
+        addAnimation({
+            tick: action.tickStart,
+            animation,
+        }),
+    );
 
     yield put(actionComplete());
 }
