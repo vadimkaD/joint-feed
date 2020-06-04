@@ -1,23 +1,11 @@
 import React from "react";
+import { Unit, UnitsOnBoard } from "../../core/Battle/Unit.types";
+import { Action } from "../../core/Actions/Actions.types";
+import { ABILITIES } from "../../core/Battle/Abilities.constants";
+import { Hex, Hexes } from "../../core/Battle/Battle.types";
+import { HightlightedHexes } from "../Battle/Battle.types";
 import { ActionType } from "deox";
-import { ABILITIES } from "./Abilities.constants";
-import { HightlightedHexes, UnitsOnBoard } from "../Battle/Battle.types";
-import { Action } from "../ActionQueue/ActionQueue.types";
-import { EffectType } from "../Effects/Effects.types";
-import { AtLeast } from "../../types";
-import { AnimationRecord } from "../Animations/Animations.types";
-import { Hex, Hexes } from "../Hexes/Hexes.types";
-import { BattleUnit } from "../BattleUnits/BattleUnits.types";
-
-export enum Target {
-    UNITS = "UNITS",
-    AREA = "AREA",
-}
-
-export enum AbilityType {
-    CHANNELING = "CHANNELING",
-    CAST = "CAST",
-}
+import { AnimationRecord } from "../../core/Animations/Animations.types";
 
 export interface AbilityActionOutlineProps {
     action: Action;
@@ -33,57 +21,7 @@ export interface AbilityAnimatorProps {
 
 export type AbilityAnimator = React.FunctionComponent<AbilityAnimatorProps>;
 
-export interface Ability {
-    id: string;
-    castTime: number;
-    delay: number;
-    target: Target;
-    castRange: number;
-    iconComponent: React.ComponentType;
-    castType: AbilityType;
-    getHighlights: GetHighlights;
-    onHexClick: ActionType<any>;
-    actionOutline: AbilityActionOutline;
-    effector: AbilityEffector;
-    abilityAnimator: AbilityAnimator;
-    effectType: EffectType;
-    handleEffect: ActionType<any>;
-}
-
-export type SomeAbilities = {
-    [key in ABILITIES]?: Ability;
-};
-
-export type Abilities = {
-    [key in ABILITIES]: Ability;
-};
-
 export type AbilityKeys = keyof typeof ABILITIES;
-
-export interface AbilitiesState {
-    Abilities: {
-        selectedAbility: ABILITIES | null;
-    };
-}
-
-export type GetHighlights = (
-    hexes: Hexes,
-    selectedUnit: BattleUnit,
-    unitsOnBoard: UnitsOnBoard,
-    hexUnderCursor: Hex | null,
-    queue: Action[],
-) => HightlightedHexes;
-
-export interface AbilityEffect {
-    type: EffectType;
-    effect: AtLeast<BattleUnit, "id">;
-}
-export type AbilityEffector = (action: Action, unitsOnBoard: UnitsOnBoard) => AbilityEffect[];
-
-export interface AbilityIconProps {
-    selectAbility: (ability: ABILITIES | null) => void;
-    selectedAbility: ABILITIES | null;
-}
 
 export interface TransitionProps {
     translateX: number;
@@ -93,3 +31,25 @@ export interface TransitionProps {
 export interface HiddenProps {
     isHidden: boolean;
 }
+
+export type GetHighlights = (
+    hexes: Hexes,
+    selectedUnit: Unit,
+    unitsOnBoard: UnitsOnBoard,
+    hexUnderCursor: Hex | null,
+    queue: Action[],
+) => HightlightedHexes;
+
+export interface UIAbility {
+    ability: ABILITIES;
+    iconComponent: React.ComponentType;
+    getHighlights: GetHighlights;
+    onHexClick: ActionType<any>;
+    actionOutline: AbilityActionOutline;
+    abilityAnimator: AbilityAnimator;
+    handleEffect: ActionType<any>;
+}
+
+export type UIAbilities = {
+    [key in ABILITIES]: UIAbility;
+};

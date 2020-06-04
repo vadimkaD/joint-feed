@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { MagicArrowProjectileProps } from "../MagicArrow.types";
 import { ArrowCircle } from "../MagicArrow.styled";
 import { getCenter } from "../../../Battlefield/Battlefield.utils";
-import { CAST_TIME } from "../MagicArrow.constants";
-import { ProjectileAnimation } from "../../../Animations/Animations.types";
+import { ProjectileAnimation } from "../../../../core/Animations/Animations.types";
+import { abilities } from "../../../../core/Abilities";
+
+const maAbility = abilities.MAGIC_ARROW;
 
 export const MagicArrowProjectile: React.FunctionComponent<MagicArrowProjectileProps> = ({ record, currentTick }) => {
     const [translateX, setTranslateX] = useState(0);
@@ -22,7 +24,7 @@ export const MagicArrowProjectile: React.FunctionComponent<MagicArrowProjectileP
 
     return (
         <ArrowCircle
-            isHidden={currentTick < record.tick || currentTick >= record.tick + CAST_TIME - 1}
+            isHidden={currentTick < record.tick || currentTick >= record.tick + maAbility.castTime - 1}
             cx={center.x}
             cy={center.y}
             r={15}

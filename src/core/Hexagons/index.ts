@@ -1,8 +1,8 @@
-import { Coord, Cube, Coords } from "./hexagons.types";
-import { HEIGHT, WIDTH } from "../components/Battlefield/Battlefield.constants";
-import { Hexes } from "../components/Hexes/Hexes.types";
-import { UnitsOnBoard } from "../components/Battle/Battle.types";
-import { getByDirection } from "./hexagons.constants";
+import { Cube, Coords, Obstacles } from "./hexagons.types";
+import { getByDirection, HEIGHT, WIDTH } from "./hexagons.constants";
+import { Hexes } from "../Battle/Battle.types";
+import { Coord } from "../Battle/Hexagon.types";
+import { Unit } from "../Battle/Unit.types";
 
 export function getCoordsFromString(coord: string): Coord {
     const [x, y] = coord.split(":").map(v => +v);
@@ -178,7 +178,7 @@ export function getArea(coord: Coord, radius: number): Coord[] {
     return results;
 }
 
-export function getAreaWithObstacles(from: Coord, distance: number, hexes: Hexes, unitsOnBoard: UnitsOnBoard): Coord[] {
+export function getAreaWithObstacles(from: Coord, distance: number, hexes: Hexes, obstacles: Obstacles): Coord[] {
     const visited: Coords = {};
     visited[getStringFromCoord(from)] = from;
     const fringes: Coord[][] = [];
@@ -191,7 +191,7 @@ export function getAreaWithObstacles(from: Coord, distance: number, hexes: Hexes
             for (let d = 0; d < 6; d++) {
                 const neighbor = getByDirection(coord, d) as Coord;
                 if (!neighbor) continue;
-                if (!visited[getStringFromCoord(neighbor)] && !unitsOnBoard[getStringFromCoord(neighbor)]) {
+                if (!visited[getStringFromCoord(neighbor)] && !obstacles[getStringFromCoord(neighbor)]) {
                     visited[getStringFromCoord(neighbor)] = neighbor;
                     fringes[step].push(neighbor);
                 }
@@ -202,7 +202,7 @@ export function getAreaWithObstacles(from: Coord, distance: number, hexes: Hexes
     return Object.values(visited);
 }
 
-export function getPathWithObstacles(from: Coord, to: Coord, hexes: Hexes, unitsOnBoard: UnitsOnBoard): Coord[] {
+export function getPathWithObstacles(from: Coord, to: Coord, hexes: Hexes, obstacles: Obstacles): Coord[] {
     const frontier: Coord[] = [];
     frontier.push(from);
     const cameFrom: Coords = {};
@@ -214,7 +214,7 @@ export function getPathWithObstacles(from: Coord, to: Coord, hexes: Hexes, units
         for (let dir = 0; dir < 6; dir++) {
             const neighbor = getByDirection(current, dir);
             if (neighbor) {
-                if (unitsOnBoard[getStringFromCoord(neighbor)]) continue;
+                if (obstacles[getStringFromCoord(neighbor)]) continue;
 
                 if (!cameFrom[getStringFromCoord(neighbor)]) {
                     cameFrom[getStringFromCoord(neighbor)] = current;
@@ -235,4 +235,13 @@ export function getPathWithObstacles(from: Coord, to: Coord, hexes: Hexes, units
     }
 
     return route.reverse().concat([to]);
+}
+
+export function getAsObstacles({ units = [], hexes = {} }: { units: Unit[]; hexes: Hexes }): Obstacles {
+    const obstacles: Obstacles = {};
+
+    Object.keys(hexes).forEach(key => (obstacles[key] = !!hexes[key].isEmpty));
+    units.forEach(unit => (obstacles[getStringFromCoord(unit.coord)] = true));
+
+    return obstacles;
 }

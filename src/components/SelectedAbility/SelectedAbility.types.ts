@@ -1,4 +1,4 @@
-import { ABILITIES } from "../Abilities/Abilities.constants";
+import { ABILITIES } from "../../core/Battle/Abilities.constants";
 
 export interface SelectedAbilityState {
     SelectedAbility: {

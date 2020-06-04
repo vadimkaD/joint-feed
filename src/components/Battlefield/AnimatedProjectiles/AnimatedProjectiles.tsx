@@ -1,8 +1,13 @@
 import React, { useMemo } from "react";
-import { AnimationRecord, Animations, AnimationsTypes, ProjectileAnimation } from "../../Animations/Animations.types";
 import { useSelector } from "react-redux";
 import { animations as animationsSelector } from "../../Animations/__redux/Animations.selectors";
 import { abilitiesDictionary } from "../../Abilities";
+import {
+    AnimationRecord,
+    Animations,
+    AnimationsTypes,
+    ProjectileAnimation,
+} from "../../../core/Animations/Animations.types";
 
 const AnimatedProjectiles: React.FunctionComponent<{}> = () => {
     const animations: Animations = useSelector(animationsSelector);

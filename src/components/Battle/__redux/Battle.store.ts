@@ -13,4 +13,5 @@ export const stepNumber = createReducer(1 as number, handleAction => [
 export const tickNumber = createReducer(1 as number, handleAction => [
     handleAction(actions.nextTick, state => state + 1),
     handleAction(actions.setTick, (state, { payload }) => payload),
+    handleAction(actions.nextStep, (state, { payload }) => payload),
 ]);

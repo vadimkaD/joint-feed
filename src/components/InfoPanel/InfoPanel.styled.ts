@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { AbilityIconProps, HpValueProps, UnitProps } from "./InfoPanel.types";
+import { FORM_FACTORS, UNIT_IMAGES } from "../Battlefield/Units/Units.constants";
 
 export const Wrap = styled.div`
     position: fixed;
@@ -21,7 +22,7 @@ export const UnitImage = styled.div<UnitProps>`
     left: calc(50% - 72px);
     width: 144px;
     height: 144px;
-    background-image: ${props => `url('${props.unit?.image}')`};
+    background-image: ${props => `url('${UNIT_IMAGES[props.unit?.formFactor as FORM_FACTORS]}')`};
     background-repeat: no-repeat;
     background-position: center center;
     cursor: pointer;

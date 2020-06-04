@@ -1,9 +1,9 @@
-import { Abilities } from "./Abilities.types";
-import { ABILITIES } from "./Abilities.constants";
 import { magicArrowAbility } from "./MagicArrow/MagicArrow";
 import { moveAbility } from "./Move/Move";
+import { ABILITIES } from "../../core/Battle/Abilities.constants";
+import { UIAbilities } from "./Abilities.types";
 
-export const abilitiesDictionary: Abilities = {
+export const abilitiesDictionary: UIAbilities = {
     [ABILITIES.MOVE]: moveAbility,
     [ABILITIES.MAGIC_ARROW]: magicArrowAbility,
 };

@@ -1,10 +1,10 @@
 import { createReducer } from "deox";
 import * as actions from "./BattleUnits.actions";
-import { ACTION_POINTS } from "../../Battle/Battle.constants";
-import { BattleUnit } from "../BattleUnits.types";
 import { nextStep } from "../../Battle/__redux/Battle.actions";
+import { ACTION_POINTS } from "../../../core/Battle/Battle.constants";
+import { Unit } from "../../../core/Battle/Unit.types";
 
-export const battleUnits = createReducer([] as BattleUnit[], handleAction => [
+export const battleUnits = createReducer([] as Unit[], handleAction => [
     handleAction(actions.setUnits, (state, { payload }) => payload),
     handleAction(actions.addUnit, (state, { payload }) => [...state, payload]),
     handleAction(actions.updateUnit, (state, { payload }) =>

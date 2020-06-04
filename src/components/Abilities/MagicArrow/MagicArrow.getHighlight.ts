@@ -1,17 +1,13 @@
-import { GetHighlights } from "../Abilities.types";
 import { HightlightedHexes } from "../../Battle/Battle.types";
-import { getEffectedUnit, getEffectsForSelectedUnit } from "../Abilities.utils";
-import { CAST_RANGE } from "./MagicArrow.constants";
+import { coordArrToObj, getStringFromCoord, isSameCoord } from "../../../core/Hexagons";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
-import { coordArrToObj, getArea, getStringFromCoord, isSameCoord } from "../../../hexagons";
+import { GetHighlights } from "../Abilities.types";
+import { abilities } from "../../../core/Abilities";
 
 export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, hexUnderCursor, queue) => {
     const highlights: HightlightedHexes = {};
-    const effectsForSelectedUnit = getEffectsForSelectedUnit(queue, unitsOnBoard, selectedUnit);
 
-    const updatedUnit = getEffectedUnit(effectsForSelectedUnit, selectedUnit);
-
-    const coords = getArea(updatedUnit.coord, CAST_RANGE);
+    const coords = abilities.MAGIC_ARROW.getSelectionArea(selectedUnit, hexes, Object.values(unitsOnBoard), queue);
     const areaObj = coordArrToObj(coords);
 
     coords.reduce((total: HightlightedHexes, coord) => {

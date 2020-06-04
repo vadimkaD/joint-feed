@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { isAnimation as isAnimationSelector } from "../../Battle/__redux/Battle.external-selectors";
 import { abilitiesDictionary } from "../../Abilities";
 import { animationsByAbility as animationsByAbilitySelector } from "../../Animations/__redux/Animations.selectors";
-import { AnimationRecord } from "../../Animations/Animations.types";
-import { ABILITIES } from "../../Abilities/Abilities.constants";
+import { ABILITIES } from "../../../core/Battle/Abilities.constants";
+import { AnimationRecord } from "../../../core/Animations/Animations.types";
 
 const StepAnimations: React.FunctionComponent<{}> = props => {
     const isAnimation = useSelector(isAnimationSelector);

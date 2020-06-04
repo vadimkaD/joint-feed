@@ -1,4 +1,4 @@
-import { AnimationRecord } from "../../Animations/Animations.types";
+import { AnimationRecord } from "../../../core/Animations/Animations.types";
 
 export interface MagicArrowProjectileProps {
     record: AnimationRecord;

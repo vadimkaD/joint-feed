@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AbilityIcon } from "../../InfoPanel/InfoPanel.styled";
-import { ABILITIES } from "../Abilities.constants";
 import { ICON_PATH } from "./MagicArrow.constants";
 import { selectAbility } from "../../SelectedAbility/__redux/SelectedAbility.actions";
 import { selectedAbility as selectedAbilitySelector } from "../../SelectedAbility/__redux/SelectedAbility.selectors";
+import { ABILITIES } from "../../../core/Battle/Abilities.constants";
 
 const MagicArrowIcon: React.FunctionComponent<{}> = props => {
     const dispatch = useDispatch();

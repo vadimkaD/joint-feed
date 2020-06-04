@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import BattleView from "./Battle.view";
-import { Owner } from "./Battle.types";
-import { ACTION_POINTS } from "./Battle.constants";
 import { addUnit } from "../BattleUnits/__redux/BattleUnits.actions";
-import { ABILITIES } from "../Abilities/Abilities.constants";
+import { ACTION_POINTS } from "../../core/Battle/Battle.constants";
+import { FORM_FACTORS } from "../Battlefield/Units/Units.constants";
+import { Owner } from "../../core/Battle/Unit.types";
+import { ABILITIES } from "../../core/Battle/Abilities.constants";
 
 const Battle: React.FunctionComponent<{}> = props => {
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Battle: React.FunctionComponent<{}> = props => {
                 damage: 7,
                 abilities: [ABILITIES.MOVE, ABILITIES.MAGIC_ARROW],
                 name: "Лучник",
-                image: "/images/units/sprites/Elf_Vampire.png",
+                formFactor: FORM_FACTORS.ELF_VAMPIRE,
             }),
         );
 
@@ -37,7 +38,22 @@ const Battle: React.FunctionComponent<{}> = props => {
                 damage: 7,
                 abilities: [ABILITIES.MOVE],
                 name: "Воин с топором",
-                image: "/images/units/sprites/Dwarf_Ruler.png",
+                formFactor: FORM_FACTORS.DWARF_RULER,
+            }),
+        );
+
+        dispatch(
+            addUnit({
+                id: "Imp",
+                currentHp: 25,
+                coord: { x: 7, y: 4 },
+                owner: Owner.ENEMY,
+                currentActionPoints: ACTION_POINTS,
+                maxHp: 25,
+                damage: 7,
+                abilities: [ABILITIES.MOVE],
+                name: "Имп",
+                formFactor: FORM_FACTORS.IMP,
             }),
         );
     }, [dispatch]);

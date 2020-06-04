@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { UnitImageWithTransition } from "../Move.styled";
-import { UNIT_SIZE } from "../../../Battlefield/Units/Units.constants";
+import { UNIT_SIZE, UNIT_IMAGES, FORM_FACTORS } from "../../../Battlefield/Units/Units.constants";
 import { UnitAnimatorProps } from "../Move.types";
 
 export const UnitAnimator: React.FunctionComponent<UnitAnimatorProps> = ({ unit, from, to }) => {
@@ -18,6 +18,12 @@ export const UnitAnimator: React.FunctionComponent<UnitAnimatorProps> = ({ unit,
     const y = from.y - UNIT_SIZE / 2;
 
     return (
-        <UnitImageWithTransition translateX={translateX} translateY={translateY} xlinkHref={unit.image} x={x} y={y} />
+        <UnitImageWithTransition
+            translateX={translateX}
+            translateY={translateY}
+            xlinkHref={UNIT_IMAGES[unit.formFactor as FORM_FACTORS]}
+            x={x}
+            y={y}
+        />
     );
 };

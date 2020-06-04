@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BATTLEFIELD_HEIGHT, BATTLEFIELD_WIDTH, HEIGHT_ARRAY } from "./Battlefield.constants";
-import BattlefieldLine from "./BattlefieldLine";
+import BattlefieldLine from "./BattlefieldLine/BattlefieldLine";
 import Units from "./Units/Units";
 import ActionOutlines from "./ActionOutlines/ActionOutlines";
 import StepAnimations from "./StepAnimations/StepAnimations";

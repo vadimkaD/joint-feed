@@ -1,5 +1,5 @@
 import { createAction } from "deox";
-import { Action } from "../ActionQueue.types";
+import { Action } from "../../../core/Actions/Actions.types";
 
 const namespace = "[ActionQueue]";
 

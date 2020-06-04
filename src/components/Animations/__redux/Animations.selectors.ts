@@ -1,5 +1,7 @@
-import { AnimationRecord, Animations, AnimationsByAbility, AnimationsState } from "../Animations.types";
+import { AnimationsState } from "../Animations.types";
 import { createSelector } from "reselect";
+import { Unit } from "../../../core/Battle/Unit.types";
+import { AnimationRecord, Animations, AnimationsByAbility } from "../../../core/Animations/Animations.types";
 
 export const animations = (state: AnimationsState): Animations => state.Animations.animations;
 export const animationsByAbility = createSelector<AnimationsState, Animations, AnimationsByAbility>(
@@ -32,3 +34,5 @@ export const animationsByAbility = createSelector<AnimationsState, Animations, A
         return record;
     },
 );
+
+export const animatedUnits = (state: AnimationsState): Unit[] => state.Animations.animatedUnits;

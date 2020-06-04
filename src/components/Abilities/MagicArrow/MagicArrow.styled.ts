@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { TICK_TIMEOUT } from "../../Battle/Battle.constants";
-import { CAST_TIME } from "./MagicArrow.constants";
 import { HiddenProps, TransitionProps } from "../Abilities.types";
+import { abilities } from "../../../core/Abilities";
+
+const maAbility = abilities.MAGIC_ARROW;
 
 export const ArrowCircle = styled.circle<TransitionProps & HiddenProps>`
-    transition-duration: ${props => (TICK_TIMEOUT * CAST_TIME) / 1000}s;
+    transition-duration: ${props => (TICK_TIMEOUT * maAbility.castTime) / 1000}s;
     transition-timing-function: ease;
     stroke-dasharray: 6 6;
     stroke: #bf360c;

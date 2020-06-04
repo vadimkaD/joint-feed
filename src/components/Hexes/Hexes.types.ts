@@ -1,13 +1,4 @@
-import { Coord } from "../../hexagons/hexagons.types";
-
-export interface Hex {
-    coord: Coord;
-    isEmpty?: boolean;
-}
-
-export interface Hexes {
-    [coordinates: string]: Hex;
-}
+import { Hex, Hexes } from "../../core/Battle/Battle.types";
 
 export interface HexesState {
     Hexes: {

@@ -1,24 +1,23 @@
 import { HightlightedHexes } from "../../Battle/Battle.types";
-import { GetHighlights } from "../Abilities.types";
-import { Highlight } from "../../Battlefield/Battlefield.constants";
-import { getEffectedUnit, getEffectsForSelectedUnit } from "../Abilities.utils";
 import {
     coordArrToObj,
-    getAreaWithObstacles,
+    getAsObstacles,
     getPathWithObstacles,
     getStringFromCoord,
     isSameCoord,
-} from "../../../hexagons";
+} from "../../../core/Hexagons";
 import { getHighlightsForRoute } from "./Move.utils";
+import { Highlight } from "../../Battlefield/Battlefield.constants";
+import { GetHighlights } from "../Abilities.types";
+import { abilities, getUnitUpdatedByTransportPrediction } from "../../../core/Abilities";
+import { Obstacles } from "../../../core/Hexagons/hexagons.types";
 
 export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, hexUnderCursor, queue) => {
     const highlights: HightlightedHexes = {};
 
-    const effectsForSelectedUnit = getEffectsForSelectedUnit(queue, unitsOnBoard, selectedUnit);
+    const obstacles: Obstacles = getAsObstacles({ hexes, units: Object.values(unitsOnBoard) });
 
-    const updatedUnit = getEffectedUnit(effectsForSelectedUnit, selectedUnit);
-
-    const coords = getAreaWithObstacles(updatedUnit.coord, updatedUnit.currentActionPoints, hexes, unitsOnBoard);
+    const coords = abilities.MOVE.getSelectionArea(selectedUnit, hexes, Object.values(unitsOnBoard), queue);
     const areaObj = coordArrToObj(coords);
 
     if (
@@ -26,7 +25,9 @@ export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, 
         !unitsOnBoard[getStringFromCoord(hexUnderCursor.coord)] &&
         areaObj[getStringFromCoord(hexUnderCursor.coord)]
     ) {
-        const route = getPathWithObstacles(updatedUnit.coord, hexUnderCursor.coord, hexes, unitsOnBoard);
+        const updUnit = getUnitUpdatedByTransportPrediction(selectedUnit, queue);
+
+        const route = getPathWithObstacles(updUnit.coord, hexUnderCursor.coord, hexes, obstacles);
         Object.assign(highlights, getHighlightsForRoute(route));
     }
 

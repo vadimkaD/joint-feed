@@ -25,7 +25,8 @@
     "react/self-closing-comp": ["error", {
       "component": true,
       "html": true
-    }]
+    }],
+    "@typescript-eslint/interface-name-prefix": "off"
   },
   "settings": {
     "react": {
