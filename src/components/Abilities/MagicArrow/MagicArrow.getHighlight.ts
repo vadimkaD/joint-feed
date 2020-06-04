@@ -1,5 +1,5 @@
 import { HightlightedHexes } from "../../Battle/Battle.types";
-import { coordArrToObj, getStringFromCoord, isSameCoord } from "../../../core/Hexagons";
+import { coordArrToObj, getStringFromCoord, isSameCoord } from "../../../core/Battle/Hexagons";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
 import { GetHighlights } from "../Abilities.types";
 import { abilities } from "../../../core/Abilities";

@@ -25,7 +25,7 @@ const AnimatedUnit: React.FunctionComponent<AnimatedUnitProps> = ({ unit, transp
     return (
         <UnitImage
             key={unit.id}
-            xlinkHref={UNIT_IMAGES[unit.formFactor as FORM_FACTORS]}
+            xlinkHref={unit.isDead ? UNIT_IMAGES.DEAD : UNIT_IMAGES[unit.formFactor as FORM_FACTORS]}
             x={x - UNIT_SIZE / 2}
             y={y - UNIT_SIZE / 2}
         />

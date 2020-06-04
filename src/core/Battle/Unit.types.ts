@@ -12,11 +12,12 @@ export interface Unit {
     currentActionPoints: number;
     abilities: ABILITIES[];
     formFactor: string;
+    isDead: boolean;
 }
 
 export enum Owner {
-    PLAYER = "PLAYER",
-    ENEMY = "ENEMY",
+    RED = "RED",
+    GREEN = "GREEN",
 }
 
 export interface UnitsOnBoard {

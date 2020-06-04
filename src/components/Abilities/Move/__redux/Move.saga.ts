@@ -8,7 +8,7 @@ import { battleUnits } from "../../../BattleUnits/__redux/BattleUnits.selectors"
 import { tick } from "../../../Battle/__redux/Battle.external-selectors";
 import { addEffect } from "../../../Effects/__redux/Effects.actions";
 import { addAnimation } from "../../../Animations/__redux/Animations.actions";
-import { getStringFromCoord } from "../../../../core/Hexagons";
+import { getStringFromCoord } from "../../../../core/Battle/Hexagons";
 import { updateUnit } from "../../../BattleUnits/__redux/BattleUnits.actions";
 import { selectedUnit as unit } from "../../../SelectedUnit/__redux/SelectedUnit.selectors";
 import { selectAbility } from "../../../SelectedAbility/__redux/SelectedAbility.actions";

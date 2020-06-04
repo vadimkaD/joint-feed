@@ -2,6 +2,7 @@ import {
     Effect,
     EffectType,
     IBattle,
+    ProjectileTargetAndValue,
     StepParams,
     StepResult,
     TickParams,
@@ -9,6 +10,8 @@ import {
     TransportTargetAndValue,
 } from "./Battle.types";
 import { ACTION_POINTS } from "./Battle.constants";
+import { Unit } from "./Unit.types";
+import { isSameCoord } from "./Hexagons";
 
 export class Battle implements IBattle {
     private static instance: IBattle;
@@ -29,11 +32,13 @@ export class Battle implements IBattle {
 
         for (let i = 0; i < effects.length; i++) {
             const effect = effects[i];
+            const sourceUnit = newUnits.find(unit => unit.id === effect.sourceUnitId) as Unit;
+
             if (effect.type === EffectType.TRANSPORT) {
                 const [unit, val] = effect.targetAndValue as TransportTargetAndValue;
 
                 newUnits = newUnits.map(newUnit => {
-                    if (newUnit.id === unit.id) {
+                    if (newUnit.id === unit.id && !newUnit.isDead) {
                         return { ...newUnit, coord: val.coord };
                     }
                     return newUnit;
@@ -41,6 +46,25 @@ export class Battle implements IBattle {
             }
 
             if (effect.type === EffectType.DAMAGE_AND_HEX_EFFECT) {
+                const [hex, val] = effect.targetAndValue as ProjectileTargetAndValue;
+                const unit: Unit | undefined = newUnits.find(unit => isSameCoord(unit.coord, hex.coord));
+                if (unit && unit.owner !== sourceUnit.owner) {
+                    const newUnit = {
+                        ...unit,
+                        currentHp: val.currentHp ? unit.currentHp + val.currentHp : unit.currentHp,
+                    };
+
+                    if (newUnit.currentHp <= 0) {
+                        newUnit.isDead = true;
+                    }
+
+                    newUnits = newUnits.map(innerUnit => {
+                        if (newUnit.id === innerUnit.id) {
+                            return { ...newUnit };
+                        }
+                        return innerUnit;
+                    });
+                }
             }
         }
 
@@ -72,6 +96,7 @@ export class Battle implements IBattle {
             Object.assign(newResult, { units: result.units, hexes: result.hexes });
         }
 
+        newResult.units = newResult.units.filter(unit => !unit.isDead);
         newResult.units.forEach(unit => (unit.currentActionPoints = ACTION_POINTS));
 
         return Promise.resolve(newResult);

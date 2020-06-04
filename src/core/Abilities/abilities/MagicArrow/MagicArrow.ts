@@ -5,7 +5,7 @@ import { CAST_RANGE, CAST_TIME, DELAY } from "./MagicArrow.constants";
 import { Unit } from "../../../Battle/Unit.types";
 import { Action, AtLeastOneProjectileActionTarget } from "../../../Actions/Actions.types";
 import { ProjectileAnimationProps, AnimationsTypes, ProjectileAnimation } from "../../../Animations/Animations.types";
-import { getArea, isInRange } from "../../../Hexagons";
+import { getArea, isInRange } from "../../../Battle/Hexagons";
 import { ACTION_POINTS } from "../../../Battle/Battle.constants";
 import { v4 as uuidv4 } from "uuid";
 import { Coord } from "../../../Battle/Hexagon.types";

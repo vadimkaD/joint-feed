@@ -16,38 +16,47 @@ import { unitActions as unitActionsSelector } from "../ActionQueue/__redux/Actio
 import { selectedUnit } from "../SelectedUnit/__redux/SelectedUnit.selectors";
 import { abilities as abilitiesSelector } from "./__redux/InfoPanel.selectors";
 import { ACTION_POINTS_ARR } from "../../core/Battle/Battle.constants";
+import { owner as ownerSelector } from "../Player/__redux/Player.selectors";
+import { Owner } from "../../core/Battle/Unit.types";
 
 const InfoPanel: FunctionComponent<{}> = props => {
     const unit = useSelector(selectedUnit);
     const abilities = useSelector(abilitiesSelector);
     const unitActions = useSelector(unitActionsSelector(unit?.id || ""));
+    const owner: Owner | null = useSelector(ownerSelector);
 
     if (!unit) return null;
+
+    const isOwner = unit.owner === owner;
 
     return (
         <Wrap>
             <Panel>
-                <TickBar>
-                    {ACTION_POINTS_ARR.map((v, i) => {
-                        return (
-                            <Fragment key={i}>
-                                <Tick>{unitActions[i] ? unitActions[i].ability : null}</Tick>
-                                {i < ACTION_POINTS_ARR.length - 1 && <ForwardIcon />}
-                            </Fragment>
-                        );
-                    })}
-                </TickBar>
+                {isOwner && (
+                    <TickBar>
+                        {ACTION_POINTS_ARR.map((v, i) => {
+                            return (
+                                <Fragment key={i}>
+                                    <Tick>{unitActions[i] ? unitActions[i].ability : null}</Tick>
+                                    {i < ACTION_POINTS_ARR.length - 1 && <ForwardIcon />}
+                                </Fragment>
+                            );
+                        })}
+                    </TickBar>
+                )}
 
-                <AbilityPanel>
-                    {abilities.map((ability, i) => {
-                        const Component = ability.iconComponent;
-                        return (
-                            <AbilityIconWrap key={i}>
-                                <Component />
-                            </AbilityIconWrap>
-                        );
-                    })}
-                </AbilityPanel>
+                {isOwner && (
+                    <AbilityPanel>
+                        {abilities.map((ability, i) => {
+                            const Component = ability.iconComponent;
+                            return (
+                                <AbilityIconWrap key={i}>
+                                    <Component />
+                                </AbilityIconWrap>
+                            );
+                        })}
+                    </AbilityPanel>
+                )}
             </Panel>
             <UnitImage unit={unit}>
                 <HpBar>

@@ -1,5 +1,5 @@
 import { Hexes } from "../../core/Battle/Battle.types";
-import { HEIGHT, WIDTH } from "../../core/Hexagons/hexagons.constants";
+import { HEIGHT, WIDTH } from "../../core/Battle/Hexagons/hexagons.constants";
 
 export const HEX_SIZE = 40;
 export const WIDTH_ARRAY = new Array(WIDTH).fill(1).map((v, i) => i);
