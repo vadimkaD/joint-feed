@@ -1,5 +1,5 @@
 import { getLeft, getLeftBottom, getLeftTop, getRight, getRightBottom, getRightTop } from "./index";
-import { Coord } from "../Battle/Hexagon.types";
+import { Coord } from "../Hexagon.types";
 
 export enum DIRECTION {
     LEFT_TOP = 0,

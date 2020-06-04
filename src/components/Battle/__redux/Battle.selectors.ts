@@ -5,7 +5,7 @@ import { abilitiesDictionary } from "../../Abilities";
 import { isAnimation } from "./Battle.external-selectors";
 import { ActionQueueState } from "../../ActionQueue/ActionQueue.types";
 import { queue } from "../../ActionQueue/__redux/ActionQueue.external-selectors";
-import { getStringFromCoord } from "../../../core/Hexagons";
+import { getStringFromCoord } from "../../../core/Battle/Hexagons";
 import { HexesState } from "../../Hexes/Hexes.types";
 import { hexes, hexUnderCursor } from "../../Hexes/__redux/Hexes.selectors";
 import { BattleUnitsState } from "../../BattleUnits/BattleUnits.types";
@@ -19,6 +19,8 @@ import { Owner, Unit, UnitsOnBoard } from "../../../core/Battle/Unit.types";
 import { Action } from "../../../core/Actions/Actions.types";
 import { ABILITIES } from "../../../core/Battle/Abilities.constants";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
+import { owner } from "../../Player/__redux/Player.selectors";
+import { PlayerState } from "../../Player/Player.types";
 
 export const unitsOnBoard = createSelector<BattleUnitsState, Unit[], UnitsOnBoard>(battleUnits, units => {
     return units.reduce((onBoard: UnitsOnBoard, unit) => {
@@ -70,11 +72,19 @@ export const highlightedHexes = createSelector<
     },
 );
 
-export const playerUnitsOnBoard = createSelector<BattleUnitsState, UnitsOnBoard, UnitsOnBoard>(unitsOnBoard, units => {
+export const playerUnitsOnBoard = createSelector<
+    BattleUnitsState & PlayerState,
+    UnitsOnBoard,
+    Owner | null,
+    UnitsOnBoard
+>(unitsOnBoard, owner, (units, owner) => {
     const ownUnits: UnitsOnBoard = {};
+
+    if (!owner) return ownUnits;
+
     for (const coord in units) {
         const unit = units[coord];
-        if (unit.owner === Owner.PLAYER) {
+        if (unit.owner === owner) {
             ownUnits[coord] = unit;
         }
     }

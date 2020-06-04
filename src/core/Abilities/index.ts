@@ -5,7 +5,7 @@ import { Unit } from "../Battle/Unit.types";
 import { Action, AtLeastOneTransportActionTarget } from "../Actions/Actions.types";
 import { Effect, EffectType, TickEffects, UnitTargetAndValue } from "../Battle/Battle.types";
 import { Coord } from "../Battle/Hexagon.types";
-import { isSameCoord } from "../Hexagons";
+import { isSameCoord } from "../Battle/Hexagons";
 import { MagicArrow } from "./abilities/MagicArrow/MagicArrow";
 
 export const abilities: Abilities = {

@@ -1,8 +1,8 @@
 import { Cube, Coords, Obstacles } from "./hexagons.types";
 import { getByDirection, HEIGHT, WIDTH } from "./hexagons.constants";
-import { Hexes } from "../Battle/Battle.types";
-import { Coord } from "../Battle/Hexagon.types";
-import { Unit } from "../Battle/Unit.types";
+import { Hexes } from "../Battle.types";
+import { Coord } from "../Hexagon.types";
+import { Unit } from "../Unit.types";
 
 export function getCoordsFromString(coord: string): Coord {
     const [x, y] = coord.split(":").map(v => +v);

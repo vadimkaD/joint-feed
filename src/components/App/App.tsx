@@ -6,7 +6,7 @@ export function App() {
     return (
         <Router>
             <Switch>
-                <Route exact path={"/"}>
+                <Route exact path={"/:player"}>
                     <Battle />
                 </Route>
             </Switch>

@@ -1,7 +1,7 @@
 import { all, put, select, takeEvery } from "redux-saga/effects";
 import { ActionType, getType } from "deox";
 import { unitsOnBoard } from "../../Battle/__redux/Battle.selectors";
-import { getStringFromCoord } from "../../../core/Hexagons";
+import { getStringFromCoord } from "../../../core/Battle/Hexagons";
 import { abilitiesDictionary } from "../../Abilities";
 import { clickHex } from "./Hexes.actions";
 import { selectedUnit } from "../../SelectedUnit/__redux/SelectedUnit.selectors";

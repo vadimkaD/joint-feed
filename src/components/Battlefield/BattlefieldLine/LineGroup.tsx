@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import { getCenter, getHexCoords, getPointsFromCoords } from "../Battlefield.utils";
 import { HEX_SIZE } from "../Battlefield.constants";
 import { Hex, Hexes } from "../../../core/Battle/Battle.types";
-import { getStringFromCoord } from "../../../core/Hexagons";
+import { getStringFromCoord } from "../../../core/Battle/Hexagons";
 import { getHighlightComponent } from "../Battlefield.highlights";
 import { Group, InteractiveHexPolygon, Text } from "../Battlefield.styled";
 import { LineGroupProps } from "./LineGroup.types";

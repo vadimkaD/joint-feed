@@ -5,12 +5,12 @@ import {
     getPathWithObstacles,
     getStringFromCoord,
     isSameCoord,
-} from "../../../core/Hexagons";
+} from "../../../core/Battle/Hexagons";
 import { getHighlightsForRoute } from "./Move.utils";
 import { Highlight } from "../../Battlefield/Battlefield.constants";
 import { GetHighlights } from "../Abilities.types";
 import { abilities, getUnitUpdatedByTransportPrediction } from "../../../core/Abilities";
-import { Obstacles } from "../../../core/Hexagons/hexagons.types";
+import { Obstacles } from "../../../core/Battle/Hexagons/hexagons.types";
 
 export const getHighlights: GetHighlights = (hexes, selectedUnit, unitsOnBoard, hexUnderCursor, queue) => {
     const highlights: HightlightedHexes = {};

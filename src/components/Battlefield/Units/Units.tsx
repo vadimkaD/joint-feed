@@ -18,7 +18,7 @@ const Units: FunctionComponent<{}> = props => {
                 return (
                     <UnitImage
                         key={i}
-                        xlinkHref={UNIT_IMAGES[unit.formFactor as FORM_FACTORS]}
+                        xlinkHref={unit.isDead ? UNIT_IMAGES.DEAD : UNIT_IMAGES[unit.formFactor as FORM_FACTORS]}
                         x={center.x - UNIT_SIZE / 2}
                         y={center.y - UNIT_SIZE / 2}
                     />

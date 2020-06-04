@@ -1,4 +1,4 @@
-import { Coord } from "../Battle/Hexagon.types";
+import { Coord } from "../Hexagon.types";
 
 export interface Cube {
     x: number;

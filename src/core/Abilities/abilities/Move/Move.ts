@@ -14,9 +14,9 @@ import {
     getStringFromCoord,
     isInRange,
     isSameCoord,
-} from "../../../Hexagons";
+} from "../../../Battle/Hexagons";
 import { AnimationsTypes, TransportAnimationProps } from "../../../Animations/Animations.types";
-import { Obstacles } from "../../../Hexagons/hexagons.types";
+import { Obstacles } from "../../../Battle/Hexagons/hexagons.types";
 import { getUnitUpdatedByTransportPrediction } from "../../index";
 
 export const Move: Ability = {
