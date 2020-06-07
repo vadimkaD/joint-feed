@@ -5,7 +5,15 @@ import { actionsByUnits } from "../../Battlefield/StepAnimations/__redux/StepAni
 import { getTickActions } from "../../ActionQueue/ActionQueue.utils";
 import { stepNumber, tick } from "../../Battle/__redux/Battle.external-selectors";
 import { abilitiesDictionary } from "../../Abilities";
-import { actionComplete, nextStep, nextTick, setAnimation, setTick } from "../../Battle/__redux/Battle.actions";
+import {
+    actionComplete,
+    nextStep,
+    nextTick,
+    receiveComplete,
+    sendActions,
+    setAnimation,
+    setTick,
+} from "../../Battle/__redux/Battle.actions";
 import { TICK_TIMEOUT } from "../../Battle/Battle.constants";
 import { playStepClick } from "./PlayStep.actions";
 import { tickEffects } from "../../Effects/__redux/Effects.selectors";
@@ -20,12 +28,18 @@ import { setHexes } from "../../Hexes/__redux/Hexes.actions";
 import { Unit } from "../../../core/Battle/Unit.types";
 import { Action } from "../../../core/Actions/Actions.types";
 import { UIAbility } from "../../Abilities/Abilities.types";
+import { queue as queueSelector } from "../../ActionQueue/__redux/ActionQueue.external-selectors";
 
 function* playStepSaga(action: ActionType<typeof playStepClick>) {
-    const selectedActionsByUnits: ActionsByUnits = yield select(actionsByUnits);
-    const tickActionArray: Action[][] = getTickActions(selectedActionsByUnits);
+    const queue = yield select(queueSelector);
+
+    yield put(sendActions(queue));
+    yield take(receiveComplete);
 
     const startTick = yield select(tick);
+
+    const selectedActionsByUnits: ActionsByUnits = yield select(actionsByUnits);
+    const tickActionArray: Action[][] = getTickActions(selectedActionsByUnits);
 
     for (const tick of tickActionArray) {
         for (const action of tick) {

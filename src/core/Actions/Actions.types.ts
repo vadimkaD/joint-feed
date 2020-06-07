@@ -40,3 +40,7 @@ export interface Action {
     target: ActionTarget;
     ability: ABILITIES;
 }
+
+type Event = {
+    animation: null;
+};

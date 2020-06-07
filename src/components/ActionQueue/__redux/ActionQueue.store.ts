@@ -1,6 +1,6 @@
 import { createReducer } from "deox";
 import { addAction, removeAction } from "./ActionQueue.actions";
-import { nextStep } from "../../Battle/__redux/Battle.actions";
+import { nextStep, receiveActions } from "../../Battle/__redux/Battle.actions";
 import { Action } from "../../../core/Actions/Actions.types";
 
 export const queue = createReducer([] as Action[], handleAction => [
@@ -15,4 +15,5 @@ export const queue = createReducer([] as Action[], handleAction => [
         return newState;
     }),
     handleAction(nextStep, () => []),
+    handleAction(receiveActions, (state, { payload }) => payload),
 ]);
