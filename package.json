@@ -22,7 +22,7 @@
     "@types/webpack-env": "^1.15.1",
     "@welldone-software/why-did-you-render": "^4.2.5",
     "deox": "^3.2.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
